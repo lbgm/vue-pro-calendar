@@ -7,7 +7,7 @@
       class="bg-F4F4F5 w-7 h-7 rounded-tl-md rounded-bl-md inline-flex flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer"
       href="#"
       @click.prevent="$emit('calendar-arrow:left')"
-      :title="'Jour précédent'"
+      :title="$t('calendar.previous_day')"
     >
       <Left />
     </a>
@@ -21,7 +21,7 @@
       class="bg-F4F4F5 rounded-tr-md rounded-br-md w-7 h-7 inline-flex flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer"
       href="#"
       @click.prevent="$emit('calendar-arrow:right')"
-      :title="'Jour Suivant'"
+      :title="$t('calendar.next_day')"
     >
       <Right />
     </a>

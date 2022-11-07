@@ -4,6 +4,8 @@ import App from "./App.vue";
 
 import "./assets/index.scss";
 
+import { i18n } from "@/assets/i18n";
+
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 
@@ -20,6 +22,14 @@ library.add(faUserSecret)
 const app = createApp(App);
 
 app.use(createPinia());
+app.use(i18n);
+
+export const $t = app.config.globalProperties.$t;
+export const $i18n = app.config.globalProperties.$i18n;
+export const $locale = app.config.globalProperties.$i18n.locale;
+
+//provide global variable
+app.provide("$t", app.config.globalProperties.$t);
 
 /* add font awesome icon component */
 app.component('font-awesome-icon', FontAwesomeIcon)

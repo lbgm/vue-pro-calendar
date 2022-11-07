@@ -2,10 +2,10 @@
   "name": "@lbgm/pro-calendar-vue",
   "version": "1.1.0",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check build-only",
-    "preview": "vite preview",
-    "build-only": "vite build",
+    "dev": "npm run build-scss && vite",
+    "build": "npm run build-scss && run-p type-check build-only",
+    "preview": "npm run build-scss && vite preview",
+    "build-only": "npm run build-scss && vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "build-lib": "npm run build-scss && vite build && vue-tsc --emitDeclarationOnly --allowJs && mv dist/src dist/types",
@@ -38,8 +38,11 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "pinia": "^2.0.23",
+    "sass": "^1.56.0",
     "v-calendar": "^3.0.0-alpha.7",
-    "vue": "^3.2.41"
+    "vite-plugin-i18n-resources": "^1.0.3",
+    "vue": "^3.2.41",
+    "vue-i18n": "^9.2.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",

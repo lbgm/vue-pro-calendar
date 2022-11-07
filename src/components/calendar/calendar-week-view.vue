@@ -76,7 +76,13 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+export interface Props {
+  dayTimes?: string[];
+  weekDays?: Date[];
+  dateSelected: Date;
+}
+
 import Events from "./calendar-event.vue";
 import {
   twoDigitTime,
@@ -87,33 +93,10 @@ import {
   copyDate,
 } from "./common";
 
-export default {
-  components: {
-    Events,
-  },
-  props: {
-    weekDays: {
-      type: Array,
-      default: () => [],
-    },
-
-    dateSelected: {
-      type: Object,
-      required: true,
-    },
-
-    dayTimes: {
-      type: Array,
-      default: () => [],
-    },
-  },
-
-  setup() {
-    return {
-      dayName,
-    };
-  },
-};
+const props = withDefaults(defineProps<Props>(), {
+  dayTimes: () => [],
+  weekDays: () => [],
+});
 </script>
 
 <style lang="scss" scoped></style>

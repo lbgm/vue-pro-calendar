@@ -36,12 +36,7 @@
           :key="rdvi"
           role="button"
           aria-label="Event"
-          @click="
-            $router.push({
-              name: 'Dashboard.Request.view',
-              params: { id: rdv.user.kyc.id ?? 'undefined' },
-            })
-          "
+          @click="viewEvent(rdv?.id)"
         >
           <span
             class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 rounded-full flex-shrink-0"
@@ -49,13 +44,13 @@
           <div class="w-full flex-shrink more-event-body-item-body">
             <div class="font-semibold text-A1A1AA leading-4 text-[0.688rem]">
               <span
-                :data-event-date="rdv.date"
-                :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
+                :data-event-date="rdv?.date"
+                :title="isoStringToDate(rdv?.date).toLocaleString('fr')"
               >
-                {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
+                {{ hours(rdv?.date) }}:{{ minutes(rdv?.date) }}
               </span>
               &nbsp;-&nbsp;
-              <span :title="''"> --:-- </span>
+              <span :title="''"> __:__ </span>
             </div>
             <div
               class="font-medium text-xs text-09101D flex flex-nowrap items-center"
@@ -78,8 +73,13 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+export interface Props {
+  eventDate: Date;
+}
+
 import { onMounted, ref, watch, computed } from "vue";
+import type { Ref } from "vue";
 import {
   dateLabel,
   twoDigit,
@@ -91,67 +91,48 @@ import {
   username,
 } from "./common";
 
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { useEventsStore } from "@/stores/events";
 
-export default {
-  props: {
-    eventDate: {
-      type: Object,
-      required: true,
-    },
-  },
-  // eslint-disable-next-line
-  setup(props, context) {
-    const eventContainer = ref(null);
+const props = withDefaults(defineProps<Props>(), {});
 
-    const datetime_start = ref(null);
-    const datetime_end = ref(null);
+const eventContainer: Ref<HTMLElement | null> = ref(null);
 
-    //events containers
-    const RdvsPkg = ref([]);
+const datetime_start: Ref<Date | null> = ref(null);
+const datetime_end: Ref<Date | null> = ref(null);
 
-    const router = useRouter();
-    const store = useStore();
+//events containers
+const RdvsPkg: Ref<any[]> = ref([]);
 
-    // computed on store state
-    const calendarEvents = computed(
-      () => store.state["calendar"].calendarEvents
-    );
+const store = useEventsStore();
 
-    //filt and Retrive <Event /> data
-    const eventEvents = () => {
-      const start = datetime_start.value;
-      const end = datetime_end.value;
+// computed on store state
+const calendarEvents = computed(() => store.getEvents);
 
-      RdvsPkg.value = calendarEvents.value.filter((rdv) => {
-        const d = isoStringToDate(rdv.date);
-        return d >= start && d < end;
-      });
-    };
+//filt and Retrive <Event /> data
+const eventEvents = () => {
+  const start = datetime_start.value as Date;
+  const end = datetime_end.value as Date;
 
-    onMounted(() => {
-      // transform props binding to datetime
-      datetime_start.value = fixDateTime(props.eventDate);
-      datetime_end.value = fixDateTime(props.eventDate, incrementTime());
-      //
-      eventEvents();
-    });
-
-    return {
-      eventContainer,
-      RdvsPkg,
-      isoStringToDate,
-      twoDigit,
-      dateLabel,
-      minutes,
-      hours,
-      username,
-      datetime_start,
-      datetime_end,
-    };
-  },
+  RdvsPkg.value = calendarEvents.value.filter((rdv: unknown) => {
+    const d = isoStringToDate((rdv as { date: Date }).date);
+    return d >= start && d < end;
+  });
 };
+
+const viewEvent = (id: string | number | unknown) => {
+  const event = new CustomEvent("calendar.request.view", {
+    detail: { id },
+  });
+  document.body.dispatchEvent(event);
+};
+
+onMounted(() => {
+  // transform props binding to datetime
+  datetime_start.value = fixDateTime(props.eventDate as Date, "");
+  datetime_end.value = fixDateTime(props.eventDate as Date, incrementTime(""));
+  //
+  eventEvents();
+});
 </script>
 
 <style lang="scss" scoped>

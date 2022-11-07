@@ -10,16 +10,11 @@
       ><CloseIcon
     /></span>
     <span class="font-semibold -tracking-[0.02em] text-base">
-      {{ $t("global.close") }}
+      {{ $t("calendar.close") }}
     </span>
   </a>
 </template>
 
-<script>
+<script setup lang="ts">
 import CloseIcon from "./assets/close-icon.vue";
-export default {
-  components: {
-    CloseIcon,
-  },
-};
 </script>

@@ -73,9 +73,9 @@
     >
       <!-- we use eventList here just to get popupr or popupb -->
       <LinkAction
-        @clicked="viewEvent(RdvsPkg[0]?.user?.kyc?.id)"
+        @clicked="viewEvent(RdvsPkg[0]?.id)"
         class="mb-2"
-        :text="'Voir'"
+        :text="$t('calendar.view')"
       >
         <template #icon><BlueEye /></template>
       </LinkAction>
@@ -133,7 +133,10 @@
         </div>
         <!-- event actions -->
         <div class="flex flex-row space-x-4 flex-nowrap max-w-max items-center">
-          <LinkAction @clicked="viewEvent(rdv?.user?.kyc?.id)" :text="'Voir'">
+          <LinkAction
+            @clicked="viewEvent(rdv?.user?.kyc?.id)"
+            :text="$t('calendar.view')"
+          >
             <template #icon><BlueEye /></template>
           </LinkAction>
           <!---->
@@ -178,7 +181,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const store = useEventsStore();
-const eventContainer = ref(null);
+const eventContainer: Ref<HTMLElement | null> = ref(null);
 const eventSide = ref(null);
 const eventList = ref(null);
 const openEventList = ref(false);

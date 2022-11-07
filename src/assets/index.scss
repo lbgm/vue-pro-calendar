@@ -3,7 +3,9 @@
 @tailwind utilities;
 @tailwind variants;
 
-@import 'v-calendar/dist/style.css';
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
 
 
 @media screen and (-webkit-min-device-pixel-ratio:0)/*chrome*/

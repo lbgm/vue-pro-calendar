@@ -1,1 +1,1 @@
-export { default as widget } from "@/components/calendar/index.vue";
+export { default as widget } from "@/components/calendar/core-index.vue";

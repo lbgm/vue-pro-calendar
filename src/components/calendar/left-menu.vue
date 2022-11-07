@@ -45,50 +45,37 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
 import ChevronLeft from "./assets/chevron-left.vue";
 import ChevronRight from "./assets/chevron-right.vue";
 
-export default {
-  components: {
-    DatePicker,
-    CloseButton,
-    ChevronLeft,
-    ChevronRight,
+import type { Ref } from "vue";
+
+const datepicked: Ref<Date> = ref(new Date());
+
+const calendar_date_picker = ref(null);
+
+const datePickerAttrs = ref([
+  {
+    highlight: {
+      color: "#3B82F6",
+      fillMode: "solid",
+    },
   },
+]);
 
-  setup(props, context) {
-    const datepicked = ref(new Date());
+const emit = defineEmits(["calendar:datepicker", "calendar:close"]);
 
-    const calendar_date_picker = ref(null);
+watch(datepicked, () => {
+  emit("calendar:datepicker", new Date(datepicked.value));
+});
 
-    const datePickerAttrs = ref([
-      {
-        highlight: {
-          color: "#3B82F6",
-          fillMode: "solid",
-        },
-      },
-    ]);
-
-    watch(datepicked, () => {
-      context.emit("calendar:datepicker", new Date(datepicked.value));
-    });
-
-    onMounted(() => {
-      context.emit("calendar:datepicker", new Date(datepicked.value));
-    });
-
-    return {
-      datepicked,
-      datePickerAttrs,
-      calendar_date_picker,
-    };
-  },
-};
+onMounted(() => {
+  emit("calendar:datepicker", new Date(datepicked.value));
+});
 </script>
 
 <style lang="scss" scoped>

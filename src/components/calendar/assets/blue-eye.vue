@@ -3,5 +3,5 @@
     icon="fa-solid fa-eye"
     fixed-width
     class="text-base text-2062F6"
-  />
+  ></font-awesome-icon>
 </template>
