@@ -236,12 +236,16 @@ watch(calendarEvents, () => {
 });
 
 const verifyRouteRequest = () => {
+  const queries = new URLSearchParams(window.location.search);
   const params: {
     date?: string;
     view?: string;
-  } = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop as string),
-  }) as unknown as Record<string, string>;
+  } = {
+    date: queries.get("date") ?? "",
+    view: queries.get("view") ?? "",
+  };
+
+  console.log({ params });
 
   if (params.date && params.view) {
     //
