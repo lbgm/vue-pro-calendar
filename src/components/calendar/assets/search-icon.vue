@@ -13,4 +13,9 @@
       fill="#18181B"
     />
   </svg>
+  <font-awesome-icon
+    icon="fa-solid fa-magnifying-glass"
+    fixed-width
+    class="text-xl text-18181B"
+  />
 </template>

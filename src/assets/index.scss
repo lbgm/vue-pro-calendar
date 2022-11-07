@@ -3,6 +3,8 @@
 @tailwind utilities;
 @tailwind variants;
 
+@import 'v-calendar/dist/style.css';
+
 
 @media screen and (-webkit-min-device-pixel-ratio:0)/*chrome*/
 {

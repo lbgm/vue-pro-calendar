@@ -21,9 +21,7 @@
         <div class="single-event-inf">
           <span
             :data-rdv-date="RdvsPkg[0].date"
-            :title="
-              isoStringToDate(RdvsPkg[0].date).toLocaleString($i18n.locale)
-            "
+            :title="isoStringToDate(RdvsPkg[0].date).toLocaleString('fr')"
             class="block text-left text-09101D font-medium text-xs"
           >
             {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
@@ -59,7 +57,7 @@
         <span
           class="font-semibold text-0369A1 text-sm leading-4 block text-left"
         >
-          {{ RdvsPkg.length }}&nbsp;{{ $t("calendar.aptmt") }}
+          {{ RdvsPkg.length }}&nbsp;{{ "rendez-vous" }}
         </span>
       </div>
     </div>
@@ -77,14 +75,14 @@
       <LinkAction
         @clicked="viewEvent(RdvsPkg[0]?.user?.kyc?.id)"
         class="mb-2"
-        :text="$t('calendar.view')"
+        :text="'Voir'"
       >
         <template #icon><BlueEye /></template>
       </LinkAction>
       <!---->
       <LinkAction
         @clicked="$emit('report:event', RdvsPkg[0]?.id)"
-        :text="$t('calendar.report')"
+        :text="'Reporter'"
         class="block !text-E07A2C"
       >
         <template #icon><OrangeUpdate /></template>
@@ -114,7 +112,7 @@
             <div class="font-semibold text-A1A1AA leading-4 text-[0.688rem]">
               <span
                 :data-rdv-date="rdv.date"
-                :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
+                :title="isoStringToDate(rdv.date).toLocaleString('fr')"
               >
                 {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
               </span>
@@ -135,16 +133,13 @@
         </div>
         <!-- event actions -->
         <div class="flex flex-row space-x-4 flex-nowrap max-w-max items-center">
-          <LinkAction
-            @clicked="viewEvent(rdv?.user?.kyc?.id)"
-            :text="$t('calendar.view')"
-          >
+          <LinkAction @clicked="viewEvent(rdv?.user?.kyc?.id)" :text="'Voir'">
             <template #icon><BlueEye /></template>
           </LinkAction>
           <!---->
           <LinkAction
             @clicked="$emit('report:event', rdv?.id)"
-            :text="$t('calendar.report')"
+            :text="'Reporter'"
             class="!text-E07A2C"
           >
             <template #icon><OrangeUpdate /></template>
@@ -156,11 +151,18 @@
   </div>
 </template>
 
-<script>
-import LinkAction from "@/components/global/link-action.vue";
+<script setup lang="ts">
+export interface Props {
+  eventDate: Object | Date;
+  eventTime?: string;
+}
+
+import { useEventsStore } from "@/stores/events";
+import LinkAction from "@/components/link-action.vue";
 import BlueEye from "./assets/blue-eye.vue";
 import OrangeUpdate from "./assets/orange-update.vue";
 import { onMounted, ref, watch, computed } from "vue";
+import type { Ref } from "vue";
 import {
   twoDigit,
   isoStringToDate,
@@ -171,127 +173,86 @@ import {
   username,
 } from "./common";
 
-import { useRouter, useRoute } from "vue-router";
-import { useStore } from "vuex";
+const props = withDefaults(defineProps<Props>(), {
+  eventTime: "",
+});
 
-export default {
-  components: {
-    BlueEye,
-    OrangeUpdate,
-    LinkAction,
-  },
-  props: {
-    eventDate: {
-      type: Object,
-      required: true,
-    },
-    eventTime: {
-      type: String,
-      default: null,
-    },
-  },
-  // eslint-disable-next-line
-  setup(props, context) {
-    const eventContainer = ref(null);
-    const eventSide = ref(null);
-    const eventList = ref(null);
-    const openEventList = ref(false);
-    const openSingleEvent = ref(false);
+const store = useEventsStore();
+const eventContainer = ref(null);
+const eventSide = ref(null);
+const eventList = ref(null);
+const openEventList = ref(false);
+const openSingleEvent = ref(false);
 
-    const datetime_start = ref(null);
-    const datetime_end = ref(null);
+const datetime_start: Ref<Date | null> = ref(null);
+const datetime_end: Ref<Date | null> = ref(null);
 
-    // to define popup position
-    const popupr = ref(false);
-    const popupb = ref(false);
+// to define popup position
+const popupr = ref(false);
+const popupb = ref(false);
 
-    //events containers
-    const RdvsPkg = ref([]);
+//events containers
+const RdvsPkg: Ref<any[]> = ref([]);
 
-    const router = useRouter();
-    const store = useStore();
-
-    const closeEventList = () => {
-      openEventList.value = false;
-      // to hide single event popup
-      openSingleEvent.value = false;
-    };
-
-    const openEvtList = () => {
-      const _bpos = eventSide.value.getBoundingClientRect();
-      const _bpar = document
-        .querySelector('[data-widget-item="calendar-inside"]')
-        .getBoundingClientRect();
-      if (RdvsPkg.value.length > 1) openEventList.value = true;
-      else if (RdvsPkg.value.length === 1) openSingleEvent.value = true;
-      //set automatically popup position, right or left
-      popupr.value = _bpar.width < _bpos.x;
-      popupb.value = _bpos.y > _bpar.height * 0.8;
-    };
-
-    // computed on store state
-    const calendarEvents = computed(
-      () => store.state["calendar"].calendarEvents
-    );
-
-    //filt and Retrive <Event /> data
-    const eventEvents = () => {
-      const _start = datetime_start.value;
-      const _end = datetime_end.value;
-
-      RdvsPkg.value = calendarEvents.value.filter((rdv) => {
-        const _d = isoStringToDate(rdv.date);
-        return _d >= _start && _d < _end;
-      });
-    };
-
-    const viewEvent = (id) => {
-      router.push({
-        name: "Dashboard.Request.view",
-        params: { id },
-      });
-    };
-
-    onMounted(() => {
-      document.addEventListener("click", (event) => {
-        if (
-          eventContainer.value &&
-          !eventContainer.value.contains(event.target)
-        ) {
-          closeEventList();
-        }
-      });
-      // transform props binding to datetime
-      datetime_start.value = fixDateTime(props.eventDate, props.eventTime);
-      datetime_end.value = fixDateTime(
-        props.eventDate,
-        incrementTime(props.eventTime)
-      );
-      //
-      eventEvents();
-    });
-
-    return {
-      eventContainer,
-      eventSide,
-      eventList,
-      openEventList,
-      openEvtList,
-      RdvsPkg,
-      isoStringToDate,
-      twoDigit,
-      minutes,
-      hours,
-      username,
-      popupr,
-      popupb,
-      viewEvent,
-      openSingleEvent,
-      datetime_start,
-      datetime_end,
-    };
-  },
+const closeEventList = () => {
+  openEventList.value = false;
+  // to hide single event popup
+  openSingleEvent.value = false;
 };
+
+const openEvtList = () => {
+  const _bpos = (eventSide.value as any).getBoundingClientRect();
+  const _bpar = (
+    document.querySelector('[data-widget-item="calendar-inside"]') as any
+  ).getBoundingClientRect();
+  if (RdvsPkg.value.length > 1) openEventList.value = true;
+  else if (RdvsPkg.value.length === 1) openSingleEvent.value = true;
+  //set automatically popup position, right or left
+  popupr.value = _bpar.width < _bpos.x;
+  popupb.value = _bpos.y > _bpar.height * 0.8;
+};
+
+// computed on store state
+const calendarEvents = computed(() => store.getEvents);
+
+//filt and Retrive <Event /> data
+const eventEvents = () => {
+  const _start = datetime_start.value as Date;
+  const _end = datetime_end.value as Date;
+
+  RdvsPkg.value = calendarEvents.value.filter((rdv: unknown) => {
+    const _d = isoStringToDate((rdv as { date: Date }).date);
+    return _d >= _start && _d < _end;
+  });
+};
+
+const viewEvent = (id: string | number | unknown) => {
+  const event = new CustomEvent("calendar.request.view", {
+    detail: { id },
+  });
+  document.body.dispatchEvent(event);
+};
+
+onMounted(() => {
+  document.addEventListener("click", (event) => {
+    if (
+      eventContainer.value &&
+      !(eventContainer.value as HTMLElement).contains(
+        event.target as Node | null
+      )
+    ) {
+      closeEventList();
+    }
+  });
+  // transform props binding to datetime
+  datetime_start.value = fixDateTime(props.eventDate as Date, props.eventTime);
+  datetime_end.value = fixDateTime(
+    props.eventDate as Date,
+    incrementTime(props.eventTime)
+  );
+  //
+  eventEvents();
+});
 </script>
 
 <style lang="scss" scoped>

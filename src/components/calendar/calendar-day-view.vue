@@ -15,11 +15,11 @@
         <span
           class="block text-71717A font-bold text-[0.625rem] leading-3 uppercase"
         >
-          {{ dayName(dateSelected, dateSelected.getDate()).slice(0, -1) }}
+          {{ dayName(inDateView, inDateView.getDate()).slice(0, -1) }}
         </span>
         <!--daynumber-->
         <span class="block text-black font-medium text-[1.375rem] leading-8">{{
-          dateSelected.getDate()
+          inDateView.getDate()
         }}</span>
       </div>
       <!--time-column-cell-->
@@ -40,7 +40,7 @@
       <!--day-row-cell-->
       <div
         class="relative select-none day-cell w-full text-left border-b border-E0E0E0"
-        v-for="(day, dayindex) of [dateSelected]"
+        v-for="(day, dayindex) of [inDateView]"
         :key="dayindex"
       >
         <!-- {{ dateSelected.getDate() }}-->
@@ -50,7 +50,7 @@
         <!-- custom events -->
         <Events
           class="absolute top-0"
-          :eventDate="dateSelected"
+          :eventDate="inDateView"
           :eventTime="time"
           @report:event="$emit('report:event', $event)"
         />
@@ -65,7 +65,12 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+export interface Props {
+  dateSelected: string | Date;
+  dayTimes?: string[];
+}
+
 import Events from "./calendar-event.vue";
 import {
   twoDigitTime,
@@ -75,29 +80,14 @@ import {
   dayName,
   copyDate,
 } from "./common";
+import { toRef } from "vue";
+import type { Ref } from "vue";
 
-export default {
-  components: {
-    Events,
-  },
-  props: {
-    dateSelected: {
-      type: Object,
-      required: true,
-    },
+const props = withDefaults(defineProps<Props>(), {
+  dayTimes: () => [],
+});
 
-    dayTimes: {
-      type: Array,
-      default: () => [],
-    },
-  },
-
-  setup() {
-    return {
-      dayName,
-    };
-  },
-};
+const inDateView: Ref<Date> = toRef(props, "dateSelected") as Ref<Date>;
 </script>
 
 <style lang="scss" scoped></style>

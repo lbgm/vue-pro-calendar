@@ -7,36 +7,53 @@
     </span>
     <input
       v-typing="{
-        finish: (event) => {
-          $emit('typing:finished', event.target.value);
-        },
-        run: (event) => {
-          $emit('typing:running', event.target.value);
-        },
+        finish: typingFinish,
+        run: typingRun,
+        timing,
       }"
-      @input="$emit('calendar:search', $event.target.value)"
-      :placeholder="$t(`global.${placeholder}`)"
+      @input="handleInput($event)"
+      :placeholder="placeholder"
       class="bg-F4F4F5 flex-shrink w-full text-xs text-left text-A1A1AA font-medium appearance-none border-0 outline-none focus:font-bold"
       type="text"
     />
   </div>
 </template>
 
-<script>
-import Icon from "./assets/search-icon.vue";
+<script setup lang="ts">
+export interface Props {
+  placeholder?: string;
+  timing?: number;
+}
 
-export default {
-  components: {
-    Icon,
-  },
-  props: {
-    placeholder: {
-      type: String,
-      default: "search",
-    },
-  },
+import Icon from "./assets/search-icon.vue";
+import { typing } from "@/assets/directives";
+
+const vTyping = { ...typing };
+
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: "Rechercher",
+  timing: 200,
+});
+
+const emit = defineEmits([
+  "calendar:search",
+  "typing:finished",
+  "typing:running",
+]);
+
+const handleInput = (event: Event) => {
+  emit("calendar:search", (event.target as HTMLInputElement).value);
+};
+
+const typingFinish = (event: Event) => {
+  emit("typing:finished", (event.target as HTMLInputElement).value);
+};
+
+const typingRun = (event: Event) => {
+  emit("typing:running", (event.target as HTMLInputElement).value);
 };
 </script>
+
 <style>
 .text {
   font-size: 12px;
