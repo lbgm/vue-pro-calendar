@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ProCalendar from "@/components/calendar/index.vue";
+</script>
 
 <template>
-  <div></div>
+  <div>
+    <pro-calendar />
+  </div>
 </template>
 
 <style scoped></style>
