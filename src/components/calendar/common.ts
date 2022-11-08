@@ -161,8 +161,8 @@ export const weekGenerator = (
 };
 
 // month days'date generation from picked date
-export const monthGenerator = (date: Date | string): any => {
-  const _days: Array<Date | string> = [];
+export const monthGenerator = (date: Date | string): {firstDay: Date; lastDay: Date; _days: Date[]} => {
+  const _days: Date[] = [];
   const _date = copyDate(date);
   const _year = _date.getFullYear();
   const _month = _date.getMonth();
