@@ -244,7 +244,7 @@ watch(dateSelected, () => {
     start: monthGenerator(dateSelected.value as Date).firstDay,
     end: monthGenerator(dateSelected.value as Date).lastDay,
   };
-  // fetch appointments from server
+  // fetch appointments
   fetchAppointments();
   //
   Cky.value = randomId();
