@@ -39,4 +39,6 @@ import Right from "./assets/button-master-right.vue";
 const props = withDefaults(defineProps<Props>(), {
   label: "dd/mm/yyyy",
 });
+
+const emit = defineEmits(["calendar-arrow:left", "calendar-arrow:right"]);
 </script>

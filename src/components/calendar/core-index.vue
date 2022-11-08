@@ -94,7 +94,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeMount, ref, computed, watch } from "vue";
+export interface Props {
+  date?: string | null;
+  view?: string;
+  events?: Appointment[];
+  loading?: boolean;
+}
+
+import { onMounted, onBeforeMount, ref, computed, watch, toRef } from "vue";
 import type { Ref } from "vue";
 import LeftMenu from "./left-menu.vue";
 import { cloneDeep } from "lodash";
@@ -104,6 +111,7 @@ import Search from "./calendar-search.vue";
 import Toggle from "./day-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
 import { useEventsStore } from "@/stores/events";
+import type { Appointment } from "@/stores/events";
 
 import MonthView from "./calendar-month-view.vue";
 import DayView from "./calendar-day-view.vue";
@@ -127,56 +135,68 @@ import {
   nextDate,
 } from "./common";
 
+const props = withDefaults(defineProps<Props>(), {
+  date: null,
+  view: "",
+  events: () => [],
+  loading: false,
+});
+
 const emit = defineEmits(["calendarClosed", "fetchEvents"]);
 
 const store = useEventsStore();
+
+const propEvents = toRef(props, "events");
+const propLoading = toRef(props, "loading");
 
 const leftMenu: Ref<HTMLElement | any> = ref(null);
 const viewToggle = ref(null);
 const dateSelected: Ref<Date> = ref(null) as Ref<any>;
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
-const view_type = ref("");
-const urlRequestView = ref("");
-const monthDays = ref([]);
+const view_type: Ref<string> = ref("");
+const urlRequestView: Ref<string> = ref(props.view);
+const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
   start: "",
   end: "",
 });
-const calendarEvents = computed(() => store.getEvents);
-const reportEventFor = ref("");
-const isLoading = ref(false);
+const calendarEvents: Ref<Appointment[]> = computed(() => store.getEvents);
+const reportEventFor: Ref<string> = ref("");
+const isLoading: Ref<boolean> = ref(false);
 
+/**
+ * for calendar interface refreshing
+ */
 const Cky = ref(randomId());
 
+/**
+ * closeCalendar
+ */
 const closeCalendar = () => {
   window.location.href = "https://www.linkedin.com/in/lbgm/";
   emit("calendarClosed");
 };
 
-const setViewType = (state: string) => {
-  view_type.value = state;
-};
-
-// search into Value
+/**
+ * runSearch
+ * search by event
+ * @param value {string}
+ */
 const runSearch = async (value: string) => {
   const _s = new RegExp(value, "i");
   let _search = [];
   const _copyEvents = cloneDeep(calendarEvents.value);
   //
   if (!value.replace(/\s/g, "").length) {
-    emit("fetchEvents");
+    store.setEvents(propEvents.value);
     return;
   }
   //
   isLoading.value = true;
   _search = _copyEvents.filter((rdv: any) => {
     try {
-      return (
-        _s.test(`${rdv.user.firstName}`) ||
-        _s.test(`${rdv.user.lastName}`) ||
-        _s.test(`${rdv.user.engineType.name}`)
-      );
+      return _s.test(`${rdv.name}`) || _s.test(`${rdv.keywords}`);
     } catch (e) {
       return false;
     }
@@ -186,23 +206,22 @@ const runSearch = async (value: string) => {
   if (_search.length !== 0) store.setEvents(_search);
 };
 
-const fetchAppointements = async () => {
+/**
+ * fetch Appointments
+ */
+const fetchAppointments = () => {
   // fetch appointments from server
-  isLoading.value = true;
   emit("fetchEvents", {
     start: dateToIsoString(
       fixDateTime(monthDates.value.start as Date, "00:00")
     ),
     end: dateToIsoString(fixDateTime(monthDates.value.end as Date, "23:59")),
   });
-  isLoading.value = false;
 };
 
-const eventIsReported = async (data: any) => {
-  await fetchAppointements();
-  localStorage.setItem("calendar.event.reported", JSON.stringify(data));
-};
-
+/**
+ * watch reportEventFor and emit customEvent
+ */
 watch(reportEventFor, () => {
   if (reportEventFor.value) {
     const event = new CustomEvent("calendar.request.report", {
@@ -212,7 +231,10 @@ watch(reportEventFor, () => {
   }
 });
 
-watch(dateSelected, async () => {
+/**
+ * watch dateSelected to change everything
+ */
+watch(dateSelected, () => {
   //refresh week days'date
   weekDays.value = weekGenerator(getWeekInterval(dateSelected.value as Date));
   //refresh month days'date
@@ -223,40 +245,33 @@ watch(dateSelected, async () => {
     end: monthGenerator(dateSelected.value as Date).lastDay,
   };
   // fetch appointments from server
-  await fetchAppointements();
+  fetchAppointments();
   //
   Cky.value = randomId();
 });
 
 // just to test
 watch(calendarEvents, () => {
-  console.log("watch(calendarEvents)", calendarEvents.value);
+  console.log({ "watch(calendarEvents)": calendarEvents.value });
   //
   Cky.value = randomId();
 });
 
-const verifyRouteRequest = () => {
-  const queries = new URLSearchParams(window.location.search);
-  const params: {
-    date?: string;
-    view?: string;
-  } = {
-    date: queries.get("date") ?? "",
-    view: queries.get("view") ?? "",
-  };
+/**
+ * watch propEvents and set events in store
+ */
+watch(propEvents, () => {
+  console.log({ "watch(propEvents)": propEvents.value });
+  store.setEvents(propEvents.value);
+});
 
-  console.log({ params });
-
-  if (params.date && params.view) {
-    //
-    const getview_date = isoStringToDate(params?.date);
-    if (getview_date) {
-      dateSelected.value = getview_date;
-    }
-
-    urlRequestView.value = params?.view ?? "";
-  }
-};
+/**
+ * watch propLoading and set calendar loading
+ */
+watch(propLoading, () => {
+  console.log({ "watch(propLoading)": propLoading.value });
+  isLoading.value = propLoading.value;
+});
 
 onBeforeMount(async () => {
   // dayTimes generation from 08h00 to 23h00
@@ -272,14 +287,27 @@ onBeforeMount(async () => {
   dayTimes.value = _p1.concat(_p2);
 });
 
+const verifyFirstBind = () => {
+  if (props.date) {
+    const b = isoStringToDate(props.date);
+    if (b.getTime()) {
+      dateSelected.value = b;
+    }
+  }
+
+  // events
+  store.setEvents(propEvents.value);
+};
+
 onMounted(async () => {
-  //
-  verifyRouteRequest();
+  // verify first bind props: date, events
+  verifyFirstBind();
 });
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/tailwind.scss";
+// @import "@/assets/tailwind.scss";
+
 .calendar-wrapper {
   height: calc(100vh - 66px);
 }

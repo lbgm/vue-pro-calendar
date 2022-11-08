@@ -10,29 +10,29 @@
 
 @media screen and (-webkit-min-device-pixel-ratio:0)/*chrome*/
 {
-  .lbgm-phone-scrll::-webkit-scrollbar
+  .custom-scrll::-webkit-scrollbar
   {
    width:6px;
    height:6px;
   }
-  .lbgm-phone-scrll::-webkit-scrollbar-track
+  .custom-scrll::-webkit-scrollbar-track
   {
   background:transparent;
   }
-  .lbgm-phone-scrll::-webkit-scrollbar-thumb
+  .custom-scrll::-webkit-scrollbar-thumb
   {
     border-radius:6px;
     background: rgba(0,106,82,.8);
     border:0;
     display: none;
   }
-  .lbgm-phone-scrll:hover
+  .custom-scrll:hover
   {
-    &.lbgm-phone-scrll::-webkit-scrollbar-thumb{
+    &.custom-scrll::-webkit-scrollbar-thumb{
       display: initial;
     }
   }
-  .lbgm-phone-scrll::-webkit-scrollbar-corner
+  .custom-scrll::-webkit-scrollbar-corner
   {
     display:none;
   }
@@ -40,7 +40,7 @@
 
 @-moz-document url-prefix()/*firefox*/
 {
-  .lbgm-phone-scrll
+  .custom-scrll
   {
     scrollbar-color: rgba(0,106,82,.8) transparent;
     scrollbar-width: none;

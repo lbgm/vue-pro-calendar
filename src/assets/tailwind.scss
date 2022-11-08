@@ -861,6 +861,11 @@ video {
   border-color: rgb(247 247 247 / var(--tw-border-opacity));
 }
 
+.border-0EA5E9 {
+  --tw-border-opacity: 1;
+  border-color: rgb(14 165 233 / var(--tw-border-opacity));
+}
+
 .border-F4F4F5 {
   --tw-border-opacity: 1;
   border-color: rgb(244 244 245 / var(--tw-border-opacity));
@@ -1091,6 +1096,11 @@ video {
   color: rgb(9 16 29 / var(--tw-text-opacity));
 }
 
+.text-0369A1 {
+  --tw-text-opacity: 1;
+  color: rgb(3 105 161 / var(--tw-text-opacity));
+}
+
 .\!text-E07A2C {
   --tw-text-opacity: 1 !important;
   color: rgb(224 122 44 / var(--tw-text-opacity)) !important;
@@ -1185,18 +1195,18 @@ video {
 
 @media screen and (-webkit-min-device-pixel-ratio:0)/*chrome*/
 {
-  .lbgm-phone-scrll::-webkit-scrollbar
+  .custom-scrll::-webkit-scrollbar
   {
     width:6px;
     height:6px;
   }
 
-  .lbgm-phone-scrll::-webkit-scrollbar-track
+  .custom-scrll::-webkit-scrollbar-track
   {
     background:transparent;
   }
 
-  .lbgm-phone-scrll::-webkit-scrollbar-thumb
+  .custom-scrll::-webkit-scrollbar-thumb
   {
     border-radius:6px;
     background: rgba(0,106,82,.8);
@@ -1204,14 +1214,14 @@ video {
     display: none;
   }
 
-  .lbgm-phone-scrll:hover
+  .custom-scrll:hover
   {
-    &.lbgm-phone-scrll::-webkit-scrollbar-thumb{
+    &.custom-scrll::-webkit-scrollbar-thumb{
       display: initial;
     }
   }
 
-  .lbgm-phone-scrll::-webkit-scrollbar-corner
+  .custom-scrll::-webkit-scrollbar-corner
   {
     display:none;
   }
@@ -1219,7 +1229,7 @@ video {
 
 @-moz-document url-prefix()/*firefox*/
 {
-  .lbgm-phone-scrll
+  .custom-scrll
   {
     scrollbar-color: rgba(0,106,82,.8) transparent;
     scrollbar-width: none;

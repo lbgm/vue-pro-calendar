@@ -21,17 +21,19 @@
         <div class="single-event-inf">
           <span
             :data-rdv-date="RdvsPkg[0].date"
-            :title="isoStringToDate(RdvsPkg[0].date).toLocaleString('fr')"
+            :title="
+              isoStringToDate(RdvsPkg[0].date).toLocaleString($i18n.locale)
+            "
             class="block text-left text-09101D font-medium text-xs"
           >
             {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
           </span>
           <div class="font-semibold text-0369A1 text-sm leading-4">
             <span
-              :title="username(RdvsPkg[0])"
+              :title="RdvsPkg[0]?.comment ?? ''"
               class="block text-left capitalize truncate"
             >
-              {{ username(RdvsPkg[0]) }}
+              {{ RdvsPkg[0].name }}
             </span>
             <span class="block">
               <span class="text-left text-[1.563rem] leading-4 event-dot"
@@ -39,11 +41,7 @@
               >
               &nbsp;
               <span class="text-left">
-                {{
-                  RdvsPkg[0].user.engineType
-                    ? RdvsPkg[0].user.engineType.name
-                    : ""
-                }}
+                {{ RdvsPkg[0].keywords }}
               </span>
             </span>
           </div>
@@ -73,7 +71,7 @@
     >
       <!-- we use eventList here just to get popupr or popupb -->
       <LinkAction
-        @clicked="viewEvent(RdvsPkg[0]?.id)"
+        @clicked="viewEvent(RdvsPkg[0].id)"
         class="mb-2"
         :text="$t('calendar.view')"
       >
@@ -81,7 +79,7 @@
       </LinkAction>
       <!---->
       <LinkAction
-        @clicked="$emit('report:event', RdvsPkg[0]?.id)"
+        @clicked="$emit('report:event', RdvsPkg[0].id)"
         :text="'Reporter'"
         class="block !text-E07A2C"
       >
@@ -112,36 +110,33 @@
             <div class="font-semibold text-A1A1AA leading-4 text-[0.688rem]">
               <span
                 :data-rdv-date="rdv.date"
-                :title="isoStringToDate(rdv.date).toLocaleString('fr')"
+                :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
               >
                 {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
               </span>
               &nbsp;-&nbsp;
-              <span :title="''"> --:-- </span>
+              <span :title="''"> __:__ </span>
             </div>
             <!--name and engin-->
             <div class="font-medium text-xs text-09101D">
-              <span :title="username(rdv)" class="capitalize">
-                {{ username(rdv) }}
+              <span :title="rdv?.comment ?? ''" class="capitalize">
+                {{ rdv.name }}
               </span>
               &nbsp;-&nbsp;
               <span class="text-A1A1AA capitalize truncate">
-                {{ rdv.user.engineType ? rdv.user.engineType.name : "" }}
+                {{ rdv.keywords }}
               </span>
             </div>
           </div>
         </div>
         <!-- event actions -->
         <div class="flex flex-row space-x-4 flex-nowrap max-w-max items-center">
-          <LinkAction
-            @clicked="viewEvent(rdv?.user?.kyc?.id)"
-            :text="$t('calendar.view')"
-          >
+          <LinkAction @clicked="viewEvent(rdv.id)" :text="$t('calendar.view')">
             <template #icon><BlueEye /></template>
           </LinkAction>
           <!---->
           <LinkAction
-            @clicked="$emit('report:event', rdv?.id)"
+            @clicked="$emit('report:event', rdv.id)"
             :text="'Reporter'"
             class="!text-E07A2C"
           >
@@ -156,11 +151,12 @@
 
 <script setup lang="ts">
 export interface Props {
-  eventDate: Object | Date;
+  eventDate: Date;
   eventTime?: string;
 }
 
 import { useEventsStore } from "@/stores/events";
+import type { Appointment } from "@/stores/events";
 import LinkAction from "@/components/link-action.vue";
 import BlueEye from "./assets/blue-eye.vue";
 import OrangeUpdate from "./assets/orange-update.vue";
@@ -173,7 +169,6 @@ import {
   fixDateTime,
   hours,
   minutes,
-  username,
 } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
@@ -216,15 +211,15 @@ const openEvtList = () => {
 };
 
 // computed on store state
-const calendarEvents = computed(() => store.getEvents);
+const calendarEvents: Ref<Appointment[]> = computed(() => store.getEvents);
 
 //filt and Retrive <Event /> data
 const eventEvents = () => {
   const _start = datetime_start.value as Date;
   const _end = datetime_end.value as Date;
 
-  RdvsPkg.value = calendarEvents.value.filter((rdv: unknown) => {
-    const _d = isoStringToDate((rdv as { date: Date }).date);
+  RdvsPkg.value = calendarEvents.value.filter((rdv: Appointment) => {
+    const _d = isoStringToDate(rdv.date);
     return _d >= _start && _d < _end;
   });
 };

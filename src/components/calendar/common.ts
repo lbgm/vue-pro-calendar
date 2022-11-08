@@ -63,6 +63,7 @@ export const dateLabel = (date: Date): string => {
     if (_d.getDate() === _nd.getDate()) return "calendar.today";
     if (_d.getDate() === _nd.getDate() + 1) return "calendar.tomorrow";
   }
+
   return new Intl.DateTimeFormat($locale, {
     day: "numeric",
     month: "short",
@@ -85,10 +86,6 @@ export const minutes = (dat: Date | string): string => {
 
 export const hours = (dat: any): string => {
   return twoDigit(isoStringToDate(dat).getHours());
-};
-
-export const username = (dat: any): string => {
-  return `${dat.user.firstName} ${dat.user.lastName}`;
 };
 
 //----------------------------------------------------------------------------------

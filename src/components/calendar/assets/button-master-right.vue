@@ -1,7 +1,7 @@
 <template>
   <font-awesome-icon
-    icon="fa-solid fa-arrow-right"
+    icon="fa-solid fa-chevron-right"
     fixed-width
-    class="text-xl text-18181B"
+    class="text-base text-18181B"
   ></font-awesome-icon>
 </template>

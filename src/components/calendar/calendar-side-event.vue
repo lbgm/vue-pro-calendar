@@ -36,7 +36,7 @@
           :key="rdvi"
           role="button"
           aria-label="Event"
-          @click="viewEvent(rdv?.id)"
+          @click="viewEvent(rdv.id)"
         >
           <span
             class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 rounded-full flex-shrink-0"
@@ -44,10 +44,10 @@
           <div class="w-full flex-shrink more-event-body-item-body">
             <div class="font-semibold text-A1A1AA leading-4 text-[0.688rem]">
               <span
-                :data-event-date="rdv?.date"
-                :title="isoStringToDate(rdv?.date).toLocaleString('fr')"
+                :data-event-date="rdv.date"
+                :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
               >
-                {{ hours(rdv?.date) }}:{{ minutes(rdv?.date) }}
+                {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
               </span>
               &nbsp;-&nbsp;
               <span :title="''"> __:__ </span>
@@ -56,14 +56,14 @@
               class="font-medium text-xs text-09101D flex flex-nowrap items-center"
             >
               <span
-                :title="username(rdv)"
+                :title="rdv?.comment ?? ''"
                 class="inline-block capitalize truncate max-w-[50%]"
               >
-                {{ username(rdv) }}
+                {{ rdv.name }}
               </span>
               &nbsp;-&nbsp;
               <span class="text-A1A1AA capitalize truncate">
-                {{ rdv.user.engineType ? rdv.user.engineType.name : "" }}
+                {{ rdv.keywords }}
               </span>
             </div>
           </div>
@@ -78,7 +78,7 @@ export interface Props {
   eventDate: Date;
 }
 
-import { onMounted, ref, watch, computed } from "vue";
+import { onMounted, ref, watch, computed, inject, toRef } from "vue";
 import type { Ref } from "vue";
 import {
   dateLabel,
@@ -88,10 +88,10 @@ import {
   fixDateTime,
   hours,
   minutes,
-  username,
 } from "./common";
 
 import { useEventsStore } from "@/stores/events";
+import type { Appointment } from "@/stores/events";
 
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -101,20 +101,22 @@ const datetime_start: Ref<Date | null> = ref(null);
 const datetime_end: Ref<Date | null> = ref(null);
 
 //events containers
-const RdvsPkg: Ref<any[]> = ref([]);
+const RdvsPkg: Ref<Appointment[]> = ref([]);
 
 const store = useEventsStore();
 
+const $t: any = inject("$t");
+
 // computed on store state
-const calendarEvents = computed(() => store.getEvents);
+const calendarEvents: Ref<Appointment[]> = computed(() => store.getEvents);
 
 //filt and Retrive <Event /> data
 const eventEvents = () => {
   const start = datetime_start.value as Date;
   const end = datetime_end.value as Date;
 
-  RdvsPkg.value = calendarEvents.value.filter((rdv: unknown) => {
-    const d = isoStringToDate((rdv as { date: Date }).date);
+  RdvsPkg.value = calendarEvents.value.filter((rdv: Appointment) => {
+    const d = isoStringToDate(rdv.date);
     return d >= start && d < end;
   });
 };

@@ -76,6 +76,10 @@ watch(datepicked, () => {
 onMounted(() => {
   emit("calendar:datepicker", new Date(datepicked.value));
 });
+
+defineExpose({
+  datepicked,
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,11 +1,21 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
+export interface Appointment {
+  date: string, //DateIsoString
+  comment?: string | null | undefined,
+  createdAt: string, //DateIsoString
+  id: string,
+  updatedAt: string, //DateIsoString
+  keywords: string,
+  name: string,
+}
+
 export const useEventsStore = defineStore({
   id: 'CalendarEvents',
 
   state: () => ({
-    calendarEvents: [] as unknown[],
+    calendarEvents: [] as Appointment[],
   }),
 
   getters: {
@@ -13,7 +23,7 @@ export const useEventsStore = defineStore({
   },
 
   actions: {
-    setEvents (payload: unknown[]) {
+    setEvents (payload: Appointment[]) {
       this.calendarEvents = payload;
     }
   }
