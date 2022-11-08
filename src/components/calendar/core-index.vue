@@ -248,6 +248,8 @@ watch(dateSelected, () => {
   fetchAppointments();
   //
   Cky.value = randomId();
+  //
+  console.log({ monthDays, weekDays, interval: getWeekInterval(dateSelected.value as Date) });
 });
 
 // just to test

@@ -4,7 +4,11 @@ module.exports = {
   darkMode: false,
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: {
+        "14-165-233": "rgb(14, 165, 233)",
+      },
+    },
     colors: {
       white: "white",
       black: "black",

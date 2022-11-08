@@ -9,7 +9,8 @@
       href="#"
       class="bg-white text-71717A py-1.5 px-4 inline-flex font-medium text-sm leading-5 flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer"
       :class="{
-        'rounded-md bg-DD4816 text-white hover:opacity-90': view_type === tab,
+        'rounded-md bg-14-165-233 text-white hover:opacity-90':
+          view_type === tab,
       }"
       @click.prevent="changeViewType(tab)"
     >

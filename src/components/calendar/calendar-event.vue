@@ -9,7 +9,7 @@
     <!-- event side -->
     <div
       data-widget-item="event--button"
-      class="cursor-pointer rounded event-card border-l-[0.188rem] border-0EA5E9 hover:opacity-80 active:animate-pulse"
+      class="cursor-pointer rounded event-card hover:opacity-80 active:animate-pulse"
       ref="eventSide"
       @click="openEvtList()"
     >

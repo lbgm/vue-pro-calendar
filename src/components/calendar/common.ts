@@ -94,8 +94,8 @@ export const hours = (dat: any): string => {
 export const yearMonthGenerator = (
   date?: Date | string
 ): { _prevmonths: Date[]; _nextmonths: Date[] } => {
-  const _prevmonths: Array<Date> = [];
-  const _nextmonths: Array<Date> = [];
+  const _prevmonths: Date[] = [];
+  const _nextmonths: Date[] = [];
   const _date = date ? new Date(date) : new Date();
   const _year = _date.getFullYear();
   const _month = _date.getMonth();
@@ -148,7 +148,7 @@ export const getWeekInterval = (
 export const weekGenerator = (
   week: { start: Date; end: Date } | any
 ): Date[] => {
-  const weeks: Array<Date> = [];
+  const weeks: Date[] = [];
   const week_start = week.start;
   const week_end = week.end;
   const week_day_date = week_start;
