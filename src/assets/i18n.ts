@@ -27,8 +27,6 @@ export const i18n = createI18n({
   legacy: false,
 });
 
-export default i18n;
-
 // Only if you want hot module replacement when translation message file change
 if (import.meta.hot) {
   import.meta.hot.on("locales-update", (data) => {

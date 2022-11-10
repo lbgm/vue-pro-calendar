@@ -12,7 +12,7 @@
         timing,
       }"
       @input="handleInput($event)"
-      :placeholder="placeholder"
+      :placeholder="placeholder || tr('calendar.search')"
       class="bg-F4F4F5 flex-shrink w-full text-xs text-left text-A1A1AA font-medium appearance-none border-0 outline-none focus:font-bold"
       type="text"
     />
@@ -27,11 +27,14 @@ export interface Props {
 
 import Icon from "./assets/search-icon.vue";
 import { typing } from "@/assets/directives";
+import { inject } from "vue";
 
 const vTyping = { ...typing };
 
+const tr: any = inject("$t");
+
 const props = withDefaults(defineProps<Props>(), {
-  placeholder: "Rechercher",
+  placeholder: "",
   timing: 200,
 });
 

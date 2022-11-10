@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { i18n } from "@/assets/i18n";
 
-const locale = ref((i18n as any).global.locale);
+const locale = ref(i18n.global.locale);
 
 export const twoDigitTime = (part: string | number): string => {
   return String("0" + part).slice(-2);

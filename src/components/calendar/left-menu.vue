@@ -11,7 +11,7 @@
         ref="calendar_date_picker"
         title-position="left"
         is-expanded
-        :locale="{ id: 'fr', masks: { weekdays: 'WWW' } }"
+        :locale="{ id: $i18n.locale, masks: { weekdays: 'WWW' } }"
         transition="fade"
         v-model="datepicked"
         :attributes="datePickerAttrs"
