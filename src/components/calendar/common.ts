@@ -1,4 +1,7 @@
-import { $locale } from "@/main";
+import { ref } from "vue";
+import { i18n } from "@/assets/i18n";
+
+const $locale = ref((i18n as any).global.locale);
 
 export const twoDigitTime = (part: string | number): string => {
   return String("0" + part).slice(-2);
@@ -43,14 +46,14 @@ export const copyDate = (date: Date | string): Date => {
 
 export const dayName = (date: Date | string, day: string | number): string => {
   const _day = copyDate(date);
-  return new Intl.DateTimeFormat($locale, { weekday: "short" }).format(
+  return new Intl.DateTimeFormat($locale.value, { weekday: "short" }).format(
     _day.setDate(Number(day))
   );
 };
 
 export const monthName = (date: Date | string): string => {
   const _day = copyDate(date);
-  return new Intl.DateTimeFormat($locale, { month: "short" }).format(_day);
+  return new Intl.DateTimeFormat($locale.value, { month: "short" }).format(_day);
 };
 
 export const dateLabel = (date: Date): string => {
@@ -64,7 +67,7 @@ export const dateLabel = (date: Date): string => {
     if (_d.getDate() === _nd.getDate() + 1) return "calendar.tomorrow";
   }
 
-  return new Intl.DateTimeFormat($locale, {
+  return new Intl.DateTimeFormat($locale.value, {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -132,7 +135,7 @@ export const getWeekInterval = (
   date: Date | string | number
 ): { start: Date; end: Date } => {
   const current_date = new Date(date);
-  const week_start = current_date.getDate() - current_date.getDay() + 1; // Start from Monday
+  const week_start = current_date.getDate() - current_date.getDay(); // Start from Sunday, if want Monday add + 1 but an error should occured
   const week_first_day = new Date(current_date.setDate(week_start));
   const week_end_day = new Date(
     current_date.setDate(week_first_day.getDate() + 6)

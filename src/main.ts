@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib )
+library.add(faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib)
 
 
 const app = createApp(App);
@@ -24,12 +24,12 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(i18n);
 
-export const $t = app.config.globalProperties.$t;
-export const $i18n = app.config.globalProperties.$i18n;
-export const $locale = app.config.globalProperties.$i18n.locale;
+// console.log((i18n as any).global.locale);
 
 //provide global variable
 app.provide("$t", app.config.globalProperties.$t);
+app.provide("$i18n", app.config.globalProperties.$i18n);
+app.provide("$locale", app.config.globalProperties.$i18n.locale);
 
 /* add font awesome icon component */
 app.component('font-awesome-icon', FontAwesomeIcon)

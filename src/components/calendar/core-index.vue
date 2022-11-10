@@ -256,12 +256,10 @@ watch(dateSelected, () => {
   //
   Cky.value = randomId();
   //
-  console.log({ monthDays, weekDays, interval: getWeekInterval(dateSelected.value as Date) });
 });
 
 // just to test
 watch(calendarEvents, () => {
-  console.log({ "watch(calendarEvents)": calendarEvents.value });
   //
   Cky.value = randomId();
 });
@@ -297,7 +295,7 @@ const verifyFirstBind = () => {
   }
 
   // events
-  // store.setEvents(propEvents.value);
+  store.setEvents(propEvents.value);
 };
 
 onMounted(async () => {
