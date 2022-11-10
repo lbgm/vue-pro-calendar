@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { i18n } from "@/assets/i18n";
 
-const $locale = ref((i18n as any).global.locale);
+const locale = ref((i18n as any).global.locale);
 
 export const twoDigitTime = (part: string | number): string => {
   return String("0" + part).slice(-2);
@@ -46,14 +46,14 @@ export const copyDate = (date: Date | string): Date => {
 
 export const dayName = (date: Date | string, day: string | number): string => {
   const _day = copyDate(date);
-  return new Intl.DateTimeFormat($locale.value, { weekday: "short" }).format(
+  return new Intl.DateTimeFormat(locale.value, { weekday: "short" }).format(
     _day.setDate(Number(day))
   );
 };
 
 export const monthName = (date: Date | string): string => {
   const _day = copyDate(date);
-  return new Intl.DateTimeFormat($locale.value, { month: "short" }).format(_day);
+  return new Intl.DateTimeFormat(locale.value, { month: "short" }).format(_day);
 };
 
 export const dateLabel = (date: Date): string => {
@@ -67,7 +67,7 @@ export const dateLabel = (date: Date): string => {
     if (_d.getDate() === _nd.getDate() + 1) return "calendar.tomorrow";
   }
 
-  return new Intl.DateTimeFormat($locale.value, {
+  return new Intl.DateTimeFormat(locale.value, {
     day: "numeric",
     month: "short",
     year: "numeric",
