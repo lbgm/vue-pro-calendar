@@ -10,7 +10,7 @@
         ref="leftMenu"
       >
         <template #loader>
-          <Loader v-if="isLoading" />
+          <Loader v-if="calendarGotLoading" />
         </template>
         <!---->
         <template #sideEvent>
@@ -174,9 +174,16 @@ const Cky = ref(randomId());
  * closeCalendar
  */
 const closeCalendar = () => {
-  window.location.href = "https://www.linkedin.com/in/lbgm/";
+  window.open("https://www.linkedin.com/in/lbgm/", "_blank");
   emit("calendarClosed");
 };
+
+/**
+ * Loading State
+ */
+const calendarGotLoading = computed(() => {
+  return propLoading.value || isLoading.value;
+});
 
 /**
  * runSearch
@@ -267,14 +274,6 @@ watch(propEvents, () => {
   store.setEvents(propEvents.value);
 });
 
-/**
- * watch propLoading and set calendar loading
- */
-watch(propLoading, () => {
-  console.log({ "watch(propLoading)": propLoading.value });
-  isLoading.value = propLoading.value;
-});
-
 onBeforeMount(async () => {
   // dayTimes generation from 08h00 to 23h00
   const _p1 = Array.from(
@@ -298,7 +297,7 @@ const verifyFirstBind = () => {
   }
 
   // events
-  store.setEvents(propEvents.value);
+  // store.setEvents(propEvents.value);
 };
 
 onMounted(async () => {

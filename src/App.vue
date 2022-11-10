@@ -55,7 +55,7 @@ const evts = ref([
 
 <template>
   <div>
-    <pro-calendar :events="evts" :loading="true" />
+    <pro-calendar :events="evts" :loading="false" />
   </div>
 </template>
 
