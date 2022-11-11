@@ -1,7 +1,7 @@
 <template>
   <div class="widget-calendar-wrapper relative">
     <div
-      class="w-full h-screen flex flex-row flex-nowrap fixed top-0 left-0 right-0 bottom-0 z-[8889] bg-F4F6F9 min-h-screen"
+      class="w-full h-screen flex flex-row flex-nowrap fixed top-0 left-0 right-0 bottom-0 z-z1668167178654 bg-F4F6F9 min-h-screen"
     >
       <!-- left menu-->
       <LeftMenu
@@ -14,7 +14,7 @@
         </template>
         <!---->
         <template #sideEvent>
-          <div :key="Cky" class="h-3/6 overflow-y-auto custom-scrll p-1">
+          <div :key="Cky" class="h-50p overflow-y-auto custom-scrll p-1">
             <SideEvent :eventDate="dateSelected || new Date()" />
             <!--_-->
             <SideEvent

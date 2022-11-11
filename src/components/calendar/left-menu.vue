@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full bg-F4F6F9 max-w-[20rem] flex-shrink-0 p-4 pb-0">
+  <div class="w-full h-full bg-F4F6F9 max-w-20rm flex-shrink-0 p-4 pb-0">
     <!--closer and loader-->
     <div class="flex flex-row flex-wrap items-center justify-between">
       <CloseButton @tap="$emit('calendar:close')" />
@@ -88,6 +88,35 @@ defineExpose({
   border: 0;
   border-color: transparent;
   box-shadow: none;
+}
+
+:deep(.vc-nav-popover-container) {
+  background-color: rgb(14, 165, 233);
+  border-color: rgb(14, 165, 233);
+}
+
+:deep(.vc-nav-item) {
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 0;
+  }
+  &.is-current {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 0;
+  }
+}
+
+:deep(.vc-nav-arrow),
+:deep(.vc-nav-title) {
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 0;
+  }
 }
 
 :deep(.vc-header) {

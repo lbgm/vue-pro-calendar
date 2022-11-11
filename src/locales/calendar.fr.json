@@ -12,5 +12,6 @@
     "month": "Mois",
     "previous_month": "Mois Précédent",
     "next_month": "Mois Suivant",
-    "search": "Rechercher"
+    "search": "Rechercher",
+    "search_tip": "Rechercher par nom d'événement ou mot-clé d'événement"
 }

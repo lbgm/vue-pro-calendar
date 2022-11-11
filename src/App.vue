@@ -11,7 +11,7 @@ const evts = ref([
     createdAt: "2022-05-20T11:39:50.255Z",
     id: "cl3eddmjz1435801pqwfa5ihd1",
     updatedAt: "2022-05-20T11:39:50.255Z",
-    keywords: "Moto",
+    keywords: "Anniversaire",
     name: "SAGBO Aimé",
   },
   {
@@ -20,7 +20,7 @@ const evts = ref([
     createdAt: "2022-05-12T08:36:54.848Z",
     id: "cl32rbkjk1700101o53e3e3uhn",
     updatedAt: "2022-05-12T09:00:16.217Z",
-    keywords: "Voiture",
+    keywords: "Projet BAMBA",
     name: "MONTCHO Kévin",
   },
   {
@@ -29,7 +29,7 @@ const evts = ref([
     createdAt: "2022-05-13T09:15:36.288Z",
     id: "cl34856g01439801piot8vp3jr",
     updatedAt: "2022-05-13T09:15:36.288Z",
-    keywords: "Moto",
+    keywords: "Rencontre",
     name: "Cornelia ADADJO",
   },
   {
@@ -38,7 +38,7 @@ const evts = ref([
     createdAt: "2022-05-10T18:18:01.818Z",
     id: "cl2yk477s136301pbmh49btdg",
     updatedAt: "2022-05-24T08:57:55.028Z",
-    keywords: "Camion",
+    keywords: "Anniversaire",
     name: "Sylla Rahamata",
   },
   {
@@ -47,7 +47,7 @@ const evts = ref([
     createdAt: "2022-05-10T18:18:01.818Z",
     id: "cl30h76qi116501nu2dc1wnv1",
     updatedAt: "2022-05-24T08:57:55.028Z",
-    keywords: "Voiture",
+    keywords: "Réunion",
     name: "Espéra AWO",
   },
 ]);

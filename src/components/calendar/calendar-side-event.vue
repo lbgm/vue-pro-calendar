@@ -4,11 +4,11 @@
     :data-date-start="datetime_start"
     :data-date-end="datetime_end"
     :data-evendate="eventDate"
-    class="select-none w-full mb-2 mt-[1.125rem]"
+    class="select-none w-full mb-2 mt-1dt125"
   >
     <!-- events header -->
     <div
-      class="w-full day-header text-005743 font-bold text-[0.813rem] leading-5 mb-2"
+      class="w-full day-header text-005743 font-bold text-0dt813 leading-5 mb-2"
     >
       <span class="mr-1 capitalize">
         {{
@@ -42,7 +42,7 @@
             class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 rounded-full flex-shrink-0"
           />
           <div class="w-full flex-shrink more-event-body-item-body">
-            <div class="font-semibold text-A1A1AA leading-4 text-[0.688rem]">
+            <div class="font-semibold text-A1A1AA leading-4 text-0dt688">
               <span
                 :data-event-date="rdv.date"
                 :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
@@ -57,7 +57,7 @@
             >
               <span
                 :title="rdv?.comment ?? ''"
-                class="inline-block capitalize truncate max-w-[50%]"
+                class="inline-block capitalize truncate max-w-50p"
               >
                 {{ rdv.name }}
               </span>

@@ -3,7 +3,7 @@
   <div data-widget-item="calendar-inside">
     <!--calendar--header-->
     <div
-      class="calendar--month-view--header grid grid-cols-[repeat(7,minmax(0,1fr))] grid-flow-col w-full"
+      class="calendar--month-view--header grid grid-cols-repeat-7-minmax-0v1fr grid-flow-col w-full"
     >
       <!--day-column-cell-->
       <div
@@ -17,7 +17,7 @@
       >
         <!--dayname-->
         <span
-          class="block text-71717A font-bold text-[0.625rem] leading-3 uppercase"
+          class="block text-71717A font-bold text-0dt625 leading-3 uppercase"
         >
           {{ dayName(weekDayDate, weekDayDate.getDate()).slice(0, -1) }}
         </span>
@@ -25,13 +25,13 @@
     </div>
     <!--calendar--row-->
     <div
-      class="calendar--month-view grid grid-cols-[repeat(7,minmax(0,1fr))] grid-flow-col w-full"
+      class="calendar--month-view grid grid-cols-repeat-7-minmax-0v1fr grid-flow-col w-full"
       v-for="(line, index) in Math.ceil(monthDays.length / 7)"
       :key="index"
     >
       <!--day-row-cell-->
       <div
-        class="relative select-none day-cell py-1 px-2 w-full min-h-[5.063rem] text-left border-b border-E0E0E0"
+        class="relative select-none day-cell py-1 px-2 w-full min-h-5dt063 text-left border-b border-E0E0E0"
         v-for="(monthDayDate, monthdayindex) in Array.from(monthDays).slice(
           index * 7,
           line * 7
@@ -44,7 +44,7 @@
       >
         <!-- events are here -->
         <span
-          class="block text-black font-medium text-[1.375rem] leading-8"
+          class="block text-black font-medium text-1dt375 leading-8"
           :class="{
             'calendar--month-view-not-in---month':
               monthDayDate.getMonth() !== dateSelected.getMonth(),

@@ -12,5 +12,7 @@
     "month": "Month",
     "previous_month": "Previous Month",
     "next_month": "Next Month",
-    "search": "looking for..."
+    "search": "Looking for...",
+    "report": "Report",
+    "search_tip": "Search by event name or event keyword"
 }

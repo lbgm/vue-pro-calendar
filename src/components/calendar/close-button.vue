@@ -9,7 +9,7 @@
     <span class="inline-flex items-center justify-center w-6 h-6 flex-shrink-0"
       ><CloseIcon
     /></span>
-    <span class="font-semibold -tracking-[0.02em] text-base">
+    <span class="font-semibold tracking-m0dt02 text-base">
       {{ $t("calendar.close") }}
     </span>
   </a>

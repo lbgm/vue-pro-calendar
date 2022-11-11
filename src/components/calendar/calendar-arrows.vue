@@ -1,6 +1,6 @@
 <template>
   <div
-    class="select-none flex flex-row flex-nowrap items-center min-w-[10.125rem]"
+    class="select-none flex flex-row flex-nowrap items-center min-w-10dt125rem"
   >
     <!--left button icon master-->
     <a
@@ -12,7 +12,7 @@
       <Left />
     </a>
     <span
-      class="capitalize bg-F4F4F5 text-18181B text-center py-1.5 px-4 flex-shrink-0 font-medium text-xs mx-px"
+      class="capitalize bg-F4F4F5 text-18181B text-center py-0dt375 px-4 flex-shrink-0 font-medium text-xs mx-px"
     >
       {{ label }}
     </span>

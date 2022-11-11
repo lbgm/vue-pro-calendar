@@ -3,7 +3,7 @@
   <div data-widget-item="calendar-inside">
     <!--calendar--header-->
     <div
-      class="calendar--week-view--header grid grid-cols-[3rem,repeat(7,minmax(0,1fr)),3rem] grid-flow-col w-full"
+      class="calendar--week-view--header grid grid-cols-3-repeat-7-minmax-0v1fr-3rem grid-flow-col w-full"
     >
       <!--time-column-cell-->
       <div class="time-header" />
@@ -20,12 +20,12 @@
       >
         <!--dayname-->
         <span
-          class="block text-71717A font-bold text-[0.625rem] leading-3 uppercase"
+          class="block text-71717A font-bold text-0dt625 leading-3 uppercase"
         >
           {{ dayName(weekDayDate, weekDayDate.getDate()).slice(0, -1) }}
         </span>
         <!--daynumber-->
-        <span class="block text-black font-medium text-[1.375rem] leading-8">{{
+        <span class="block text-black font-medium text-1dt375 leading-8">{{
           weekDayDate.getDate()
         }}</span>
       </div>
@@ -36,7 +36,7 @@
     <div
       v-for="time in dayTimes"
       :key="time"
-      class="calendar--week-view--row grid grid-cols-[3rem,repeat(7,minmax(0,1fr)),3rem] grid-flow-col w-full"
+      class="calendar--week-view--row grid grid-cols-3-repeat-7-minmax-0v1fr-3rem grid-flow-col w-full"
     >
       <!--time-row-cell-->
       <div
@@ -56,8 +56,8 @@
         :key="weekindex"
       >
         <!-- events are here -->
-        <span class="block w-full min-h-[2.25rem] border-b border-F7F7F7" />
-        <span class="block w-full min-h-[2.25rem]" />
+        <span class="block w-full min-h-2dt25 border-b border-F7F7F7" />
+        <span class="block w-full min-h-2dt25" />
         <!-- custom events -->
         <Events
           class="absolute top-0"

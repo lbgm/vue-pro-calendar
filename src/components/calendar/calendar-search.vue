@@ -1,6 +1,8 @@
 <template>
   <div
-    class="min-w-[11.5rem] bg-F4F4F5 border border-F4F4F5 rounded px-1 py-1.5 flex flex-shrink-0 flex-nowrap items-center space-x-2"
+    class="min-w-11dt5 bg-F4F4F5 border border-F4F4F5 rounded px-1 py-0dt375 flex flex-shrink-0 flex-nowrap items-center space-x-2"
+    :title="$t('calendar.search_tip')"
+    :aria-label="$t('calendar.search_tip')"
   >
     <span class="inline-flex flex-whrink-0">
       <Icon />

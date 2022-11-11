@@ -16,7 +16,7 @@
       <!-- 1 event -->
       <div
         v-if="RdvsPkg.length === 1"
-        class="event-body select-none w-full p-1.5"
+        class="event-body select-none w-full p-0dt375"
       >
         <div class="single-event-inf">
           <span
@@ -36,7 +36,7 @@
               {{ RdvsPkg[0].name }}
             </span>
             <span class="block">
-              <span class="text-left text-[1.563rem] leading-4 event-dot"
+              <span class="text-left text-1dt563 leading-4 event-dot"
                 >&#183;</span
               >
               &nbsp;
@@ -64,7 +64,7 @@
 
     <!-- single event popup -->
     <div
-      class="absolute z-[1] w-full bg-white rounded-lg p-3 flex flex-col single-event-popup"
+      class="absolute z-one w-full bg-white rounded-lg p-3 flex flex-col single-event-popup"
       v-if="openSingleEvent"
       :class="{ 'right-0': popupr, 'bottom-full': popupb }"
       ref="eventList"
@@ -80,7 +80,7 @@
       <!---->
       <LinkAction
         @clicked="$emit('report:event', RdvsPkg[0].id)"
-        :text="'Reporter'"
+        :text="$t('calendar.report')"
         class="block !text-E07A2C"
       >
         <template #icon><OrangeUpdate /></template>
@@ -89,7 +89,7 @@
 
     <!-- more than one Event list popup -->
     <div
-      class="overflow-y-auto custom-scrll max-h-[18.75rem] absolute z-[1] min-w-[24.813rem] bg-white more-event-body rounded-lg p-3"
+      class="overflow-y-auto custom-scrll max-h-18dt75 absolute z-one min-w-24dt813 bg-white more-event-body rounded-lg p-3"
       :class="{ 'right-0': popupr, 'bottom-full': popupb }"
       v-if="openEventList"
       ref="eventList"
@@ -107,7 +107,7 @@
           />
           <div class="w-full grow flex-shrink more-event-body-item-body">
             <!--title-->
-            <div class="font-semibold text-A1A1AA leading-4 text-[0.688rem]">
+            <div class="font-semibold text-A1A1AA leading-4 text-0dt688">
               <span
                 :data-rdv-date="rdv.date"
                 :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
@@ -137,7 +137,7 @@
           <!---->
           <LinkAction
             @clicked="$emit('report:event', rdv.id)"
-            :text="'Reporter'"
+            :text="$t('calendar.report')"
             class="!text-E07A2C"
           >
             <template #icon><OrangeUpdate /></template>

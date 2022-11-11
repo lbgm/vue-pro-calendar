@@ -8,6 +8,53 @@ module.exports = {
       backgroundColor: {
         "14-165-233": "rgb(14, 165, 233)",
       },
+      width: {
+        "10dt125rem": "10.125rem",
+      },
+      padding: {
+        "0dt375": "0.375rem",
+      },
+      margin: {
+        "1dt125": "1.125rem",
+      },
+      gridTemplateColumns: {
+        "3rem-1fr-3rem": "3rem 1fr 3rem",
+        "repeat-7-minmax-0v1fr": "repeat(7,minmax(0,1fr))",
+        "3-repeat-7-minmax-0v1fr-3rem": "3rem,repeat(7,minmax(0,1fr)),3rem",
+      },
+      fontSize: {
+        "0dt625": "0.625rem",
+        "1dt375": "1.375rem",
+        "1dt563": "1.563rem",
+        "0dt688": "0.688rem",
+        "0dt813": "0.813rem",
+      },
+      height: {
+        "50p": "50%",
+      },
+      minHeight: {
+        "2dt25": "2.25rem",
+        "5dt063": "5.063rem",
+      },
+      maxHeight: {
+        "18dt75": "18.75rem",
+      },
+      minWidth: {
+        "24dt813": "24.813rem",
+        "11dt5": "11.5rem",
+        "16dt563": "16.563rem",
+      },
+      maxWidth: {
+        "50p": "50%",
+        "20rm": "20rem",
+      },
+      zIndex: {
+        one: 1,
+        z1668167178654: 1668167178654,
+      },
+      letterSpacing: {
+        m0dt02: "-0.02em",
+      },
     },
     colors: {
       white: "white",
