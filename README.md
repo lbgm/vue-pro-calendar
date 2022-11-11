@@ -3,7 +3,8 @@ The Best Professional Calendar ever
 
 ## Screenshot
 
-<img width="766" alt="image" src="https://user-images.githubusercontent.com/92580505/201356472-d66633a6-d71f-4e7d-9dae-59dcd47de769.png">
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/92580505/201356622-86b810df-1752-4f68-9fef-f59c4efe1959.png">
+
 
 
 
