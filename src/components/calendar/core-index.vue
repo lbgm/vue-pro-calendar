@@ -104,7 +104,6 @@ export interface Props {
 import { onMounted, onBeforeMount, ref, computed, watch, toRef } from "vue";
 import type { Ref } from "vue";
 import LeftMenu from "./left-menu.vue";
-import { cloneDeep } from "lodash";
 import HeaderComp from "./calendar-base-header.vue";
 import Arrows from "./calendar-arrows.vue";
 import Search from "./calendar-search.vue";
@@ -193,7 +192,6 @@ const calendarGotLoading = computed(() => {
 const runSearch = async (value: string) => {
   const _s = new RegExp(value, "i");
   let _search = [];
-  const _copyEvents = cloneDeep(calendarEvents.value);
   //
   if (!value.replace(/\s/g, "").length) {
     store.setEvents(propEvents.value);
@@ -201,7 +199,7 @@ const runSearch = async (value: string) => {
   }
   //
   isLoading.value = true;
-  _search = _copyEvents.filter((rdv: any) => {
+  _search = calendarEvents.value.filter((rdv: any) => {
     try {
       return _s.test(`${rdv.name}`) || _s.test(`${rdv.keywords}`);
     } catch (e) {
