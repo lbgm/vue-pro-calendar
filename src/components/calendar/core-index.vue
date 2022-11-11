@@ -110,8 +110,8 @@ import Arrows from "./calendar-arrows.vue";
 import Search from "./calendar-search.vue";
 import Toggle from "./day-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
-import { useEventsStore } from "@/stores/events";
-import type { Appointment } from "@/stores/events";
+import { useEventsStore } from "../../stores/events";
+import type { Appointment } from "../../stores/events";
 
 import MonthView from "./calendar-month-view.vue";
 import DayView from "./calendar-day-view.vue";

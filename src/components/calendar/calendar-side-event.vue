@@ -90,8 +90,8 @@ import {
   minutes,
 } from "./common";
 
-import { useEventsStore } from "@/stores/events";
-import type { Appointment } from "@/stores/events";
+import { useEventsStore } from "../../stores/events";
+import type { Appointment } from "../../stores/events";
 
 const props = withDefaults(defineProps<Props>(), {});
 

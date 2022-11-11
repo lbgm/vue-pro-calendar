@@ -155,8 +155,8 @@ export interface Props {
   eventTime?: string;
 }
 
-import { useEventsStore } from "@/stores/events";
-import type { Appointment } from "@/stores/events";
+import { useEventsStore } from "../../stores/events";
+import type { Appointment } from "../../stores/events";
 import LinkAction from "@/components/link-action.vue";
 import BlueEye from "./assets/blue-eye.vue";
 import OrangeUpdate from "./assets/orange-update.vue";
