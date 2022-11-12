@@ -41,10 +41,9 @@ const props = withDefaults(defineProps<Props>(), {
   setView: "",
 });
 
-const emit = defineEmits(["calendar:viewtype", "calendar:viewtype"]);
+const emit = defineEmits(["calendar:viewtype"]);
 
 const view_type: Ref<string> = ref("week"); //'week' is default
-const getSetView = toRef(props, "setView");
 const tabs = ref({
   ...viewSupported,
 });
@@ -57,9 +56,13 @@ watch(view_type, () => {
   emit("calendar:viewtype", view_type.value);
 });
 
+watch(props.setView, () => {
+  if (props.setView) {
+    changeViewType(props.setView);
+  }
+});
+
 onMounted(() => {
-  // in case of view_type requested
-  if (getSetView.value) changeViewType(getSetView.value);
-  else emit("calendar:viewtype", view_type.value);
+  emit("calendar:viewtype", view_type.value);
 });
 </script>
