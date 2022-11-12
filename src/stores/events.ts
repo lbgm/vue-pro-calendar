@@ -3,10 +3,10 @@ import { defineStore } from "pinia";
 
 export interface Appointment {
   date: string, //DateIsoString
-  comment?: string | null | undefined,
-  createdAt: string, //DateIsoString
+  comment?: string,
+  createdAt?: string, //DateIsoString
   id: string,
-  updatedAt: string, //DateIsoString
+  updatedAt?: string, //DateIsoString
   keywords: string,
   name: string,
 }
@@ -14,17 +14,16 @@ export interface Appointment {
 export const useEventsStore = defineStore({
   id: 'CalendarEvents',
 
-  state: () => ({
-    calendarEvents: [] as Appointment[],
-  }),
+  state: (): { calendarEvents: Appointment[];} => ({ calendarEvents: [] }),
 
   getters: {
     getEvents: (state): Appointment[] => state.calendarEvents
   },
 
   actions: {
-    setEvents (payload: Appointment[]) {
+    setEvents (payload: Appointment[]): void {
       this.calendarEvents = payload;
+      console.log({ payload })
     }
   }
 });

@@ -1,5 +1,6 @@
 <template>
   <a
+    data-calendar-toggler
     :aria-label="$t('calendar.close_calendar')"
     :title="$t('calendar.close_calendar')"
     href="#"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="select-none flex flex-row flex-nowrap items-center transition-all min-w-16dt563"
+    class="calendar-day-toggle select-none flex flex-row flex-nowrap items-center transition-all min-w-16dt563"
   >
     <!---->
     <a
@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 export interface Props {
-  setView?: string;
+  view?: string;
 }
 
 import {
@@ -38,17 +38,18 @@ import type { Ref } from "vue";
 import { viewSupported } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
-  setView: "",
+  view: "",
 });
 
 const emit = defineEmits(["calendar:viewtype"]);
 
 const view_type: Ref<string> = ref("week"); //'week' is default
-const tabs = ref({
+const tabs: Ref<Record<string, string>> = ref({
   ...viewSupported,
 });
 
-const changeViewType = (state: string) => {
+const changeViewType = (state: string): void => {
+  if (!state) return void 0;
   view_type.value = state;
 };
 
@@ -56,9 +57,9 @@ watch(view_type, () => {
   emit("calendar:viewtype", view_type.value);
 });
 
-watch(props.setView, () => {
-  if (props.setView) {
-    changeViewType(props.setView);
+watch(props, () => {
+  if (props.view) {
+    changeViewType(props.view);
   }
 });
 

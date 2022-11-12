@@ -35,7 +35,7 @@
             >
               {{ RdvsPkg[0].name }}
             </span>
-            <span class="block">
+            <span class="block truncate">
               <span class="text-left text-1dt563 leading-4 event-dot"
                 >&#183;</span
               >
@@ -213,7 +213,7 @@ const openEvtList = () => {
 };
 
 // computed on store state
-const calendarEvents: Ref<Appointment[]> = computed(() => store.getEvents);
+const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 
 //filt and Retrive <Event /> data
 const eventEvents = () => {

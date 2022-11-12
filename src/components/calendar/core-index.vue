@@ -13,7 +13,7 @@
       </template>
       <!---->
       <template #sideEvent>
-        <div :key="Cky" class="h-50p overflow-y-auto custom-scrll p-1">
+        <div :key="cky" class="h-50p overflow-y-auto custom-scrll p-1">
           <SideEvent :eventDate="dateSelected || new Date()" />
           <!--_-->
           <SideEvent
@@ -43,7 +43,7 @@
         <Toggle
           ref="viewToggle"
           @calendar:viewtype="view_type = $event"
-          :setView="urlRequestView"
+          :view="urlRequestView"
         />
         <!--Search-->
         <Search @calendar:search="void 0" @typing:finished="runSearch" />
@@ -52,7 +52,7 @@
       <div
         data-widget-item="widget-calendar-comp"
         class="calendar-wrapper w-full mt-4 overflow-y-auto custom-scrll"
-        :key="Cky"
+        :key="cky"
       >
         <!--calendar week-view-->
         <template v-if="view_type === 'week'">
@@ -156,7 +156,7 @@ const isLoading: Ref<boolean> = ref(false);
 /**
  * for calendar interface refreshing
  */
-const Cky = ref(randomId());
+const cky = ref(randomId());
 
 /**
  * closeCalendar
@@ -168,7 +168,7 @@ const closeCalendar = () => {
 /**
  * Loading State
  */
-const calendarGotLoading = computed(() => {
+const calendarGotLoading = computed<boolean>(() => {
   return propLoading.value || isLoading.value;
 });
 
@@ -177,13 +177,13 @@ const calendarGotLoading = computed(() => {
  * search by event
  * @param value {string}
  */
-const runSearch = async (value: string) => {
+const runSearch = async (value: string): Promise<void> => {
   const _s = new RegExp(value, "i");
   let _search = [];
   //
   if (!value.replace(/\s/g, "").length) {
     store.setEvents(propEvents.value);
-    return;
+    return void 0;
   }
   //
   isLoading.value = true;
@@ -202,7 +202,7 @@ const runSearch = async (value: string) => {
 /**
  * fetch Appointments
  */
-const fetchAppointments = () => {
+const fetchAppointments = (): void => {
   // fetch appointments from server
   emit("fetchEvents", {
     start: dateToIsoString(
@@ -215,13 +215,15 @@ const fetchAppointments = () => {
 /**
  * verifyFirst Props
  */
-const verifyFirstBind = () => {
+const verifyFirstBind = (): void => {
+  // date
   if (props.date) {
     const b = isoStringToDate(props.date);
     if (b.getTime()) {
       dateSelected.value = b;
     }
   }
+  // view
   if (props.view && Object.values(viewSupported).includes(props.view)) {
     urlRequestView.value = props.view;
     console.log({ urlRequestView });
@@ -247,23 +249,24 @@ watch(dateSelected, () => {
   // fetch appointments
   fetchAppointments();
   //
-  Cky.value = randomId();
+  cky.value = randomId();
   //
 });
 
-// just to test
-watch(calendarEvents, () => {
-  //
-  Cky.value = randomId();
-  //
-  console.log({ "watch(calendarEvents)": calendarEvents.value });
-});
+// need to refresh calendar ? cky used
+watch(
+  () => ({ ...calendarEvents.value }),
+  () => {
+    cky.value = randomId();
+    // console.log({ "watch(calendarEvents)": calendarEvents.value });
+  }
+);
 
 /**
  * watch propEvents and set events in store
  */
 watch(props.events, () => {
-  console.log({ "watch(propEvents)": propEvents.value });
+  // console.log({ "watch(propEvents)": propEvents.value });
   store.setEvents(propEvents.value);
 });
 

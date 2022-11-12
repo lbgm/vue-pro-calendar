@@ -37,6 +37,7 @@
           role="button"
           aria-label="Event"
           @click="viewEvent(rdv.id)"
+          data-calendar-side-event
         >
           <span
             class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 rounded-full flex-shrink-0"
@@ -108,7 +109,7 @@ const store = useEventsStore();
 const $t: any = inject("$t");
 
 // computed on store state
-const calendarEvents: Ref<Appointment[]> = computed(() => store.getEvents);
+const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 
 //filt and Retrive <Event /> data
 const eventEvents = () => {
