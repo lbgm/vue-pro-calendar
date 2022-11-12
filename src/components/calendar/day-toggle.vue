@@ -35,6 +35,7 @@ import {
   watch,
 } from "vue";
 import type { Ref } from "vue";
+import { viewSupported } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
   setView: "",
@@ -45,9 +46,7 @@ const emit = defineEmits(["calendar:viewtype", "calendar:viewtype"]);
 const view_type: Ref<string> = ref("week"); //'week' is default
 const getSetView = toRef(props, "setView");
 const tabs = ref({
-  day: "day",
-  week: "week",
-  month: "month",
+  ...viewSupported,
 });
 
 const changeViewType = (state: string) => {
@@ -60,7 +59,7 @@ watch(view_type, () => {
 
 onMounted(() => {
   // in case of view_type requested
-  if (getSetView.value.length !== 0) changeViewType(getSetView.value);
+  if (getSetView.value) changeViewType(getSetView.value);
   else emit("calendar:viewtype", view_type.value);
 });
 </script>

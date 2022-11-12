@@ -9,6 +9,7 @@
     "outDir": "dist",
     "declaration": true,
     "composite": true,
+    "lib": ["es2017", "dom"]
   },
   "references": [
     {

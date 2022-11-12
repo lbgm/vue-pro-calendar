@@ -1,95 +1,84 @@
 <template>
-  <div class="widget-calendar-wrapper relative">
-    <div
-      class="w-full h-screen flex flex-row flex-nowrap fixed top-0 left-0 right-0 bottom-0 z-z1668167178654 bg-F4F6F9 min-h-screen"
+  <div
+    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-F4F6F9 min-h-screen"
+  >
+    <!-- left menu-->
+    <LeftMenu
+      @calendar:datepicker="dateSelected = $event"
+      @calendar:close="closeCalendar()"
+      ref="leftMenu"
     >
-      <!-- left menu-->
-      <LeftMenu
-        @calendar:datepicker="dateSelected = $event"
-        @calendar:close="closeCalendar()"
-        ref="leftMenu"
-      >
-        <template #loader>
-          <Loader v-if="calendarGotLoading" />
-        </template>
-        <!---->
-        <template #sideEvent>
-          <div :key="Cky" class="h-50p overflow-y-auto custom-scrll p-1">
-            <SideEvent :eventDate="dateSelected || new Date()" />
-            <!--_-->
-            <SideEvent
-              :eventDate="nextDate(dateSelected) || nextDate(new Date())"
-            />
-          </div>
-        </template>
-      </LeftMenu>
-
-      <!-- calendar base-->
-      <div
-        class="calendar-base w-full grow border border-white bg-white p-4 pb-0"
-      >
-        <!-- calendar base header -->
-        <HeaderComp>
-          <!--Arrows-->
-          <Arrows
-            @calendar-arrow:left="leftMenu.datepicked = prevDate(dateSelected)"
-            @calendar-arrow:right="leftMenu.datepicked = nextDate(dateSelected)"
-            :label="
-              /calendar/i.test(dateLabel(dateSelected))
-                ? $t(`${dateLabel(dateSelected)}`)
-                : dateLabel(dateSelected)
-            "
-          />
-          <!-- DayToggle-->
-          <Toggle
-            ref="viewToggle"
-            @calendar:viewtype="view_type = $event"
-            :setView="urlRequestView"
-          />
-          <!--Search-->
-          <Search @calendar:search="void 0" @typing:finished="runSearch" />
-        </HeaderComp>
-        <!--calendar-->
-        <div
-          data-widget-item="widget-calendar-comp"
-          class="calendar-wrapper w-full mt-4 overflow-y-auto custom-scrll"
-          :key="Cky"
-        >
-          <!--calendar week-view-->
-          <template v-if="view_type === 'week'">
-            <WeekView
-              :weekDays="weekDays"
-              :dateSelected="dateSelected"
-              :dayTimes="dayTimes"
-              @report:event="reportEventFor = $event"
-            />
-          </template>
-
-          <!--calendar day-view-->
-          <template v-if="view_type === 'day'">
-            <DayView
-              :dateSelected="dateSelected"
-              :dayTimes="dayTimes"
-              @report:event="reportEventFor = $event"
-            />
-          </template>
-
-          <!--calendar month-view-->
-          <template v-if="view_type === 'month'">
-            <MonthView
-              :weekDays="weekDays"
-              :monthDays="monthDays"
-              :dateSelected="dateSelected"
-              @report:event="reportEventFor = $event"
-            />
-          </template>
-        </div>
-      </div>
-
-      <!----------- modal zone ---------->
-
+      <template #loader>
+        <Loader v-if="calendarGotLoading" />
+      </template>
       <!---->
+      <template #sideEvent>
+        <div :key="Cky" class="h-50p overflow-y-auto custom-scrll p-1">
+          <SideEvent :eventDate="dateSelected || new Date()" />
+          <!--_-->
+          <SideEvent
+            :eventDate="nextDate(dateSelected) || nextDate(new Date())"
+          />
+        </div>
+      </template>
+    </LeftMenu>
+
+    <!-- calendar base-->
+    <div
+      class="calendar-base w-full grow border border-white bg-white p-4 pb-0"
+    >
+      <!-- calendar base header -->
+      <HeaderComp>
+        <!--Arrows-->
+        <Arrows
+          @calendar-arrow:left="leftMenu.datepicked = prevDate(dateSelected)"
+          @calendar-arrow:right="leftMenu.datepicked = nextDate(dateSelected)"
+          :label="
+            /calendar/i.test(dateLabel(dateSelected))
+              ? $t(`${dateLabel(dateSelected)}`)
+              : dateLabel(dateSelected)
+          "
+        />
+        <!-- DayToggle-->
+        <Toggle
+          ref="viewToggle"
+          @calendar:viewtype="view_type = $event"
+          :setView="urlRequestView"
+        />
+        <!--Search-->
+        <Search @calendar:search="void 0" @typing:finished="runSearch" />
+      </HeaderComp>
+      <!--calendar-->
+      <div
+        data-widget-item="widget-calendar-comp"
+        class="calendar-wrapper w-full mt-4 overflow-y-auto custom-scrll"
+        :key="Cky"
+      >
+        <!--calendar week-view-->
+        <template v-if="view_type === 'week'">
+          <WeekView
+            :weekDays="weekDays"
+            :dateSelected="dateSelected"
+            :dayTimes="dayTimes"
+          />
+        </template>
+
+        <!--calendar day-view-->
+        <template v-if="view_type === 'day'">
+          <DayView :dateSelected="dateSelected" :dayTimes="dayTimes" />
+        </template>
+
+        <!--calendar month-view-->
+        <template v-if="view_type === 'month'">
+          <MonthView
+            :weekDays="weekDays"
+            :monthDays="monthDays"
+            :dateSelected="dateSelected"
+          />
+        </template>
+      </div>
     </div>
+    <!---->
   </div>
 </template>
 
@@ -132,6 +121,7 @@ import {
   monthGenerator,
   prevDate,
   nextDate,
+  viewSupported,
 } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
@@ -154,14 +144,13 @@ const dateSelected: Ref<Date> = ref(null) as Ref<any>;
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
 const view_type: Ref<string> = ref("");
-const urlRequestView: Ref<string> = ref(props.view);
+const urlRequestView: Ref<string> = ref("");
 const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
   start: "",
   end: "",
 });
-const calendarEvents: Ref<Appointment[]> = computed(() => store.getEvents);
-const reportEventFor: Ref<string> = ref("");
+const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 const isLoading: Ref<boolean> = ref(false);
 
 /**
@@ -173,7 +162,6 @@ const Cky = ref(randomId());
  * closeCalendar
  */
 const closeCalendar = () => {
-  window.open("https://www.linkedin.com/in/lbgm/", "_blank");
   emit("calendarClosed");
 };
 
@@ -225,16 +213,23 @@ const fetchAppointments = () => {
 };
 
 /**
- * watch reportEventFor and emit customEvent
+ * verifyFirst Props
  */
-watch(reportEventFor, () => {
-  if (reportEventFor.value) {
-    const event = new CustomEvent("calendar.request.report", {
-      detail: { reportEventFor },
-    });
-    document.body.dispatchEvent(event);
+const verifyFirstBind = () => {
+  if (props.date) {
+    const b = isoStringToDate(props.date);
+    if (b.getTime()) {
+      dateSelected.value = b;
+    }
   }
-});
+  if (props.view && Object.values(viewSupported).includes(props.view)) {
+    urlRequestView.value = props.view;
+    console.log({ urlRequestView });
+  }
+
+  // events
+  store.setEvents(propEvents.value);
+};
 
 /**
  * watch dateSelected to change everything
@@ -260,12 +255,14 @@ watch(dateSelected, () => {
 watch(calendarEvents, () => {
   //
   Cky.value = randomId();
+  //
+  console.log({ "watch(calendarEvents)": calendarEvents.value });
 });
 
 /**
  * watch propEvents and set events in store
  */
-watch(propEvents, () => {
+watch(props.events, () => {
   console.log({ "watch(propEvents)": propEvents.value });
   store.setEvents(propEvents.value);
 });
@@ -283,18 +280,6 @@ onBeforeMount(async () => {
   );
   dayTimes.value = _p1.concat(_p2);
 });
-
-const verifyFirstBind = () => {
-  if (props.date) {
-    const b = isoStringToDate(props.date);
-    if (b.getTime()) {
-      dateSelected.value = b;
-    }
-  }
-
-  // events
-  store.setEvents(propEvents.value);
-};
 
 onMounted(async () => {
   // verify first bind props: date, events

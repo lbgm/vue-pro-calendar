@@ -42,6 +42,16 @@
     </div>
     <!-- slot: ? side events -->
     <slot name="sideEvent" />
+    <!-- copyright -->
+    <span class="mt-4 block text-xs leading-3 text-18181B">
+      &copy;&thinsp;<LinkAction
+        href="https://www.linkedin.com/in/lbgm/"
+        target="_blank"
+        :direct-link="true"
+        text="lbgm"
+      />
+      & Contributors
+    </span>
   </div>
 </template>
 
@@ -51,6 +61,7 @@ import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
 import ChevronLeft from "./assets/chevron-left.vue";
 import ChevronRight from "./assets/chevron-right.vue";
+import LinkAction from "@/components/link-action.vue";
 
 import type { Ref } from "vue";
 

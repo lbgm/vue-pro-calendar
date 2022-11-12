@@ -55,7 +55,9 @@
         <span
           class="font-semibold text-0369A1 text-sm leading-4 block text-left"
         >
-          {{ RdvsPkg.length }}&nbsp;{{ "rendez-vous" }}
+          {{ RdvsPkg.length }}&nbsp;{{
+            $t("calendar.appointment", { plu: "s" })
+          }}
         </span>
       </div>
     </div>
@@ -79,7 +81,7 @@
       </LinkAction>
       <!---->
       <LinkAction
-        @clicked="$emit('report:event', RdvsPkg[0].id)"
+        @clicked="reportEventFor(RdvsPkg[0].id)"
         :text="$t('calendar.report')"
         class="block !text-E07A2C"
       >
@@ -136,7 +138,7 @@
           </LinkAction>
           <!---->
           <LinkAction
-            @clicked="$emit('report:event', rdv.id)"
+            @clicked="reportEventFor(rdv.id)"
             :text="$t('calendar.report')"
             class="!text-E07A2C"
           >
@@ -226,6 +228,13 @@ const eventEvents = () => {
 
 const viewEvent = (id: string | number | unknown) => {
   const event = new CustomEvent("calendar.request.view", {
+    detail: { id },
+  });
+  document.body.dispatchEvent(event);
+};
+
+const reportEventFor = (id: string | number | unknown) => {
+  const event = new CustomEvent("calendar.request.report", {
     detail: { id },
   });
   document.body.dispatchEvent(event);

@@ -19,7 +19,7 @@ export const useEventsStore = defineStore({
   }),
 
   getters: {
-    getEvents: (state) => state.calendarEvents
+    getEvents: (state): Appointment[] => state.calendarEvents
   },
 
   actions: {

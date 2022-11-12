@@ -50,7 +50,6 @@ module.exports = {
       },
       zIndex: {
         one: 1,
-        z1668167178654: 1668167178654,
       },
       letterSpacing: {
         m0dt02: "-0.02em",
