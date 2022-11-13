@@ -70,6 +70,5 @@ export const useEventsStore = defineStore({
     setConfigs (payload: Configs): void {
       this.configs = Object.assign(this.configs, payload);
     },
-
   }
 });
