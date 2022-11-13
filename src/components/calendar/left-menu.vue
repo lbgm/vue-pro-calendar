@@ -72,7 +72,7 @@ const calendar_date_picker = ref(null);
 const datePickerAttrs = ref([
   {
     highlight: {
-      color: "#3B82F6",
+      color: "#0ea5e9",
       fillMode: "solid",
     },
   },
@@ -158,7 +158,7 @@ defineExpose({
 }
 
 :deep(.vc-highlights .vc-highlight) {
-  background: #2062f6 !important;
+  background: #0ea5e9;
 }
 
 :deep(.vc-weekday) {

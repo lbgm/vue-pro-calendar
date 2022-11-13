@@ -96,10 +96,12 @@ export interface Props {
     actions?: {
       view?: {
         enabled?: boolean;
+        icon?: boolean;
         text?: string;
       };
       report?: {
         enabled?: boolean;
+        icon?: boolean;
         text?: string;
       };
     };
@@ -152,10 +154,12 @@ const props = withDefaults(defineProps<Props>(), {
     actions: {
       view: {
         enabled: true,
+        icon: true,
         text: "",
       },
       report: {
         enabled: true,
+        icon: true,
         text: "",
       },
     },

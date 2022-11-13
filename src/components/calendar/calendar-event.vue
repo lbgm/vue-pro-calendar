@@ -28,7 +28,7 @@
           >
             {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
           </span>
-          <div class="font-semibold text-0369A1 text-sm leading-4">
+          <div class="font-semibold text-0EA5E9 text-sm leading-4">
             <span
               :title="RdvsPkg[0]?.comment ?? ''"
               class="block text-left capitalize truncate calendar--event-name"
@@ -41,7 +41,9 @@
                 >&#183;</span
               >
               &nbsp;
-              <span class="text-left calendar--event-keyword">
+              <span
+                class="text-left calendar--event-keyword text-A1A1AA font-normal"
+              >
                 {{ RdvsPkg[0].keywords }}
               </span>
             </span>
@@ -54,7 +56,7 @@
         class="event-body select-none w-full p-0dt375"
       >
         <span
-          class="font-semibold text-0369A1 text-sm leading-4 block truncate text-left calendar--events-count"
+          class="font-semibold text-0EA5E9 text-sm leading-4 block truncate text-left calendar--events-count"
         >
           {{ RdvsPkg.length }}&nbsp;{{
             configs?.eventName || $t("calendar.appointment", { add: "s" })
@@ -76,19 +78,23 @@
       <LinkAction
         v-if="configs.actions?.view?.enabled"
         @clicked="viewEvent(RdvsPkg[0].id)"
-        class="calendar--event-view-action"
+        class="calendar--event-view-action calendar--action"
         :text="configs?.actions?.view?.text || $t('calendar.view')"
       >
-        <template #icon><BlueEye /></template>
+        <template v-if="configs.actions?.view?.icon" #icon>
+          <BlueEye />
+        </template>
       </LinkAction>
       <!---->
       <LinkAction
         v-if="configs?.actions?.report?.enabled"
         @clicked="reportEventFor(RdvsPkg[0].id)"
         :text="configs?.actions?.report?.text || $t('calendar.report')"
-        class="calendar--event-report-action"
+        class="calendar--event-report-action calendar--action"
       >
-        <template #icon><OrangeUpdate /></template>
+        <template v-if="configs.actions?.report?.icon" #icon>
+          <OrangeUpdate />
+        </template>
       </LinkAction>
     </div>
 
@@ -147,18 +153,22 @@
             v-if="configs.actions?.view?.enabled"
             @clicked="viewEvent(rdv.id)"
             :text="configs?.actions?.view?.text || $t('calendar.view')"
-            class="calendar--event-view-action"
+            class="calendar--event-view-action calendar--action"
           >
-            <template #icon><BlueEye /></template>
+            <template v-if="configs.actions?.view?.icon" #icon>
+              <BlueEye />
+            </template>
           </LinkAction>
           <!---->
           <LinkAction
             v-if="configs.actions?.report?.enabled"
             @clicked="reportEventFor(rdv.id)"
             :text="configs?.actions?.report?.text || $t('calendar.report')"
-            class="calendar--event-report-action"
+            class="calendar--event-report-action calendar--action"
           >
-            <template #icon><OrangeUpdate /></template>
+            <template v-if="configs.actions?.report?.icon" #icon>
+              <OrangeUpdate />
+            </template>
           </LinkAction>
         </div>
       </div>
@@ -253,6 +263,7 @@ const viewEvent = (id: string | number | unknown) => {
     detail: { id },
   });
   document.body.dispatchEvent(event);
+  closeEventList();
 };
 
 const reportEventFor = (id: string | number | unknown) => {
@@ -260,6 +271,7 @@ const reportEventFor = (id: string | number | unknown) => {
     detail: { id },
   });
   document.body.dispatchEvent(event);
+  closeEventList();
 };
 
 onMounted(() => {
@@ -316,5 +328,13 @@ onMounted(() => {
 
 :deep(.calendar--event-report-action) {
   color: #e07a2c;
+}
+
+:deep(.calendar--event-view-action) {
+  color: #0ea5e9;
+}
+
+:deep(.calendar--action) {
+  text-decoration: none;
 }
 </style>

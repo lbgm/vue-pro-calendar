@@ -3,6 +3,8 @@
 @tailwind utilities;
 @tailwind variants;
 
+@import "v-calendar/dist/style.css";
+
 * {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
@@ -22,7 +24,7 @@
   .custom-scrll::-webkit-scrollbar-thumb
   {
     border-radius:6px;
-    background: rgba(0,106,82,.8);
+    background: rgba(14, 165, 233, .8);
     border:0;
     display: none;
   }
@@ -42,7 +44,7 @@
 {
   .custom-scrll
   {
-    scrollbar-color: rgba(0,106,82,.8) transparent;
+    scrollbar-color: rgba(14, 165, 233, .8) transparent;
     scrollbar-width: none;
     &:hover{
     scrollbar-width: thin;

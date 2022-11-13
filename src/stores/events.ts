@@ -15,10 +15,12 @@ export interface Configs {
   actions?: {
     view?: {
       enabled?: boolean;
+      icon?: boolean;
       text?: string;
     };
     report?: {
       enabled?: boolean;
+      icon?: boolean;
       text?: string;
     };
   };
@@ -41,10 +43,12 @@ export const useEventsStore = defineStore({
       actions: {
         view: {
           enabled: true,
+          icon: true,
           text: "",
         },
         report: {
           enabled: true,
+          icon: true,
           text: "",
         },
       },

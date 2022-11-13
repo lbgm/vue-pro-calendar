@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import "v-calendar/dist/style.css";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 import ProCalendar from "@/components/calendar/core-index.vue";
 
@@ -43,26 +42,31 @@ const evts = ref([
 ]);
 
 const cfg = ref({
-  actions: {
-    view: {
-      enabled: true,
-      // text: "",
-    },
-    report: {
-      enabled: true,
-      text: "Supprimer",
-    },
-  },
+  // actions: {
+  //   view: {
+  //     // enabled: true,
+  //     // text: "",
+  //   },
+  //   report: {
+  //     enabled: true,
+  //   },
+  // },
   // searchPlaceHolder: "",
   // eventName: "",
   // closeText: "",
 });
+
+onMounted(() => {
+  ["calendar.request.view", "calendar.request.report"].forEach((e: string) => {
+    document.body.addEventListener(e, (event: Event | CustomEvent) => {
+      console.log({ event });
+    });
+  });
+});
 </script>
 
 <template>
-  <div>
-    <pro-calendar :events="evts" view="month" :loading="false" :config="cfg" />
-  </div>
+  <pro-calendar :events="evts" view="month" :loading="false" :config="cfg" />
 </template>
 
 <style scoped></style>

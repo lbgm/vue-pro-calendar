@@ -104,7 +104,7 @@ const props = withDefaults(defineProps<Props>(), {
   font-weight: bold;
   line-height: 18px;
   color: #fff;
-  background: #2062f6;
+  background: #0ea5e9;
   border-radius: 50%;
 }
 </style>
