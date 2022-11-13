@@ -11,11 +11,18 @@
       ><CloseIcon
     /></span>
     <span class="font-semibold tracking-m0dt02 text-base">
-      {{ $t("calendar.close") }}
+      {{ configs?.closeText || $t("calendar.close") }}
     </span>
   </a>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import CloseIcon from "./assets/close-icon.vue";
+import { useEventsStore } from "../../stores/events";
+import type { Configs } from "../../stores/events";
+
+const store = useEventsStore();
+
+const configs = computed<Configs>(() => store.getConfigs);
 </script>

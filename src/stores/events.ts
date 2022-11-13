@@ -11,19 +11,61 @@ export interface Appointment {
   name: string,
 }
 
+export interface Configs {
+  actions?: {
+    view?: {
+      enabled?: boolean;
+      text?: string;
+    };
+    report?: {
+      enabled?: boolean;
+      text?: string;
+    };
+  };
+  searchPlaceHolder?: string;
+  eventName?: string;
+  closeText?: string;
+}
+
+interface State {
+  calendarEvents: Appointment[];
+  configs: Configs;
+}
+
 export const useEventsStore = defineStore({
   id: 'CalendarEvents',
 
-  state: (): { calendarEvents: Appointment[];} => ({ calendarEvents: [] }),
+  state: (): State => ({
+    calendarEvents: [],
+    configs: {
+      actions: {
+        view: {
+          enabled: true,
+          text: "",
+        },
+        report: {
+          enabled: true,
+          text: "",
+        },
+      },
+      searchPlaceHolder: "",
+      eventName: "",
+      closeText: "",
+    }
+  }),
 
   getters: {
-    getEvents: (state): Appointment[] => state.calendarEvents
+    getEvents: (state): Appointment[] => state.calendarEvents,
+    getConfigs: (state): Configs => state.configs
   },
 
   actions: {
     setEvents (payload: Appointment[]): void {
       this.calendarEvents = payload;
-      console.log({ payload })
-    }
+    },
+    setConfigs (payload: Configs): void {
+      this.configs = Object.assign(this.configs, payload);
+    },
+
   }
 });

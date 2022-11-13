@@ -46,7 +46,11 @@
           :view="urlRequestView"
         />
         <!--Search-->
-        <Search @calendar:search="void 0" @typing:finished="runSearch" />
+        <Search
+          @calendar:search="void 0"
+          @typing:finished="runSearch"
+          :placeholder="configs.searchPlaceHolder"
+        />
       </HeaderComp>
       <!--calendar-->
       <div
@@ -88,6 +92,21 @@ export interface Props {
   view?: string;
   events?: Appointment[];
   loading?: boolean;
+  config?: {
+    actions?: {
+      view?: {
+        enabled?: boolean;
+        text?: string;
+      };
+      report?: {
+        enabled?: boolean;
+        text?: string;
+      };
+    };
+    searchPlaceHolder?: string;
+    eventName?: string;
+    closeText?: string;
+  };
 }
 
 import { onMounted, onBeforeMount, ref, computed, watch, toRef } from "vue";
@@ -99,7 +118,7 @@ import Search from "./calendar-search.vue";
 import Toggle from "./day-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
 import { useEventsStore } from "../../stores/events";
-import type { Appointment } from "../../stores/events";
+import type { Appointment, Configs } from "../../stores/events";
 
 import MonthView from "./calendar-month-view.vue";
 import DayView from "./calendar-day-view.vue";
@@ -129,15 +148,28 @@ const props = withDefaults(defineProps<Props>(), {
   view: "",
   events: () => [],
   loading: false,
+  config: () => ({
+    actions: {
+      view: {
+        enabled: true,
+        text: "",
+      },
+      report: {
+        enabled: true,
+        text: "",
+      },
+    },
+    searchPlaceHolder: "",
+    eventName: "",
+    closeText: "",
+  }),
 });
 
 const emit = defineEmits(["calendarClosed", "fetchEvents"]);
 
 const store = useEventsStore();
 
-const propEvents = toRef(props, "events");
 const propLoading = toRef(props, "loading");
-
 const leftMenu: Ref<HTMLElement | any> = ref(null);
 const viewToggle = ref(null);
 const dateSelected: Ref<Date> = ref(null) as Ref<any>;
@@ -151,6 +183,7 @@ const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
   end: "",
 });
 const calendarEvents = computed<Appointment[]>(() => store.getEvents);
+const configs = computed<Configs>(() => store.getConfigs);
 const isLoading: Ref<boolean> = ref(false);
 
 /**
@@ -182,7 +215,7 @@ const runSearch = async (value: string): Promise<void> => {
   let _search = [];
   //
   if (!value.replace(/\s/g, "").length) {
-    store.setEvents(propEvents.value);
+    store.setEvents(props.events);
     return void 0;
   }
   //
@@ -230,7 +263,9 @@ const verifyFirstBind = (): void => {
   }
 
   // events
-  store.setEvents(propEvents.value);
+  store.setEvents(props.events);
+  // config
+  store.setConfigs(props.config);
 };
 
 /**
@@ -258,16 +293,15 @@ watch(
   () => ({ ...calendarEvents.value }),
   () => {
     cky.value = randomId();
-    // console.log({ "watch(calendarEvents)": calendarEvents.value });
   }
 );
 
 /**
- * watch propEvents and set events in store
+ * watch props and set needed in store
  */
-watch(props.events, () => {
-  // console.log({ "watch(propEvents)": propEvents.value });
-  store.setEvents(propEvents.value);
+watch(props, () => {
+  store.setEvents(props.events);
+  store.setConfigs(props.config);
 });
 
 onBeforeMount(async () => {

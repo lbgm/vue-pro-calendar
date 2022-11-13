@@ -43,7 +43,6 @@
         v-for="(day, dayindex) of [inDateView]"
         :key="dayindex"
       >
-        <!-- {{ dateSelected.getDate() }}-->
         <!-- events are here -->
         <span class="block w-full min-h-2dt25 border-b border-F7F7F7" />
         <span class="block w-full min-h-2dt25" />

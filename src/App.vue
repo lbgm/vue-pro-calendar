@@ -41,11 +41,27 @@ const evts = ref([
     name: "Espéra AWO",
   },
 ]);
+
+const cfg = ref({
+  actions: {
+    view: {
+      enabled: true,
+      // text: "",
+    },
+    report: {
+      enabled: true,
+      text: "Supprimer",
+    },
+  },
+  // searchPlaceHolder: "",
+  // eventName: "",
+  // closeText: "",
+});
 </script>
 
 <template>
   <div>
-    <pro-calendar :events="evts" view="month" :loading="false" />
+    <pro-calendar :events="evts" view="month" :loading="false" :config="cfg" />
   </div>
 </template>
 

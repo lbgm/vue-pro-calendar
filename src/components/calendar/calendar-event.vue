@@ -9,7 +9,7 @@
     <!-- event side -->
     <div
       data-widget-item="event--button"
-      class="cursor-pointer rounded event-card hover:opacity-80 active:animate-pulse"
+      class="cursor-pointer rounded event-card hover:opacity-80 active:animate-pulse calendar--event"
       ref="eventSide"
       @click="openEvtList()"
     >
@@ -24,23 +24,24 @@
             :title="
               isoStringToDate(RdvsPkg[0].date).toLocaleString($i18n.locale)
             "
-            class="block text-left text-09101D font-medium text-xs"
+            class="block text-left text-09101D font-medium text-xs calendar--event-time"
           >
             {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
           </span>
           <div class="font-semibold text-0369A1 text-sm leading-4">
             <span
               :title="RdvsPkg[0]?.comment ?? ''"
-              class="block text-left capitalize truncate"
+              class="block text-left capitalize truncate calendar--event-name"
             >
               {{ RdvsPkg[0].name }}
             </span>
             <span class="block truncate">
-              <span class="text-left text-1dt563 leading-4 event-dot"
+              <span
+                class="text-left text-1dt563 leading-4 event-dot calendar--event-dot"
                 >&#183;</span
               >
               &nbsp;
-              <span class="text-left">
+              <span class="text-left calendar--event-keyword">
                 {{ RdvsPkg[0].keywords }}
               </span>
             </span>
@@ -50,13 +51,13 @@
       <!-- more than 1 event-->
       <div
         v-else-if="RdvsPkg.length > 1"
-        class="event-body select-none w-full p-1.5"
+        class="event-body select-none w-full p-0dt375"
       >
         <span
-          class="font-semibold text-0369A1 text-sm leading-4 block text-left"
+          class="font-semibold text-0369A1 text-sm leading-4 block truncate text-left calendar--events-count"
         >
           {{ RdvsPkg.length }}&nbsp;{{
-            $t("calendar.appointment", { plu: "s" })
+            configs?.eventName || $t("calendar.appointment", { add: "s" })
           }}
         </span>
       </div>
@@ -66,24 +67,26 @@
 
     <!-- single event popup -->
     <div
-      class="absolute z-one w-full bg-white rounded-lg p-3 flex flex-col single-event-popup"
-      v-if="openSingleEvent"
+      class="absolute z-one w-full bg-white rounded-lg p-3 flex flex-col single-event-popup space-y-2"
+      v-if="openSingleEvent && actionsEnabled"
       :class="{ 'right-0': popupr, 'bottom-full': popupb }"
       ref="eventList"
     >
       <!-- we use eventList here just to get popupr or popupb -->
       <LinkAction
+        v-if="configs.actions?.view?.enabled"
         @clicked="viewEvent(RdvsPkg[0].id)"
-        class="mb-2"
-        :text="$t('calendar.view')"
+        class="calendar--event-view-action"
+        :text="configs?.actions?.view?.text || $t('calendar.view')"
       >
         <template #icon><BlueEye /></template>
       </LinkAction>
       <!---->
       <LinkAction
+        v-if="configs?.actions?.report?.enabled"
         @clicked="reportEventFor(RdvsPkg[0].id)"
-        :text="$t('calendar.report')"
-        class="block !text-E07A2C"
+        :text="configs?.actions?.report?.text || $t('calendar.report')"
+        class="calendar--event-report-action"
       >
         <template #icon><OrangeUpdate /></template>
       </LinkAction>
@@ -98,14 +101,14 @@
     >
       <!-- item -->
       <div
-        class="more-event-body--item flex flex-row flew-wrap space-x-4 p-2 bg-white border-b"
+        class="group more-event-body--item flex flex-row flew-wrap space-x-4 p-2 bg-white border-b"
         v-for="(rdv, rdvi) in RdvsPkg"
         :key="rdvi"
       >
         <!--event informations-->
         <div class="flex-grow flex flex-row space-x-2 flex-nowrap items-start">
           <span
-            class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 rounded-full flex-shrink-0"
+            class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 opacity-20 group-hover:opacity-100 rounded-full flex-shrink-0"
           />
           <div class="w-full grow flex-shrink more-event-body-item-body">
             <!--title-->
@@ -113,34 +116,47 @@
               <span
                 :data-rdv-date="rdv.date"
                 :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
+                class="calendar--event-time"
               >
                 {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
               </span>
-              &nbsp;-&nbsp;
-              <span :title="''"> __:__ </span>
             </div>
             <!--name and engin-->
             <div class="font-medium text-xs text-09101D">
-              <span :title="rdv?.comment ?? ''" class="capitalize">
+              <span
+                :title="rdv?.comment ?? ''"
+                class="block capitalize calendar--event-name"
+              >
                 {{ rdv.name }}
               </span>
-              &nbsp;-&nbsp;
-              <span class="text-A1A1AA capitalize truncate">
+              <!---->
+              <span
+                class="block text-A1A1AA capitalize truncate calendar--event-keyword"
+              >
                 {{ rdv.keywords }}
               </span>
             </div>
           </div>
         </div>
         <!-- event actions -->
-        <div class="flex flex-row space-x-4 flex-nowrap max-w-max items-center">
-          <LinkAction @clicked="viewEvent(rdv.id)" :text="$t('calendar.view')">
+        <div
+          v-if="actionsEnabled"
+          class="flex flex-row space-x-4 flex-nowrap max-w-max items-center"
+        >
+          <LinkAction
+            v-if="configs.actions?.view?.enabled"
+            @clicked="viewEvent(rdv.id)"
+            :text="configs?.actions?.view?.text || $t('calendar.view')"
+            class="calendar--event-view-action"
+          >
             <template #icon><BlueEye /></template>
           </LinkAction>
           <!---->
           <LinkAction
+            v-if="configs.actions?.report?.enabled"
             @clicked="reportEventFor(rdv.id)"
-            :text="$t('calendar.report')"
-            class="!text-E07A2C"
+            :text="configs?.actions?.report?.text || $t('calendar.report')"
+            class="calendar--event-report-action"
           >
             <template #icon><OrangeUpdate /></template>
           </LinkAction>
@@ -158,7 +174,7 @@ export interface Props {
 }
 
 import { useEventsStore } from "../../stores/events";
-import type { Appointment } from "../../stores/events";
+import type { Appointment, Configs } from "../../stores/events";
 import LinkAction from "@/components/link-action.vue";
 import BlueEye from "./assets/blue-eye.vue";
 import OrangeUpdate from "./assets/orange-update.vue";
@@ -183,6 +199,12 @@ const eventSide = ref(null);
 const eventList = ref(null);
 const openEventList = ref(false);
 const openSingleEvent = ref(false);
+
+const configs = computed<Configs>(() => store.getConfigs);
+const actionsEnabled = computed<boolean>(() => {
+  const actions = Object.values(configs.value?.actions as Object);
+  return Object.values(actions).some((it: { enabled: boolean }) => it.enabled);
+});
 
 const datetime_start: Ref<Date | null> = ref(null);
 const datetime_end: Ref<Date | null> = ref(null);
@@ -290,5 +312,9 @@ onMounted(() => {
 
 .more-event-body--item:last-child {
   border: 0;
+}
+
+:deep(.calendar--event-report-action) {
+  color: #e07a2c;
 }
 </style>
