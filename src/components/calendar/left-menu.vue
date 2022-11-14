@@ -84,7 +84,7 @@ const props = withDefaults(defineProps<Props>(), {
   date: undefined,
 });
 
-const dateRequested: Ref<Date> = toRef(props, "date");
+const dateRequested: Ref<Date | undefined> = toRef(props, "date");
 const datepicked: Ref<Date> = ref(new Date());
 
 const calendar_date_picker = ref(null);
@@ -105,7 +105,9 @@ watch(datepicked, () => {
 });
 
 watch(props, () => {
-  datepicked.value = dateRequested.value;
+  if (dateRequested.value) {
+    datepicked.value = dateRequested.value;
+  }
 });
 
 onMounted(() => {

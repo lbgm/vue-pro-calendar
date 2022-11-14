@@ -223,7 +223,7 @@ const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
 const view_type: Ref<string> = ref("");
 const externalRequestView: Ref<string> = ref("");
-const externalRequestDate: Ref<Date> = ref(undefined);
+const externalRequestDate: Ref<Date | undefined> = ref(undefined);
 const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
   start: "",

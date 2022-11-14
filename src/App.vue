@@ -67,13 +67,7 @@ onMounted(() => {
 
 <template>
   <!--  -->
-  <pro-calendar
-    :events="evts"
-    :loading="false"
-    :config="cfg"
-    view="week"
-    date=""
-  />
+  <pro-calendar :events="evts" :loading="false" :config="cfg" />
 </template>
 
 <style scoped></style>

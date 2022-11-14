@@ -114,8 +114,64 @@ events: Appointment[];
   view="week"
   date="'isoStringDate'"
 >
- <!-- coming -->
+  <template #leftSwitchArrow>
+    <!-- replace left switch arrow with this slot -->
+  </template>
+
+  <template #rightSwitchArrow>
+    <!-- replace left switch arrow with this slot -->
+  </template>
+
+  <template #closeButton>
+    <!-- replace close button with this slot -->
+  </template>
+
+  <template #loader="{ calendarGotLoading }">
+    <!-- replace calendar loader with this slot -->
+  </template>
+
+  <template #searchIcon>
+    <!-- replace search widget icon with this slot -->
+  </template>
+
+  <template #dateLeftArrow>
+    <!-- replace date picker left arrow with this -->
+  </template>
+
+  <template #dateRightArrow>
+    <!-- replace date picker right arrow with this -->
+  </template>
+
+  <template #sideEvent="{ dateSelected, calendarEvents }">
+    <!-- use this slot to show yourself side event in appearance you want -->
+  </template>
+
+  <template #eventCard="{ date, time, cardEvent }">
+    <!-- use this slot to show yourself calendar event in appearance you want -->
+  </template>
 </pro-calendar>
+
+## Custom Events fired
+
+`calendar.request.view` & `calendar.request.report`
+
+When the user clicks on view or report action, an custom html event is fired with the id of event in detail.
+You can listen these events like this:
+
+```html
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+
+onMounted(() => {
+  ["calendar.request.view", "calendar.request.report"].forEach((e: string) => {
+    document.body.addEventListener(e, (event: Event | CustomEvent) => {
+      console.log({ event });
+    });
+  });
+});
+
+</script>
+```
 
 
 
