@@ -67,7 +67,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, useSlots } from "vue";
+export interface Props {
+  date?: Date;
+}
+
+import { onMounted, ref, watch, useSlots, toRef } from "vue";
 import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
 import ChevronLeft from "./assets/chevron-left.vue";
@@ -76,6 +80,11 @@ import LinkAction from "@/components/link-action.vue";
 
 import type { Ref } from "vue";
 
+const props = withDefaults(defineProps<Props>(), {
+  date: undefined,
+});
+
+const dateRequested: Ref<Date> = toRef(props, "date");
 const datepicked: Ref<Date> = ref(new Date());
 
 const calendar_date_picker = ref(null);
@@ -93,6 +102,10 @@ const emit = defineEmits(["calendar:datepicker", "calendar:close"]);
 
 watch(datepicked, () => {
   emit("calendar:datepicker", new Date(datepicked.value));
+});
+
+watch(props, () => {
+  datepicked.value = dateRequested.value;
 });
 
 onMounted(() => {

@@ -66,9 +66,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- view="week"
-    date="2022-11-10T00:00:00.000Z" -->
-  <pro-calendar :events="evts" :loading="false" :config="cfg" />
+  <!--  -->
+  <pro-calendar
+    :events="evts"
+    :loading="false"
+    :config="cfg"
+    view="week"
+    date=""
+  />
 </template>
 
 <style scoped></style>

@@ -4,6 +4,7 @@
   >
     <!-- left menu-->
     <LeftMenu
+      :date="externalRequestDate"
       @calendar:datepicker="dateSelected = $event"
       @calendar:close="closeCalendar()"
       ref="leftMenu"
@@ -66,7 +67,7 @@
         <Toggle
           ref="viewToggle"
           @calendar:viewtype="view_type = $event"
-          :view="urlRequestView"
+          :view="externalRequestView"
         />
         <!--Search-->
         <Search
@@ -221,7 +222,8 @@ const dateSelected: Ref<Date> = ref(null) as Ref<any>;
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
 const view_type: Ref<string> = ref("");
-const urlRequestView: Ref<string> = ref("");
+const externalRequestView: Ref<string> = ref("");
+const externalRequestDate: Ref<Date> = ref(undefined);
 const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
   start: "",
@@ -300,12 +302,12 @@ const verifyFirstBind = (): void => {
     const b = isoStringToDate(props.date);
     if (b.getTime()) {
       dateSelected.value = b;
+      externalRequestDate.value = dateSelected.value;
     }
   }
   // view
   if (props.view && Object.values(viewSupported).includes(props.view)) {
-    urlRequestView.value = props.view;
-    console.log({ urlRequestView });
+    externalRequestView.value = props.view;
   }
 
   // events

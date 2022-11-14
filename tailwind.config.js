@@ -75,6 +75,7 @@ module.exports = {
       DD4816: "#DD4816",
       "0EA5E9": "#0EA5E9",
       "0369A1": "#0369A1",
+      EFF6FF: "#eff6ff",
     },
   },
   plugins: [],
