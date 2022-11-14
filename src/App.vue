@@ -66,15 +66,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <pro-calendar :events="evts" view="month" :loading="false" :config="cfg">
-    <template #eventCard="{ date, time, cardEvent }">
-     {{ date.toLocaleString() }}
-     {{ "\r\n" }}
-     {{ time }}
-     {{ "\r\n" }}
-     {{ cardEvent }}
-    </template>
-  </pro-calendar>
+  <!-- view="week"
+    date="2022-11-10T00:00:00.000Z" -->
+  <pro-calendar :events="evts" :loading="false" :config="cfg" />
 </template>
 
 <style scoped></style>

@@ -141,6 +141,7 @@ export interface Props {
   };
 }
 
+// import v-calendar style
 import "v-calendar/dist/style.css";
 
 import {
@@ -370,7 +371,6 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-// @import "v-calendar/dist/style.css";
 @import "@/assets/tailwind.scss";
 
 .calendar-wrapper {
