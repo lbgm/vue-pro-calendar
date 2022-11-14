@@ -144,10 +144,19 @@ events: Appointment[];
 
   <template #sideEvent="{ dateSelected, calendarEvents }">
     <!-- use this slot to show yourself side events in appearance you want -->
+    <!--
+      dateSelected: Date;
+      calendarEvents: Appointment[]; // all events
+    -->
   </template>
 
   <template #eventCard="{ date, time, cardEvent }">
     <!-- use this slot to show yourself calendar event in appearance you want -->
+    <!--
+      date: Date;
+      time: string;
+      cardEvent: Appointment[]; // events according to date/time
+    -->
   </template>
 </pro-calendar>
 
