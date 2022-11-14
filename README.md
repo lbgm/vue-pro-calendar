@@ -100,7 +100,7 @@ interface Appointment {
 events: Appointment[];
 ```
 
-## Prop view type
+## Prop `view` type
 ```ts
 'day' | 'week' | 'month'
 ```
