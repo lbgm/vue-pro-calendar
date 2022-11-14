@@ -51,6 +51,7 @@
           class="absolute top-0"
           :eventDate="inDateView"
           :eventTime="time"
+          :slots="slots"
           @report:event="$emit('report:event', $event)"
         />
       </div>
@@ -65,9 +66,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Slots } from "vue";
+
 export interface Props {
   dateSelected: string | Date;
   dayTimes?: string[];
+  slots: Slots;
 }
 
 import Events from "./calendar-event.vue";

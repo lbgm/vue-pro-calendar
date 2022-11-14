@@ -59,6 +59,7 @@
         <Events
           class="relative mt-1"
           :eventDate="monthDayDate"
+          :slots="slots"
           @report:event="$emit('report:event', $event)"
         />
       </div>
@@ -67,10 +68,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Slots } from "vue";
+
 export interface Props {
   monthDays?: Date[];
   weekDays?: Date[];
   dateSelected: Date;
+  slots: Slots;
 }
 
 import Events from "./calendar-event.vue";

@@ -6,181 +6,198 @@
     :data-evendate="eventDate"
     class="w-full"
   >
-    <!-- event side -->
-    <div
-      data-widget-item="event--button"
-      class="cursor-pointer rounded event-card hover:opacity-80 active:animate-pulse calendar--event"
-      ref="eventSide"
-      @click="openEvtList()"
-    >
-      <!-- 1 event -->
+    <template v-if="slots.eventCard">
+      <component
+        :is="slots.eventCard"
+        :date="eventDate"
+        :time="eventTime"
+        :cardEvent="RdvsPkg"
+      />
+    </template>
+    <template v-else>
+      <!-- event side -->
       <div
-        v-if="RdvsPkg.length === 1"
-        class="event-body select-none w-full p-0dt375"
+        data-widget-item="event--button"
+        class="cursor-pointer rounded event-card hover:opacity-80 active:animate-pulse calendar--event"
+        ref="eventSide"
+        @click="openEvtList()"
       >
-        <div class="single-event-inf">
-          <span
-            :data-rdv-date="RdvsPkg[0].date"
-            :title="
-              isoStringToDate(RdvsPkg[0].date).toLocaleString($i18n.locale)
-            "
-            class="block text-left text-09101D font-medium text-xs calendar--event-time"
-          >
-            {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
-          </span>
-          <div class="font-semibold text-0EA5E9 text-sm leading-4">
-            <span
-              :title="RdvsPkg[0]?.comment ?? ''"
-              class="block text-left capitalize truncate calendar--event-name"
-            >
-              {{ RdvsPkg[0].name }}
-            </span>
-            <span class="block truncate">
-              <span
-                class="text-left text-1dt563 leading-4 event-dot calendar--event-dot"
-                >&#183;</span
-              >
-              &nbsp;
-              <span
-                class="text-left calendar--event-keyword text-A1A1AA font-normal"
-              >
-                {{ RdvsPkg[0].keywords }}
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
-      <!-- more than 1 event-->
-      <div
-        v-else-if="RdvsPkg.length > 1"
-        class="event-body select-none w-full p-0dt375"
-      >
-        <span
-          class="font-semibold text-0EA5E9 text-sm leading-4 block truncate text-left calendar--events-count"
-        >
-          {{ RdvsPkg.length }}&nbsp;{{
-            configs?.eventName || $t("calendar.appointment", { add: "s" })
-          }}
-        </span>
-      </div>
-    </div>
-
-    <!--------------------------------- popups zone ------------------------------->
-
-    <!-- single event popup -->
-    <div
-      class="absolute z-one w-full bg-white rounded-lg p-3 flex flex-col single-event-popup space-y-2"
-      v-if="openSingleEvent && actionsEnabled"
-      :class="{ 'right-0': popupr, 'bottom-full': popupb }"
-      ref="eventList"
-    >
-      <!-- we use eventList here just to get popupr or popupb -->
-      <LinkAction
-        v-if="configs.actions?.view?.enabled"
-        @clicked="viewEvent(RdvsPkg[0].id)"
-        class="calendar--event-view-action calendar--action"
-        :text="configs?.actions?.view?.text || $t('calendar.view')"
-      >
-        <template v-if="configs.actions?.view?.icon" #icon>
-          <BlueEye />
-        </template>
-      </LinkAction>
-      <!---->
-      <LinkAction
-        v-if="configs?.actions?.report?.enabled"
-        @clicked="reportEventFor(RdvsPkg[0].id)"
-        :text="configs?.actions?.report?.text || $t('calendar.report')"
-        class="calendar--event-report-action calendar--action"
-      >
-        <template v-if="configs.actions?.report?.icon" #icon>
-          <OrangeUpdate />
-        </template>
-      </LinkAction>
-    </div>
-
-    <!-- more than one Event list popup -->
-    <div
-      class="overflow-y-auto custom-scrll max-h-18dt75 absolute z-one min-w-24dt813 bg-white more-event-body rounded-lg p-3"
-      :class="{ 'right-0': popupr, 'bottom-full': popupb }"
-      v-if="openEventList"
-      ref="eventList"
-    >
-      <!-- item -->
-      <div
-        class="group more-event-body--item flex flex-row flew-wrap space-x-4 p-2 bg-white border-b"
-        v-for="(rdv, rdvi) in RdvsPkg"
-        :key="rdvi"
-      >
-        <!--event informations-->
-        <div class="flex-grow flex flex-row space-x-2 flex-nowrap items-start">
-          <span
-            class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 opacity-20 group-hover:opacity-100 rounded-full flex-shrink-0"
-          />
-          <div class="w-full grow flex-shrink more-event-body-item-body">
-            <!--title-->
-            <div class="font-semibold text-A1A1AA leading-4 text-0dt688">
-              <span
-                :data-rdv-date="rdv.date"
-                :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
-                class="calendar--event-time"
-              >
-                {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
-              </span>
-            </div>
-            <!--name and engin-->
-            <div class="font-medium text-xs text-09101D">
-              <span
-                :title="rdv?.comment ?? ''"
-                class="block capitalize calendar--event-name"
-              >
-                {{ rdv.name }}
-              </span>
-              <!---->
-              <span
-                class="block text-A1A1AA capitalize truncate calendar--event-keyword"
-              >
-                {{ rdv.keywords }}
-              </span>
-            </div>
-          </div>
-        </div>
-        <!-- event actions -->
+        <!-- 1 event -->
         <div
-          v-if="actionsEnabled"
-          class="flex flex-row space-x-4 flex-nowrap max-w-max items-center"
+          v-if="RdvsPkg.length === 1"
+          class="event-body select-none w-full p-0dt375"
         >
-          <LinkAction
-            v-if="configs.actions?.view?.enabled"
-            @clicked="viewEvent(rdv.id)"
-            :text="configs?.actions?.view?.text || $t('calendar.view')"
-            class="calendar--event-view-action calendar--action"
+          <div class="single-event-inf">
+            <span
+              :data-rdv-date="RdvsPkg[0].date"
+              :title="
+                isoStringToDate(RdvsPkg[0].date).toLocaleString($i18n.locale)
+              "
+              class="block text-left text-09101D font-medium text-xs calendar--event-time"
+            >
+              {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
+            </span>
+            <div class="font-semibold text-0EA5E9 text-sm leading-4">
+              <span
+                :title="RdvsPkg[0]?.comment ?? ''"
+                class="block text-left capitalize truncate calendar--event-name"
+              >
+                {{ RdvsPkg[0].name }}
+              </span>
+              <span class="block truncate">
+                <span
+                  class="text-left text-1dt563 leading-4 event-dot calendar--event-dot"
+                  >&#183;</span
+                >
+                &nbsp;
+                <span
+                  class="text-left calendar--event-keyword text-A1A1AA font-normal"
+                >
+                  {{ RdvsPkg[0].keywords }}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- more than 1 event-->
+        <div
+          v-else-if="RdvsPkg.length > 1"
+          class="event-body select-none w-full p-0dt375"
+        >
+          <span
+            class="font-semibold text-0EA5E9 text-sm leading-4 block truncate text-left calendar--events-count"
           >
-            <template v-if="configs.actions?.view?.icon" #icon>
-              <BlueEye />
-            </template>
-          </LinkAction>
-          <!---->
-          <LinkAction
-            v-if="configs.actions?.report?.enabled"
-            @clicked="reportEventFor(rdv.id)"
-            :text="configs?.actions?.report?.text || $t('calendar.report')"
-            class="calendar--event-report-action calendar--action"
-          >
-            <template v-if="configs.actions?.report?.icon" #icon>
-              <OrangeUpdate />
-            </template>
-          </LinkAction>
+            {{ RdvsPkg.length }}&nbsp;{{
+              configs?.eventName || $t("calendar.appointment", { add: "s" })
+            }}
+          </span>
         </div>
       </div>
-    </div>
-    <!---->
+
+      <!--------------------------------- popups zone ------------------------------->
+
+      <!-- single event popup -->
+      <div
+        class="absolute z-one w-full bg-white rounded-lg p-3 flex flex-col single-event-popup space-y-2"
+        v-if="openSingleEvent && actionsEnabled"
+        :class="{ 'right-0': popupr, 'bottom-full': popupb }"
+        ref="eventList"
+      >
+        <!-- we use eventList here just to get popupr or popupb -->
+        <LinkAction
+          v-if="configs.actions?.view?.enabled"
+          @clicked="viewEvent(RdvsPkg[0].id)"
+          class="calendar--event-view-action calendar--action"
+          :text="configs?.actions?.view?.text || $t('calendar.view')"
+        >
+          <template v-if="configs.actions?.view?.icon" #icon>
+            <BlueEye />
+          </template>
+        </LinkAction>
+        <!---->
+        <LinkAction
+          v-if="configs?.actions?.report?.enabled"
+          @clicked="reportEventFor(RdvsPkg[0].id)"
+          :text="configs?.actions?.report?.text || $t('calendar.report')"
+          class="calendar--event-report-action calendar--action"
+        >
+          <template v-if="configs.actions?.report?.icon" #icon>
+            <OrangeUpdate />
+          </template>
+        </LinkAction>
+      </div>
+
+      <!-- more than one Event list popup -->
+      <div
+        class="overflow-y-auto custom-scrll max-h-18dt75 absolute z-one min-w-24dt813 bg-white more-event-body rounded-lg p-3"
+        :class="{ 'right-0': popupr, 'bottom-full': popupb }"
+        v-if="openEventList"
+        ref="eventList"
+      >
+        <!-- item -->
+        <div
+          class="group more-event-body--item flex flex-row flew-wrap space-x-4 p-2 bg-white border-b"
+          v-for="(rdv, rdvi) in RdvsPkg"
+          :key="rdvi"
+        >
+          <!--event informations-->
+          <div
+            class="flex-grow flex flex-row space-x-2 flex-nowrap items-start"
+          >
+            <span
+              class="more-event-body-item-dot block bg-3B82F6 h-3 w-3 opacity-20 group-hover:opacity-100 rounded-full flex-shrink-0"
+            />
+            <div class="w-full grow flex-shrink more-event-body-item-body">
+              <!--title-->
+              <div class="font-semibold text-A1A1AA leading-4 text-0dt688">
+                <span
+                  :data-rdv-date="rdv.date"
+                  :title="
+                    isoStringToDate(rdv.date).toLocaleString($i18n.locale)
+                  "
+                  class="calendar--event-time"
+                >
+                  {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
+                </span>
+              </div>
+              <!--name and engin-->
+              <div class="font-medium text-xs text-09101D">
+                <span
+                  :title="rdv?.comment ?? ''"
+                  class="block capitalize calendar--event-name"
+                >
+                  {{ rdv.name }}
+                </span>
+                <!---->
+                <span
+                  class="block text-A1A1AA capitalize truncate calendar--event-keyword"
+                >
+                  {{ rdv.keywords }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- event actions -->
+          <div
+            v-if="actionsEnabled"
+            class="flex flex-row space-x-4 flex-nowrap max-w-max items-center"
+          >
+            <LinkAction
+              v-if="configs.actions?.view?.enabled"
+              @clicked="viewEvent(rdv.id)"
+              :text="configs?.actions?.view?.text || $t('calendar.view')"
+              class="calendar--event-view-action calendar--action"
+            >
+              <template v-if="configs.actions?.view?.icon" #icon>
+                <BlueEye />
+              </template>
+            </LinkAction>
+            <!---->
+            <LinkAction
+              v-if="configs.actions?.report?.enabled"
+              @clicked="reportEventFor(rdv.id)"
+              :text="configs?.actions?.report?.text || $t('calendar.report')"
+              class="calendar--event-report-action calendar--action"
+            >
+              <template v-if="configs.actions?.report?.icon" #icon>
+                <OrangeUpdate />
+              </template>
+            </LinkAction>
+          </div>
+        </div>
+      </div>
+      <!---->
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Slots } from "vue";
+
 export interface Props {
   eventDate: Date;
   eventTime?: string;
+  slots: Slots;
 }
 
 import { useEventsStore } from "../../stores/events";

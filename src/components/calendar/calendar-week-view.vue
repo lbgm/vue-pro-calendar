@@ -63,6 +63,7 @@
           class="absolute top-0"
           :eventDate="weekDayDate"
           :eventTime="time"
+          :slots="slots"
           @report:event="$emit('report:event', $event)"
         />
       </div>
@@ -77,10 +78,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Slots } from "vue";
+
 export interface Props {
   dayTimes?: string[];
   weekDays?: Date[];
   dateSelected: Date;
+  slots: Slots;
 }
 
 import Events from "./calendar-event.vue";

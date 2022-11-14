@@ -9,17 +9,39 @@
       ref="leftMenu"
     >
       <template #loader>
-        <Loader v-if="calendarGotLoading" />
+        <template v-if="slots.loader">
+          <component
+            :is="slots.loader"
+            :calendarGotLoading="calendarGotLoading"
+          />
+        </template>
+        <template v-else>
+          <Loader v-if="calendarGotLoading" />
+        </template>
       </template>
       <!---->
       <template #sideEvent>
         <div :key="cky" class="h-50p overflow-y-auto custom-scrll p-1">
-          <SideEvent :eventDate="dateSelected || new Date()" />
-          <!--_-->
-          <SideEvent
-            :eventDate="nextDate(dateSelected) || nextDate(new Date())"
-          />
+          <template v-if="slots.sideEvent">
+            <component
+              :is="slots.sideEvent"
+              :dateSelected="dateSelected"
+              :calendarEvents="calendarEvents"
+            />
+          </template>
+          <template v-else>
+            <SideEvent :eventDate="dateSelected || new Date()" />
+            <!--_-->
+            <SideEvent
+              :eventDate="nextDate(dateSelected) || nextDate(new Date())"
+            />
+          </template>
         </div>
+      </template>
+
+      <!-- bind $slots to -->
+      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
+        <slot :name="name" v-bind="slotData" />
       </template>
     </LeftMenu>
 
@@ -38,6 +60,7 @@
               ? $t(`${dateLabel(dateSelected)}`)
               : dateLabel(dateSelected)
           "
+          :slots="slots"
         />
         <!-- DayToggle-->
         <Toggle
@@ -50,6 +73,7 @@
           @calendar:search="void 0"
           @typing:finished="runSearch"
           :placeholder="configs.searchPlaceHolder"
+          :slots="slots"
         />
       </HeaderComp>
       <!--calendar-->
@@ -64,12 +88,17 @@
             :weekDays="weekDays"
             :dateSelected="dateSelected"
             :dayTimes="dayTimes"
+            :slots="slots"
           />
         </template>
 
         <!--calendar day-view-->
         <template v-if="view_type === 'day'">
-          <DayView :dateSelected="dateSelected" :dayTimes="dayTimes" />
+          <DayView
+            :dateSelected="dateSelected"
+            :dayTimes="dayTimes"
+            :slots="slots"
+          />
         </template>
 
         <!--calendar month-view-->
@@ -78,6 +107,7 @@
             :weekDays="weekDays"
             :monthDays="monthDays"
             :dateSelected="dateSelected"
+            :slots="slots"
           />
         </template>
       </div>
@@ -111,7 +141,17 @@ export interface Props {
   };
 }
 
-import { onMounted, onBeforeMount, ref, computed, watch, toRef } from "vue";
+import "v-calendar/dist/style.css";
+
+import {
+  onMounted,
+  onBeforeMount,
+  ref,
+  computed,
+  watch,
+  toRef,
+  useSlots,
+} from "vue";
 import type { Ref } from "vue";
 import LeftMenu from "./left-menu.vue";
 import HeaderComp from "./calendar-base-header.vue";
@@ -189,6 +229,7 @@ const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
 const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 const configs = computed<Configs>(() => store.getConfigs);
 const isLoading: Ref<boolean> = ref(false);
+const slots = useSlots();
 
 /**
  * for calendar interface refreshing
@@ -329,6 +370,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+// @import "v-calendar/dist/style.css";
 @import "@/assets/tailwind.scss";
 
 .calendar-wrapper {

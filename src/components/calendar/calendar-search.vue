@@ -5,7 +5,12 @@
     :aria-label="$t('calendar.search_tip')"
   >
     <span class="inline-flex flex-whrink-0">
-      <Icon />
+      <template v-if="slots.searchIcon">
+        <component :is="slots.searchIcon" />
+      </template>
+      <template v-else>
+        <Icon />
+      </template>
     </span>
     <input
       v-typing="{
@@ -22,9 +27,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Slots } from "vue";
+
 export interface Props {
   placeholder?: string;
   timing?: number;
+  slots: Slots;
 }
 
 import Icon from "./assets/search-icon.vue";

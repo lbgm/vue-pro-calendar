@@ -2,7 +2,14 @@
   <div class="w-full h-full bg-F4F6F9 max-w-20rm flex-shrink-0 p-4 pb-0">
     <!--closer and loader-->
     <div class="flex flex-row flex-wrap items-center justify-between">
-      <CloseButton @tap="$emit('calendar:close')" />
+      <template v-if="$slots.closeButton">
+        <span class="block" @click.prevent.stop="$emit('calendar:close')">
+          <slot name="closeButton"></slot>
+        </span>
+      </template>
+      <template v-else>
+        <CloseButton @tap="$emit('calendar:close')" />
+      </template>
       <slot name="loader" />
     </div>
     <!-- date picker -->
@@ -17,11 +24,25 @@
         :attributes="datePickerAttrs"
       >
         <template #header-left-button>
-          <span :title="$t('calendar.previous_month')"><ChevronLeft /></span>
+          <span :title="$t('calendar.previous_month')">
+            <template v-if="$slots.dateLeftArrow">
+              <slot name="dateLeftArrow"></slot>
+            </template>
+            <template v-else>
+              <ChevronLeft />
+            </template>
+          </span>
         </template>
 
         <template #header-right-button>
-          <span :title="$t('calendar.next_month')"><ChevronRight /></span>
+          <span :title="$t('calendar.next_month')">
+            <template v-if="$slots.dateRightArrow">
+              <slot name="dateRightArrow"></slot>
+            </template>
+            <template v-else>
+              <ChevronRight />
+            </template>
+          </span>
         </template>
 
         <template #header-title="page">
@@ -42,21 +63,11 @@
     </div>
     <!-- slot: ? side events -->
     <slot name="sideEvent" />
-    <!-- copyright -->
-    <span class="mt-4 block text-xs leading-3 text-18181B">
-      &copy;&thinsp;<LinkAction
-        href="https://www.linkedin.com/in/lbgm/"
-        target="_blank"
-        :direct-link="true"
-        text="lbgm"
-      />
-      & Contributors
-    </span>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, useSlots } from "vue";
 import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
 import ChevronLeft from "./assets/chevron-left.vue";
