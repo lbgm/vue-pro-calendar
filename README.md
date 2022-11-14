@@ -159,6 +159,7 @@ events: Appointment[];
     -->
   </template>
 </pro-calendar>
+```
 
 ## Custom Events fired
 
