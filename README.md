@@ -143,7 +143,7 @@ events: Appointment[];
   </template>
 
   <template #sideEvent="{ dateSelected, calendarEvents }">
-    <!-- use this slot to show yourself side event in appearance you want -->
+    <!-- use this slot to show yourself side events in appearance you want -->
   </template>
 
   <template #eventCard="{ date, time, cardEvent }">
