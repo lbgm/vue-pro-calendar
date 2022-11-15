@@ -11,7 +11,7 @@ npm run build-lib
 
 ## Screenshot
 
-<img width="736" alt="image" src="https://user-images.githubusercontent.com/92580505/201697197-c89acb54-1e71-4dfb-942f-379b0164bbde.png">
+<img width="1435" alt="image" src="https://user-images.githubusercontent.com/92580505/201934522-0650e870-3dda-40c2-b11d-82a9af822f84.png">
 
 ## Use
 
