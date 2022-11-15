@@ -18,6 +18,9 @@ npm run build-lib
 ```js
 // where you want
 import { widget as ProCalendar } from "@lbgm/pro-calendar-vue";
+
+// import component style in App.vue
+import "@lbgm/pro-calendar-vue/style"
 ```
 
 ```html
