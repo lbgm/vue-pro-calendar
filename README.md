@@ -109,6 +109,8 @@ events: Appointment[];
 ```
 
 ## Slots
+Draw your own calendars using scoped slots
+
 ```html
 <pro-calendar
   :events="evts"
