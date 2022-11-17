@@ -117,7 +117,7 @@ events: Appointment[];
 
 ## Events
 `@calendarClosed`:
-This event is fired when user click close button.
+This event is fired when user clicks close button.
 
 ## Slots
 Draw your own calendars using scoped slots
