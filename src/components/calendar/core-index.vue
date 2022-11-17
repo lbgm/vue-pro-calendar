@@ -145,7 +145,7 @@ export interface Props {
 // import v-calendar style
 import "v-calendar/dist/style.css";
 
-import "@/assets/tailwind.scss";
+import "../../assets/tailwind.scss";
 
 import {
   onMounted,
