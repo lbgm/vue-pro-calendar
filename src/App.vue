@@ -64,8 +64,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <!--  -->
-  <pro-calendar :events="evts" :loading="false" :config="cfg" />
+  <pro-calendar
+    :events="evts"
+    :loading="false"
+    :config="cfg"
+    @calendarClosed="void 0"
+  />
 </template>
 
 <style scoped></style>

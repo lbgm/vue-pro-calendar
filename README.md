@@ -12,15 +12,23 @@ Another one Best Professional Calendar ever
 
 ## Use
 
+`main.ts`
 ```js
-// where you want
-import { widget as ProCalendar } from "@lbgm/pro-calendar-vue";
+import { ProCalendar } from "@lbgm/pro-calendar-vue";
 
-// import component style in App.vue
-import "@lbgm/pro-calendar-vue/style"
+//...
+
+app.use(ProCalendar);
 ```
 
+`App.vue`
 ```html
+<script setup lang="ts">
+import "@lbgm/pro-calendar-vue/style";
+
+</script>
+
+<template>
 <!-- all props are optional -->
 <pro-calendar
   :events="evts"
@@ -28,7 +36,9 @@ import "@lbgm/pro-calendar-vue/style"
   :config="cfg"
   view="week"
   date="'isoStringDate'"
+  @calendarClosed="void 0"
 />
+</template>
 ```
 
 
@@ -104,6 +114,10 @@ events: Appointment[];
 ```ts
 'day' | 'week' | 'month'
 ```
+
+## Events
+`@calendarClosed`:
+This event is fired when user click close button.
 
 ## Slots
 Draw your own calendars using scoped slots

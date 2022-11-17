@@ -18,7 +18,7 @@ library.add(faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, fa
 const pinia = createPinia();
 
 const ProCalendar = {
-    install: (app: App<Element>, options: any) => {
+    install: (app: App<Element>) => {
       app.use(pinia);
       app.use(i18n);
 
