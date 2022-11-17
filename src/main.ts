@@ -1,37 +1,15 @@
 import { createApp } from "vue";
-import { createPinia } from "pinia";
 import App from "./App.vue";
 
+// for tailwind
 import "./assets/index.scss";
 
-import { i18n } from "@/assets/i18n";
-
-/* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core'
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
-import { faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib } from '@fortawesome/free-solid-svg-icons'
-
-/* add icons to the library */
-library.add(faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib)
+// import plugin
+import { ProCalendar } from './index';
 
 
 const app = createApp(App);
 
-app.use(createPinia());
-app.use(i18n);
-
-// console.log((i18n as any).global.locale);
-
-//provide global variable
-app.provide("$t", app.config.globalProperties.$t);
-app.provide("$i18n", app.config.globalProperties.$i18n);
-app.provide("$locale", app.config.globalProperties.$i18n.locale);
-
-/* add font awesome icon component */
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.use(ProCalendar);
 
 app.mount("#app");

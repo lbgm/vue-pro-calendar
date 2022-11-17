@@ -202,7 +202,7 @@ export interface Props {
 
 import { useEventsStore } from "../../stores/events";
 import type { Appointment, Configs } from "../../stores/events";
-import LinkAction from "@/components/link-action.vue";
+import LinkAction from "./assets/link-action.vue";
 import BlueEye from "./assets/blue-eye.vue";
 import OrangeUpdate from "./assets/orange-update.vue";
 import { onMounted, ref, watch, computed } from "vue";

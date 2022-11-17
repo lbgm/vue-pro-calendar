@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-import ProCalendar from "@/components/calendar/core-index.vue";
-
 const evts = ref([
   {
     date: "2022-11-24T16:00:50.253Z",

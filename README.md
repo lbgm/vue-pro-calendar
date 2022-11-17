@@ -3,7 +3,7 @@ Another one Best Professional Calendar ever
 
 ## Install
 ```sh
-npm i @lbgm/phone-number-input
+# (not available for the moment) npm i @lbgm/phone-number-input
 ```
 
 ## Screenshot

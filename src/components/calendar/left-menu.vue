@@ -76,7 +76,7 @@ import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
 import ChevronLeft from "./assets/chevron-left.vue";
 import ChevronRight from "./assets/chevron-right.vue";
-import LinkAction from "@/components/link-action.vue";
+import LinkAction from "./assets/link-action.vue";
 
 import type { Ref } from "vue";
 
