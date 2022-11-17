@@ -3,10 +3,7 @@ Another one Best Professional Calendar ever
 
 ## Install
 ```sh
-# for the moment, clone the project and run
-npm run build-lib
-# use npm pack
-# the npm package will be available after all works
+npm i @lbgm/phone-number-input
 ```
 
 ## Screenshot
