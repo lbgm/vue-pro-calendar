@@ -145,8 +145,6 @@ export interface Props {
 // import v-calendar style
 import "v-calendar/dist/style.css";
 
-import "../../assets/tailwind.scss";
-
 import {
   onMounted,
   onBeforeMount,
@@ -375,6 +373,7 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/tailwind.scss";
 .calendar-wrapper {
   height: calc(100vh - 66px);
 }
