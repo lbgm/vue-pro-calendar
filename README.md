@@ -1,9 +1,9 @@
-# Pro Calendar (we are working on it...)
+# Pro Calendar
 Another one Best Professional Calendar ever
 
 ## Install
 ```sh
-# (not available for the moment) npm i @lbgm/phone-number-input
+npm i @lbgm/pro-calendar-vue
 ```
 
 ## Screenshot
