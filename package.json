@@ -76,12 +76,12 @@
   "description": "Professional Calendar for Vue 3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lbgm/Pro-Calendar-VueJs.git"
+    "url": "git+https://github.com/lbgm/pro-calendar-vue.git"
   },
   "author": "@lbgm",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lbgm/Pro-Calendar-VueJs/issues"
+    "url": "https://github.com/lbgm/pro-calendar-vue/issues"
   },
-  "homepage": "https://github.com/lbgm/Pro-Calendar-VueJs#readme"
+  "homepage": "https://github.com/lbgm/pro-calendar-vue#readme"
 }
