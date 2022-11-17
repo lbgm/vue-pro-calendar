@@ -1,4 +1,4 @@
-# Pro Calendar (We are working on it...)
+# Pro Calendar
 Another one Best Professional Calendar ever
 
 ## Install
