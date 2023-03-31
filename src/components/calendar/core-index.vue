@@ -278,7 +278,6 @@ const runSearch = async (value: string): Promise<void> => {
     }
   });
   isLoading.value = false;
-  console.log(_search, _s);
   if (_search.length !== 0) store.setEvents(_search);
 };
 
