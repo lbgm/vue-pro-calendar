@@ -80,7 +80,7 @@
     "url": "git+https://github.com/lbgm/pro-calendar-vue.git"
   },
   "author": "@lbgm",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/lbgm/pro-calendar-vue/issues"
   },
