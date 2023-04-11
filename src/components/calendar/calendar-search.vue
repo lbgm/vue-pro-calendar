@@ -54,15 +54,15 @@ const emit = defineEmits([
   "typing:running",
 ]);
 
-const handleInput = (event: Event) => {
+const handleInput = (event: Event): void => {
   emit("calendar:search", (event.target as HTMLInputElement).value);
 };
 
-const typingFinish = (event: Event) => {
+const typingFinish = (event: Event): void => {
   emit("typing:finished", (event.target as HTMLInputElement).value);
 };
 
-const typingRun = (event: Event) => {
+const typingRun = (event: Event): void => {
   emit("typing:running", (event.target as HTMLInputElement).value);
 };
 </script>

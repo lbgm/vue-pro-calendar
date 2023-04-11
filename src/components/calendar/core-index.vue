@@ -189,6 +189,8 @@ import {
   viewSupported,
 } from "./common";
 
+type T_Toggle = typeof Toggle;
+
 const props = withDefaults(defineProps<Props>(), {
   date: null,
   view: "",
@@ -217,9 +219,9 @@ const emit = defineEmits(["calendarClosed", "fetchEvents"]);
 
 const store = useEventsStore();
 
-const propLoading = toRef(props, "loading");
+const propLoading: Ref<boolean> = toRef(props, "loading");
 const leftMenu: Ref<HTMLElement | any> = ref(null);
-const viewToggle = ref(null);
+const viewToggle: Ref<T_Toggle | null> = ref(null);
 const dateSelected: Ref<Date> = ref(null) as Ref<any>;
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
@@ -239,12 +241,12 @@ const slots = useSlots();
 /**
  * for calendar interface refreshing
  */
-const cky = ref(randomId());
+const cky: Ref<string> = ref(randomId());
 
 /**
  * closeCalendar
  */
-const closeCalendar = () => {
+const closeCalendar = (): void => {
   emit("calendarClosed");
 };
 

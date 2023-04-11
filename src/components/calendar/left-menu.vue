@@ -3,7 +3,7 @@
     <!--closer and loader-->
     <div class="flex flex-row flex-wrap items-center justify-between">
       <template v-if="$slots.closeButton">
-        <span class="block" @click.prevent.stop="$emit('calendar:close')">
+        <span class="inline-flex" @click.prevent.stop="$emit('calendar:close')">
           <slot name="closeButton"></slot>
         </span>
       </template>
@@ -71,14 +71,14 @@ export interface Props {
   date?: Date;
 }
 
+import type { Ref } from "vue";
 import { onMounted, ref, watch, useSlots, toRef } from "vue";
 import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
 import ChevronLeft from "./assets/chevron-left.vue";
 import ChevronRight from "./assets/chevron-right.vue";
-import LinkAction from "./assets/link-action.vue";
 
-import type { Ref } from "vue";
+type T_DatePicker = typeof DatePicker;
 
 const props = withDefaults(defineProps<Props>(), {
   date: undefined,
@@ -87,7 +87,7 @@ const props = withDefaults(defineProps<Props>(), {
 const dateRequested: Ref<Date | undefined> = toRef(props, "date");
 const datepicked: Ref<Date> = ref(new Date());
 
-const calendar_date_picker = ref(null);
+const calendar_date_picker: Ref<T_DatePicker | null> = ref(null);
 
 const datePickerAttrs = ref([
   {

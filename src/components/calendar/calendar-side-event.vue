@@ -114,8 +114,8 @@ const $t: any = inject("$t");
 // computed on store state
 const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 
-//filt and Retrive <Event /> data
-const eventEvents = () => {
+//filt and Retrieve <Event /> data
+const eventEvents = (): void => {
   const start = datetime_start.value as Date;
   const end = datetime_end.value as Date;
 
@@ -125,7 +125,7 @@ const eventEvents = () => {
   });
 };
 
-const viewEvent = (id: string | number | unknown) => {
+const viewEvent = (id: string | number | unknown): void => {
   const event = new CustomEvent("calendar.request.view", {
     detail: { id },
   });
@@ -136,7 +136,7 @@ onMounted(() => {
   // transform props binding to datetime
   datetime_start.value = fixDateTime(props.eventDate as Date, "");
   datetime_end.value = fixDateTime(props.eventDate as Date, incrementTime(""));
-  //
+  // filt events
   eventEvents();
 });
 </script>

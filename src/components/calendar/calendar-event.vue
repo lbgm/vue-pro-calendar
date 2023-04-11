@@ -222,10 +222,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const store = useEventsStore();
 const eventContainer: Ref<HTMLElement | null> = ref(null);
-const eventSide = ref(null);
-const eventList = ref(null);
-const openEventList = ref(false);
-const openSingleEvent = ref(false);
+const eventSide: Ref<HTMLElement | null> = ref(null);
+const eventList: Ref<HTMLElement | null> = ref(null);
+const openEventList: Ref<boolean> = ref(false);
+const openSingleEvent: Ref<boolean> = ref(false);
 
 const configs = computed<Configs>(() => store.getConfigs);
 const actionsEnabled = computed<boolean>(() => {
@@ -237,11 +237,11 @@ const datetime_start: Ref<Date | null> = ref(null);
 const datetime_end: Ref<Date | null> = ref(null);
 
 // to define popup position
-const popupr = ref(false);
-const popupb = ref(false);
+const popupr: Ref<boolean> = ref(false);
+const popupb: Ref<boolean> = ref(false);
 
 //events containers
-const RdvsPkg: Ref<any[]> = ref([]);
+const RdvsPkg: Ref<Appointment[]> = ref([]);
 
 const closeEventList = () => {
   openEventList.value = false;
@@ -250,9 +250,11 @@ const closeEventList = () => {
 };
 
 const openEvtList = () => {
-  const _bpos = (eventSide.value as any).getBoundingClientRect();
+  const _bpos = (eventSide.value as HTMLElement).getBoundingClientRect();
   const _bpar = (
-    document.querySelector('[data-widget-item="calendar-inside"]') as any
+    document.querySelector(
+      '[data-widget-item="calendar-inside"]'
+    ) as HTMLElement
   ).getBoundingClientRect();
   if (RdvsPkg.value.length > 1) openEventList.value = true;
   else if (RdvsPkg.value.length === 1) openSingleEvent.value = true;
@@ -264,8 +266,8 @@ const openEvtList = () => {
 // computed on store state
 const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 
-//filt and Retrive <Event /> data
-const eventEvents = () => {
+//filt and Retrieve <Event /> data
+const eventEvents = (): void => {
   const _start = datetime_start.value as Date;
   const _end = datetime_end.value as Date;
 
@@ -275,7 +277,7 @@ const eventEvents = () => {
   });
 };
 
-const viewEvent = (id: string | number | unknown) => {
+const viewEvent = (id: string | number | unknown): void => {
   const event = new CustomEvent("calendar.request.view", {
     detail: { id },
   });
@@ -283,7 +285,7 @@ const viewEvent = (id: string | number | unknown) => {
   closeEventList();
 };
 
-const reportEventFor = (id: string | number | unknown) => {
+const reportEventFor = (id: string | number | unknown): void => {
   const event = new CustomEvent("calendar.request.report", {
     detail: { id },
   });
@@ -308,7 +310,7 @@ onMounted(() => {
     props.eventDate as Date,
     incrementTime(props.eventTime)
   );
-  //
+  // filt events
   eventEvents();
 });
 </script>
