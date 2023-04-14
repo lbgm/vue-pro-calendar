@@ -8,7 +8,7 @@ Another one Best Professional Calendar ever
 npm i @lbgm/pro-calendar-vue
 ```
 
-## Screenshot with NativeDatepicker
+## Screenshot with Native Datepicker
 
 ![Pro-calendar-vue screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232128142-77bab139-d4f9-4597-865c-9da626f8c69e.png)
 
