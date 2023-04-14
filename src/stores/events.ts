@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export interface Appointment {
+export type Appointment = {
   date: string; //DateIsoString
   comment?: string;
   createdAt?: string; //DateIsoString
@@ -10,22 +10,18 @@ export interface Appointment {
   name: string;
 }
 
-export interface Configs {
-  actions?: {
-    view?: {
-      enabled?: boolean;
-      icon?: boolean;
-      text?: string;
-    };
-    report?: {
-      enabled?: boolean;
-      icon?: boolean;
-      text?: string;
-    };
-  };
+export type T_Action = {
+  icon?: boolean;
+  text?: string;
+}
+
+export type Configs = {
+  viewEvent?: T_Action;
+  reportEvent?: T_Action;
   searchPlaceHolder?: string;
   eventName?: string;
   closeText?: string;
+  nativeDatepicker?: boolean;
 }
 
 interface State {
@@ -39,21 +35,18 @@ export const useEventsStore = defineStore({
   state: (): State => ({
     calendarEvents: [],
     configs: {
-      actions: {
-        view: {
-          enabled: true,
-          icon: true,
-          text: "",
-        },
-        report: {
-          enabled: true,
-          icon: true,
-          text: "",
-        },
+      viewEvent: {
+        icon: true,
+        text: "",
+      },
+      reportEvent: {
+        icon: true,
+        text: "",
       },
       searchPlaceHolder: "",
       eventName: "",
       closeText: "",
+      nativeDatepicker: true,
     }
   }),
 

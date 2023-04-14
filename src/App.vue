@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, type Ref } from "vue";
+import type { Configs, Appointment } from "./stores/events";
 
-const evts = ref([
+const evts: Ref<Appointment[]> = ref([
   {
     date: "2022-11-24T16:00:50.253Z",
     comment: "Faire une livraison à moto de Mont Sinaï à Calavi",
@@ -39,19 +40,19 @@ const evts = ref([
   },
 ]);
 
-const cfg = ref({
-  // actions: {
-  //   view: {
-  //     // enabled: true,
-  //     // text: "",
-  //   },
-  //   report: {
-  //     enabled: true,
-  //   },
-  // },
-  // searchPlaceHolder: "",
-  // eventName: "",
-  // closeText: "",
+const cfg = ref<Configs>({
+  viewEvent: {
+    icon: true,
+    text: "",
+  },
+  reportEvent: {
+    icon: true,
+    text: "",
+  },
+  searchPlaceHolder: "",
+  eventName: "",
+  closeText: "",
+  nativeDatepicker: true,
 });
 
 onMounted(() => {

@@ -1,18 +1,25 @@
 # Pro Calendar
+
 Another one Best Professional Calendar ever
 
 ## Install
+
 ```sh
 npm i @lbgm/pro-calendar-vue
 ```
 
-## Screenshot
+## Screenshot with NativeDatepicker
 
-<img width="1435" alt="image" src="https://user-images.githubusercontent.com/92580505/201934522-0650e870-3dda-40c2-b11d-82a9af822f84.png">
+![Pro-calendar-vue screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232128142-77bab139-d4f9-4597-865c-9da626f8c69e.png)
+
+## Screenshot with VCalendar Datepicker
+
+![Pro-calendar-vue screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232129120-81f3a87b-109a-460c-8039-fc0099341b47.png)
 
 ## Use
 
 `main.ts`
+
 ```js
 import { ProCalendar } from "@lbgm/pro-calendar-vue";
 
@@ -22,9 +29,35 @@ app.use(ProCalendar);
 ```
 
 `App.vue`
+
 ```html
 <script setup lang="ts">
 import "@lbgm/pro-calendar-vue/style";
+import type { Configs } from "./stores/events";
+import { ref, type Ref } from "vue";
+
+const cfg = ref<Configs>({
+  viewEvent: undefined,
+  reportEvent: {
+    icon: true,
+    text: "",
+  },
+  searchPlaceHolder: "",
+  eventName: "",
+  closeText: "",
+  nativeDatepicker: true, // false ---> use VCalendar DatePicker instead
+});
+
+const evts: Ref<Appointment[]> = ref([
+  {
+    date: "2022-11-19T14:00:00.000Z",
+    comment: "",
+    id: "cl32rbkjk1700101o53e3e3uhn",
+    keywords: "Projet BAMBA",
+    name: "MONTCHO Kévin",
+  },
+  //...
+]);
 
 </script>
 
@@ -42,32 +75,30 @@ import "@lbgm/pro-calendar-vue/style";
 </template>
 ```
 
-
 ## Props
+
 ```ts
+export type T_Action = {
+  icon?: boolean;
+  text?: string;
+}
+
+export type Configs = {
+  viewEvent?: T_Action;
+  reportEvent?: T_Action;
+  searchPlaceHolder?: string;
+  eventName?: string;
+  closeText?: string;
+  nativeDatepicker?: boolean;
+}
+
 // interface
 interface Props {
   date?: string | null;
   view?: string;
   events?: Appointment[];
   loading?: boolean;
-  config?: {
-    actions?: {
-      view?: {
-        enabled?: boolean;
-        icon?: boolean;
-        text?: string;
-      };
-      report?: {
-        enabled?: boolean;
-        icon?: boolean;
-        text?: string;
-      };
-    };
-    searchPlaceHolder?: string;
-    eventName?: string;
-    closeText?: string;
-  };
+  config?: Configs;
 }
 
 // defaults
@@ -77,52 +108,53 @@ interface Props {
   events: () => [],
   loading: false,
   config: () => ({
-    actions: {
-      view: {
-        enabled: true,
-        icon: true,
-        text: "",
-      },
-      report: {
-        enabled: true,
-        icon: true,
-        text: "",
-      },
+    viewEvent: {
+      icon: true,
+      text: "",
+    },
+    reportEvent: {
+      icon: true,
+      text: "",
     },
     searchPlaceHolder: "",
     eventName: "",
     closeText: "",
+    nativeDatepicker: true, // false ---> use VCalendar DatePicker instead
   }),
 }
 ```
 
 ## Prop `events` type
+
 ```ts
-interface Appointment {
-  date: string, //DateIsoString
-  comment?: string,
-  createdAt?: string, //DateIsoString
-  id: string,
-  updatedAt?: string, //DateIsoString
-  keywords: string,
-  name: string,
+type Appointment = {
+  date: string; //DateIsoString
+  comment?: string;
+  createdAt?: string; //DateIsoString
+  id: string;
+  updatedAt?: string; //DateIsoString
+  keywords: string;
+  name: string;
 }
 
 events: Appointment[];
 ```
 
 ## Prop `view` type
+
 ```ts
 'day' | 'week' | 'month'
 ```
 
 ## Events
+
 `@calendarClosed`:
 This event is fired when user clicks close button.
 
 `@fetchEvents`: This event is fired when date selected changes. `$event: { start: string; end: string }`. `start` and `end` are iso string date.
 
 ## Slots
+
 Draw your own calendars using scoped slots
 
 ```html
@@ -187,6 +219,8 @@ Draw your own calendars using scoped slots
 When the user clicks on view or report action, an custom html event is fired with the id of event in detail.
 You can listen these events like this:
 
+On default `#sideEvent template`, when user clicks on event, `calendar.request.view` is fired.
+
 ```html
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
@@ -201,11 +235,3 @@ onMounted(() => {
 
 </script>
 ```
-
-
-
-
-
-
-
-

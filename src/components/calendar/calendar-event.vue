@@ -20,7 +20,7 @@
         data-widget-item="event--button"
         class="cursor-pointer rounded event-card hover:opacity-80 active:animate-pulse calendar--event"
         ref="eventSide"
-        @click="openEvtList()"
+        @click.stop.prevent="openEvtList()"
       >
         <!-- 1 event -->
         <div
@@ -35,7 +35,13 @@
               "
               class="block text-left text-09101D font-medium text-xs calendar--event-time"
             >
-              {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }}
+              {{
+                timeFormat(
+                  `${hours(RdvsPkg[0].date)}:${minutes(RdvsPkg[0].date)}`,
+                  true
+                )
+              }}
+              <!-- {{ hours(RdvsPkg[0].date) }}:{{ minutes(RdvsPkg[0].date) }} -->
             </span>
             <div class="font-semibold text-0EA5E9 text-sm leading-4">
               <span
@@ -85,23 +91,23 @@
       >
         <!-- we use eventList here just to get popupr or popupb -->
         <LinkAction
-          v-if="configs.actions?.view?.enabled"
+          v-if="configs?.viewEvent"
           @clicked="viewEvent(RdvsPkg[0].id)"
           class="calendar--event-view-action calendar--action"
-          :text="configs?.actions?.view?.text || $t('calendar.view')"
+          :text="configs?.viewEvent?.text || $t('calendar.view')"
         >
-          <template v-if="configs.actions?.view?.icon" #icon>
+          <template v-if="configs?.viewEvent?.icon" #icon>
             <BlueEye />
           </template>
         </LinkAction>
         <!---->
         <LinkAction
-          v-if="configs?.actions?.report?.enabled"
+          v-if="configs?.reportEvent"
           @clicked="reportEventFor(RdvsPkg[0].id)"
-          :text="configs?.actions?.report?.text || $t('calendar.report')"
+          :text="configs?.reportEvent?.text || $t('calendar.report')"
           class="calendar--event-report-action calendar--action"
         >
-          <template v-if="configs.actions?.report?.icon" #icon>
+          <template v-if="configs?.reportEvent?.icon" #icon>
             <OrangeUpdate />
           </template>
         </LinkAction>
@@ -137,7 +143,10 @@
                   "
                   class="calendar--event-time"
                 >
-                  {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
+                  {{
+                    timeFormat(`${hours(rdv.date)}:${minutes(rdv.date)}`, true)
+                  }}
+                  <!-- {{ hours(rdv.date) }}:{{ minutes(rdv.date) }} -->
                 </span>
               </div>
               <!--name and engin-->
@@ -163,23 +172,23 @@
             class="flex flex-row space-x-4 flex-nowrap max-w-max items-center"
           >
             <LinkAction
-              v-if="configs.actions?.view?.enabled"
+              v-if="configs?.viewEvent"
               @clicked="viewEvent(rdv.id)"
-              :text="configs?.actions?.view?.text || $t('calendar.view')"
+              :text="configs?.viewEvent?.text || $t('calendar.view')"
               class="calendar--event-view-action calendar--action"
             >
-              <template v-if="configs.actions?.view?.icon" #icon>
+              <template v-if="configs?.viewEvent?.icon" #icon>
                 <BlueEye />
               </template>
             </LinkAction>
             <!---->
             <LinkAction
-              v-if="configs.actions?.report?.enabled"
+              v-if="configs?.reportEvent"
               @clicked="reportEventFor(rdv.id)"
-              :text="configs?.actions?.report?.text || $t('calendar.report')"
+              :text="configs?.reportEvent?.text || $t('calendar.report')"
               class="calendar--event-report-action calendar--action"
             >
-              <template v-if="configs.actions?.report?.icon" #icon>
+              <template v-if="configs?.reportEvent?.icon" #icon>
                 <OrangeUpdate />
               </template>
             </LinkAction>
@@ -214,6 +223,7 @@ import {
   fixDateTime,
   hours,
   minutes,
+  timeFormat,
 } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
@@ -229,8 +239,10 @@ const openSingleEvent: Ref<boolean> = ref(false);
 
 const configs = computed<Configs>(() => store.getConfigs);
 const actionsEnabled = computed<boolean>(() => {
-  const actions = Object.values(configs.value?.actions as Object);
-  return Object.values(actions).some((it: { enabled: boolean }) => it.enabled);
+  const actions = ["viewEvent", "reportEvent"];
+  return actions.some(
+    (it: string) => (configs?.value as Record<string, any>)[it] !== undefined
+  );
 });
 
 const datetime_start: Ref<Date | null> = ref(null);

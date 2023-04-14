@@ -42,7 +42,7 @@
       <div
         class="select-none time-cell text-left text-71717A font-medium text-xs"
       >
-        {{ time }}
+        {{ timeFormat(time) }}
       </div>
       <!--day-row-cell-->
       <div
@@ -71,7 +71,7 @@
       <div
         class="time-cell select-none text-right text-71717A font-medium text-xs"
       >
-        {{ time }}
+        {{ timeFormat(time) }}
       </div>
     </div>
   </div>
@@ -95,6 +95,7 @@ import {
   randomId,
   dayName,
   copyDate,
+  timeFormat,
 } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
@@ -103,4 +104,11 @@ const props = withDefaults(defineProps<Props>(), {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.calendar--week-view--row {
+  .time-cell {
+    position: relative;
+    transform: translateY(-0.5rem);
+  }
+}
+</style>

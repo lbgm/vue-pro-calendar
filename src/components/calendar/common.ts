@@ -224,10 +224,34 @@ export const nextDate = (date: Date | string): Date => {
 };
 
 export const timeToSeconds = (time: string): number => {
-  if (!/.{2}:.{2}:.{2}/i.test(time)) return 0;
+  if (!/.{2}:.{2}:.{2}/i.test(time)) {
+    if(!/.{2}:.{2}/i.test(time)) return 0;
+    time = `${time}:00`;
+  }
   const a = time.split(":"); // split it at the colons
   // minutes are worth 60 seconds. Hours are worth 60 minutes.
   const seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
 
   return seconds;
+};
+
+export const timeFormat = (time: string, full?: boolean): string => {
+  const _nd = fixDateTime(new Date(), time);
+  let options = {};
+
+  if(locale.value.indexOf("en") !== -1) {
+    options = full ? {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    } : {
+      hour: "numeric",
+      hour12: true,
+    }
+  } else options = {
+    hour: "numeric",
+    minute: "numeric",
+  }
+
+  return new Intl.DateTimeFormat(locale.value, options).format(_nd);
 };
