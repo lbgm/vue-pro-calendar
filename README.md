@@ -149,9 +149,10 @@ events: Appointment[];
 ## Events
 
 `@calendarClosed`:
-This event is fired when user clicks close button.
+> This event is fired when user clicks close button.
 
-`@fetchEvents`: This event is fired when date selected changes. `$event: { start: string; end: string }`. `start` and `end` are iso string date.
+`@fetchEvents`:
+> This event is fired when date selected changes. `$event: { start: string; end: string }`. `start` and `end` are iso string date.
 
 ## Slots
 
@@ -216,10 +217,8 @@ Draw your own calendars using scoped slots
 
 `calendar.request.view` & `calendar.request.report`
 
-When the user clicks on view or report action, an custom html event is fired with the id of event in detail.
-You can listen these events like this:
-
-On default `#sideEvent template`, when user clicks on event, `calendar.request.view` is fired.
+> When the user clicks on view or report action, an custom html event is fired with the id of event in detail.
+> You can listen these events like this:
 
 ```html
 <script setup lang="ts">
@@ -235,3 +234,5 @@ onMounted(() => {
 
 </script>
 ```
+
+> On default `#sideEvent template`, when user clicks on event, `calendar.request.view` is fired.
