@@ -37,7 +37,6 @@ import type { Configs } from "./stores/events";
 import { ref, type Ref } from "vue";
 
 const cfg = ref<Configs>({
-  viewEvent: undefined,
   reportEvent: {
     icon: true,
     text: "",
