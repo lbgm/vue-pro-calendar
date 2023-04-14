@@ -1,6 +1,6 @@
 <template>
   <div
-    class="select-none flex flex-row flex-nowrap items-center min-w-10dt125rem"
+    class="select-none flex space-x-2 flex-row flex-nowrap items-center min-w-10dt125rem"
   >
     <!--left button icon master-->
     <a
@@ -16,12 +16,12 @@
         <Left />
       </template>
     </a>
-    <span
-      v-if="!configs.nativeDatepicker"
+    <!-- <span
+      v-if="!configs?.nativeDatepicker"
       class="capitalize bg-F4F4F5 text-18181B text-center py-0dt375 px-4 flex-shrink-0 font-medium text-xs mx-px"
     >
       {{ label }}
-    </span>
+    </span> -->
     <!--right button icon master-->
     <a
       class="bg-F4F4F5 rounded-tr-md rounded-br-md w-7 h-7 inline-flex flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer calendar--arrows-right"

@@ -13,8 +13,8 @@
         v-for="(weekDayDate, weekindex) in weekDays"
         :class="{
           'border-r': weekindex !== weekDays.length - 1,
-          'bg-FAFAFA': weekindex === weekDays.length - 1,
-          'bg-EFF6FF': weekDayDate.getDate() === dateSelected.getDate(),
+          weekindex: weekindex === weekDays.length - 1,
+          selection: weekDayDate.getDate() === dateSelected.getDate(),
         }"
         :key="weekindex"
       >
@@ -50,8 +50,8 @@
         v-for="(weekDayDate, weekindex) in weekDays"
         :class="{
           'border-r': weekindex !== weekDays.length - 1,
-          'bg-FAFAFA': weekindex === weekDays.length - 1,
-          'bg-EFF6FF': weekDayDate.getDate() === dateSelected.getDate(),
+          weekindex: weekindex === weekDays.length - 1,
+          selection: weekDayDate.getDate() === dateSelected.getDate(),
         }"
         :key="weekindex"
       >
@@ -105,10 +105,28 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss" scoped>
+.calendar--week-view--header {
+  .day-header {
+    &.weekindex {
+      background-color: #fafafa;
+    }
+    &.selection {
+      background-color: #eff6ff;
+    }
+  }
+}
 .calendar--week-view--row {
   .time-cell {
     position: relative;
     transform: translateY(-0.5rem);
+  }
+  .day-cell {
+    &.weekindex {
+      background-color: #fafafa;
+    }
+    &.selection {
+      background-color: #eff6ff;
+    }
   }
 }
 </style>

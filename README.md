@@ -10,11 +10,11 @@ npm i @lbgm/pro-calendar-vue
 
 ## Screenshot with Native Datepicker
 
-![Pro-calendar-vue screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232128142-77bab139-d4f9-4597-865c-9da626f8c69e.png)
+![Pro-calendar-vue screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232162535-22e42701-6290-4c00-bc4c-73cfb4352055.png)
 
 ## Screenshot with VCalendar Datepicker
 
-![Pro-calendar-vue screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232129120-81f3a87b-109a-460c-8039-fc0099341b47.png)
+![Pro-calendar-vue screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232162232-b1df28bc-a995-4628-afa4-7491dfbb9e41.png)
 
 ## Use
 
@@ -45,7 +45,7 @@ const cfg = ref<Configs>({
   searchPlaceHolder: "",
   eventName: "",
   closeText: "",
-  nativeDatepicker: true, // false ---> use VCalendar DatePicker instead
+  nativeDatepicker: true, // false or undefined ---> use VCalendar DatePicker instead
 });
 
 const evts: Ref<Appointment[]> = ref([

@@ -50,12 +50,14 @@ const $t: any = inject("$t");
 const props = withDefaults(defineProps<Props>(), {
   value: () => new Date(),
 });
+const emit = defineEmits(["changed"]);
 
-const selectedDate: Ref<Date | string> = ref(toRef(props, "value").value);
+const selectedDate: Ref<Date | string> = ref(
+  toRef(props, "value").value.toISOString().split("T")[0]
+);
 const dateinput: Ref<ComponentPublicInstance<HTMLInputElement>> = ref<
   ComponentPublicInstance<HTMLInputElement>
 >() as Ref<ComponentPublicInstance<HTMLInputElement>>;
-const emit = defineEmits(["changed"]);
 
 const emitDate = (event: Event): void => {
   void event;
