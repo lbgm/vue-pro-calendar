@@ -3,13 +3,13 @@
   <div data-widget-item="calendar-inside">
     <!--calendar--header-->
     <div
-      class="calendar--day-view--header grid grid-cols-3rem-1fr-3rem grid-flow-col w-full"
+      class="calendar--day-view--header grid grid-cols-3rem-1fr-3rem grid-flow-col w-full sticky top-0 z-two"
     >
       <!--time-column-cell-->
       <div class="time-header" />
       <!--day-column-cell-->
       <div
-        class="select-none day-header w-full pt-1 px-2 pb-4 text-left border-b border-E0E0E0"
+        class="select-none day-header w-full pt-1 px-2 pb-4 text-left border-b border-E0E0E0 bg-white"
       >
         <!--dayname-->
         <span

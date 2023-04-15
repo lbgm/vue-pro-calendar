@@ -524,6 +524,10 @@ video {
   position: relative;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .bottom-full {
   bottom: 100%;
 }
@@ -538,6 +542,10 @@ video {
 
 .z-one {
   z-index: 1;
+}
+
+.z-two {
+  z-index: 2;
 }
 
 .mx-px {

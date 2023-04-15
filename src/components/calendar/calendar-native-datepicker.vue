@@ -5,7 +5,7 @@
   >
     <!-- selected date -->
     <span class="block p-2 text-09101D capitalize text-xs leading-4">
-      {{ selectedDate ? displayDate : "JJ MM AAAA" }}
+      {{ selectedDate ? displayDate : "YYYY-MM-AA" }}
     </span>
     <!--icon -->
     <font-awesome-icon
@@ -52,13 +52,18 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const emit = defineEmits(["changed"]);
 
-const selectedDate: Ref<string> = ref(props.value.toISOString().split("T")[0]);
+const dateToString = (date: Date): string => {
+  return date.toISOString().split("T")[0];
+};
+
+const selectedDate: Ref<string> = ref(dateToString(props.value));
 const dateinput: Ref<ComponentPublicInstance<HTMLInputElement>> = ref<
   ComponentPublicInstance<HTMLInputElement>
 >() as Ref<ComponentPublicInstance<HTMLInputElement>>;
 
 const emitDate = (event: Event): void => {
   void event;
+  if (!selectedDate.value) selectedDate.value = dateToString(new Date());
   //
   emit("changed", new Date(selectedDate.value));
 };
@@ -72,7 +77,7 @@ const displayDate = computed<string>((): string => {
 });
 
 watch(props, () => {
-  selectedDate.value = props.value.toISOString().split("T")[0];
+  selectedDate.value = dateToString(props.value);
 });
 
 onMounted(() => {
