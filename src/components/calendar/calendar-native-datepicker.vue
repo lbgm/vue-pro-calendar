@@ -52,9 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const emit = defineEmits(["changed"]);
 
-const selectedDate: Ref<Date | string> = ref(
-  toRef(props, "value").value.toISOString().split("T")[0]
-);
+const selectedDate: Ref<string> = ref(props.value.toISOString().split("T")[0]);
 const dateinput: Ref<ComponentPublicInstance<HTMLInputElement>> = ref<
   ComponentPublicInstance<HTMLInputElement>
 >() as Ref<ComponentPublicInstance<HTMLInputElement>>;

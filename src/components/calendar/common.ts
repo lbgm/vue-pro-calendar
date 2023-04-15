@@ -3,12 +3,6 @@ import { i18n } from "@/assets/i18n";
 
 const locale = ref(i18n.global.locale);
 
-export const viewSupported = {
-  day: "day",
-  week: "week",
-  month: "month",
-};
-
 export const twoDigitTime = (part: string | number): string => {
   return String("0" + part).slice(-2);
 };

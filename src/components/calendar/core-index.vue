@@ -65,13 +65,13 @@
         <Toggle
           ref="viewToggle"
           @calendar:viewtype="view_type = $event"
-          :view="externalRequestView"
+          :view="view"
         />
         <!--Search-->
         <Search
           @calendar:search="void 0"
           @typing:finished="runSearch"
-          :placeholder="configs.searchPlaceHolder"
+          :placeholder="configs.searchPlaceholder"
           :slots="slots"
         />
       </HeaderComp>
@@ -117,8 +117,8 @@
 
 <script setup lang="ts">
 export interface Props {
-  date?: string | null;
-  view?: string;
+  date?: string;
+  view?: T_View;
   events?: Appointment[];
   loading?: boolean;
   config?: Configs;
@@ -144,10 +144,10 @@ import LeftMenu from "./left-menu.vue";
 import HeaderComp from "./calendar-base-header.vue";
 import Arrows from "./calendar-arrows.vue";
 import Search from "./calendar-search.vue";
-import Toggle from "./day-toggle.vue";
+import Toggle from "./view-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
 import { useEventsStore } from "../../stores/events";
-import type { Appointment, Configs } from "../../stores/events";
+import type { Appointment, Configs, T_View } from "../../stores/events";
 
 import MonthView from "./calendar-month-view.vue";
 import DayView from "./calendar-day-view.vue";
@@ -169,15 +169,14 @@ import {
   monthGenerator,
   prevDate,
   nextDate,
-  viewSupported,
 } from "./common";
 
 type T_Toggle = typeof Toggle;
 type T_LeftMenu = typeof LeftMenu;
 
 const props = withDefaults(defineProps<Props>(), {
-  date: null,
-  view: "",
+  date: undefined,
+  view: "week",
   events: () => [],
   loading: false,
   config: () => ({
@@ -189,7 +188,7 @@ const props = withDefaults(defineProps<Props>(), {
       icon: true,
       text: "",
     },
-    searchPlaceHolder: "",
+    searchPlaceholder: "",
     eventName: "",
     closeText: "",
     nativeDatepicker: true,
@@ -210,8 +209,7 @@ const viewToggle: Ref<ComponentPublicInstance<T_Toggle>> = ref<
 const dateSelected: Ref<Date> = ref(new Date());
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
-const view_type: Ref<string> = ref("");
-const externalRequestView: Ref<string> = ref("");
+const view_type: Ref<T_View> = ref(props.view);
 const externalRequestDate: Ref<Date | undefined> = ref(undefined);
 const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
@@ -292,10 +290,6 @@ const verifyFirstBind = (): void => {
       dateSelected.value = b;
       externalRequestDate.value = dateSelected.value;
     }
-  }
-  // view
-  if (props.view && Object.values(viewSupported).includes(props.view)) {
-    externalRequestView.value = props.view;
   }
 
   // events

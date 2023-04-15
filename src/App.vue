@@ -41,15 +41,12 @@ const evts: Ref<Appointment[]> = ref([
 ]);
 
 const cfg = ref<Configs>({
-  viewEvent: {
-    icon: true,
-    text: "",
-  },
+  viewEvent: undefined,
   reportEvent: {
     icon: true,
     text: "",
   },
-  searchPlaceHolder: "",
+  searchPlaceholder: "",
   eventName: "",
   closeText: "",
   nativeDatepicker: true,
@@ -66,10 +63,11 @@ onMounted(() => {
 
 <template>
   <pro-calendar
+    date="2022-11-10T00:00:00.000Z"
     :events="evts"
-    :loading="false"
     :config="cfg"
     @calendarClosed="void 0"
+    @fetchEvents="void 0"
   />
 </template>
 

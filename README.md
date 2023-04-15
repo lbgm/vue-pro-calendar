@@ -42,10 +42,10 @@ const cfg = ref<Configs>({
     icon: true,
     text: "",
   },
-  searchPlaceHolder: "",
+  searchPlaceholder: "",
   eventName: "",
   closeText: "",
-  nativeDatepicker: true, // false or undefined ---> use VCalendar DatePicker instead
+  nativeDatepicker: true,
 });
 
 const evts: Ref<Appointment[]> = ref([
@@ -67,8 +67,8 @@ const evts: Ref<Appointment[]> = ref([
   :events="evts"
   :loading="false"
   :config="cfg"
-  view="week"
-  date="'isoStringDate'"
+  view="month"
+  date="2022-11-10T00:00:00.000Z"
   @calendarClosed="void 0"
   @fetchEvents="void 0"
 />
@@ -77,7 +77,15 @@ const evts: Ref<Appointment[]> = ref([
 
 ## Props
 
+`nativeDatepicker`:
+> false or undefined ---> use VCalendar DatePicker instead
+
+`property?: T_Action`:
+> undefined --> the action is disabled
+
 ```ts
+export type T_View = 'day' | 'week' | 'month';
+
 export type T_Action = {
   icon?: boolean;
   text?: string;
@@ -86,16 +94,26 @@ export type T_Action = {
 export type Configs = {
   viewEvent?: T_Action;
   reportEvent?: T_Action;
-  searchPlaceHolder?: string;
+  searchPlaceholder?: string;
   eventName?: string;
   closeText?: string;
   nativeDatepicker?: boolean;
 }
 
+type Appointment = {
+  id: string;
+  name: string;
+  date: string; //DateIsoString
+  keywords: string;
+  comment?: string;
+  createdAt?: string; //DateIsoString
+  updatedAt?: string; //DateIsoString
+}
+
 // interface
 interface Props {
-  date?: string | null;
-  view?: string;
+  date?: string;
+  view?: T_View;
   events?: Appointment[];
   loading?: boolean;
   config?: Configs;
@@ -103,8 +121,8 @@ interface Props {
 
 // defaults
 {
-  date: null,
-  view: "",
+  date: undefined,
+  view: "week",
   events: () => [],
   loading: false,
   config: () => ({
@@ -116,34 +134,12 @@ interface Props {
       icon: true,
       text: "",
     },
-    searchPlaceHolder: "",
+    searchPlaceholder: "",
     eventName: "",
     closeText: "",
-    nativeDatepicker: true, // false ---> use VCalendar DatePicker instead
+    nativeDatepicker: true,
   }),
 }
-```
-
-## Prop `events` type
-
-```ts
-type Appointment = {
-  date: string; //DateIsoString
-  comment?: string;
-  createdAt?: string; //DateIsoString
-  id: string;
-  updatedAt?: string; //DateIsoString
-  keywords: string;
-  name: string;
-}
-
-events: Appointment[];
-```
-
-## Prop `view` type
-
-```ts
-'day' | 'week' | 'month'
 ```
 
 ## Events
@@ -156,7 +152,7 @@ events: Appointment[];
 
 ## Slots
 
-Draw your own calendars using scoped slots
+Draw your own calendar using scoped slots
 
 ```html
 <pro-calendar
@@ -213,11 +209,11 @@ Draw your own calendars using scoped slots
 </pro-calendar>
 ```
 
-## Custom Events fired
+## Custom HTML Events fired
 
 `calendar.request.view` & `calendar.request.report`
 
-> When the user clicks on view or report action, an custom html event is fired with the id of event in detail.
+> When the user clicks on view or report action, a custom html event is fired with the id of event in detail.
 > You can listen these events like this:
 
 ```html

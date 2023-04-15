@@ -1,14 +1,22 @@
 import { defineStore } from "pinia";
 
+export enum E_View {
+  DAY = "day",
+  WEEK = "week",
+  MONTH = "month",
+}
+
 export type Appointment = {
+  id: string;
+  name: string;
   date: string; //DateIsoString
+  keywords: string;
   comment?: string;
   createdAt?: string; //DateIsoString
-  id: string;
   updatedAt?: string; //DateIsoString
-  keywords: string;
-  name: string;
 }
+
+export type T_View = 'day' | 'week' | 'month';
 
 export type T_Action = {
   icon?: boolean;
@@ -18,7 +26,7 @@ export type T_Action = {
 export type Configs = {
   viewEvent?: T_Action;
   reportEvent?: T_Action;
-  searchPlaceHolder?: string;
+  searchPlaceholder?: string;
   eventName?: string;
   closeText?: string;
   nativeDatepicker?: boolean;
@@ -43,7 +51,7 @@ export const useEventsStore = defineStore({
         icon: true,
         text: "",
       },
-      searchPlaceHolder: "",
+      searchPlaceholder: "",
       eventName: "",
       closeText: "",
       nativeDatepicker: true,
