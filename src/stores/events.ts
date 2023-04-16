@@ -1,14 +1,13 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export interface Appointment {
-  date: string, //DateIsoString
-  comment?: string,
-  createdAt?: string, //DateIsoString
-  id: string,
-  updatedAt?: string, //DateIsoString
-  keywords: string,
-  name: string,
+  date: string; //DateIsoString
+  comment?: string;
+  createdAt?: string; //DateIsoString
+  id: string;
+  updatedAt?: string; //DateIsoString
+  keywords: string;
+  name: string;
 }
 
 export interface Configs {
@@ -35,7 +34,7 @@ interface State {
 }
 
 export const useEventsStore = defineStore({
-  id: 'CalendarEvents',
+  id: "CalendarEvents",
 
   state: (): State => ({
     calendarEvents: [],
@@ -60,15 +59,15 @@ export const useEventsStore = defineStore({
 
   getters: {
     getEvents: (state): Appointment[] => state.calendarEvents,
-    getConfigs: (state): Configs => state.configs
+    getConfigs: (state): Configs => state.configs,
   },
 
   actions: {
-    setEvents (payload: Appointment[]): void {
+    setEvents(payload: Appointment[]): void {
       this.calendarEvents = payload;
     },
-    setConfigs (payload: Configs): void {
+    setConfigs(payload: Configs): void {
       this.configs = Object.assign(this.configs, payload);
     },
-  }
+  },
 });

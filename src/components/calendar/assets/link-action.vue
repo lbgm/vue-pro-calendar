@@ -53,8 +53,9 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const slots = useSlots();
+const emit = defineEmits(["clicked"]);
 
-const hasIconSlot = computed(() => {
+const hasIconSlot = computed<boolean>(() => {
   return !!slots.icon;
 });
 </script>

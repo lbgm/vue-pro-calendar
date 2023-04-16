@@ -7,10 +7,11 @@
       v-for="(tab, index) in tabs"
       :key="index"
       href="#"
-      class="bg-white text-71717A py-0dt375 px-4 inline-flex font-medium text-sm leading-5 flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer"
+      class="text-71717A py-0dt375 px-4 inline-flex font-medium text-sm leading-5 flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer"
       :class="{
         'rounded-md bg-14-165-233 text-white hover:opacity-90':
           view_type === tab,
+        'bg-white': view_type !== tab,
       }"
       @click.prevent="changeViewType(tab)"
     >
