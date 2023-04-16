@@ -21,13 +21,23 @@
         <!--dayname-->
         <span
           class="block text-71717A font-bold text-0dt625 leading-3 uppercase"
+          :class="{
+            'calendar--week-view-not-in---week':
+              weekDayDate.getMonth() !== dateSelected.getMonth(),
+          }"
         >
           {{ dayName(weekDayDate, weekDayDate.getDate()).slice(0, -1) }}
         </span>
         <!--daynumber-->
-        <span class="block text-black font-medium text-1dt375 leading-8">{{
-          weekDayDate.getDate()
-        }}</span>
+        <span
+          class="block text-black font-medium text-1dt375 leading-8"
+          :class="{
+            'calendar--week-view-not-in---week':
+              weekDayDate.getMonth() !== dateSelected.getMonth(),
+          }"
+        >
+          {{ weekDayDate.getDate() }}
+        </span>
       </div>
       <!--time-column-cell-->
       <div class="time-header" />
@@ -105,6 +115,9 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss" scoped>
+.calendar--week-view-not-in---week {
+  opacity: 0.5;
+}
 .calendar--week-view--header {
   .day-header {
     &.weekindex {

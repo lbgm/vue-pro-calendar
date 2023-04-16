@@ -33,8 +33,8 @@ app.use(ProCalendar);
 ```html
 <script setup lang="ts">
 import "@lbgm/pro-calendar-vue/style";
-import type { Configs } from "./stores/events";
 import { ref, type Ref } from "vue";
+import type { Configs, Appointment } from "@lbgm/pro-calendar-vue";
 
 const cfg = ref<Configs>({
   viewEvent: undefined,
@@ -75,13 +75,13 @@ const evts: Ref<Appointment[]> = ref([
 </template>
 ```
 
-## Props
+## Props & Types
 
 `nativeDatepicker`:
-> false or undefined ---> use VCalendar DatePicker instead
+> false or undefined : use VCalendar DatePicker instead
 
 `property?: T_Action`:
-> undefined --> the action is disabled
+> undefined : the action is disabled
 
 ```ts
 export type T_View = 'day' | 'week' | 'month';

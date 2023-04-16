@@ -31,6 +31,7 @@ module.exports = {
       },
       height: {
         "50p": "50%",
+        "92px": "92px",
       },
       minHeight: {
         "2dt25": "2.25rem",

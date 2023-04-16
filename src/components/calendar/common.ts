@@ -11,6 +11,10 @@ export const twoDigit = (part: string | number): string => {
   return String("0" + part).slice(-2);
 };
 
+export const copyDate = (date: Date | string): Date => {
+  return new Date(date);
+};
+
 export const incrementTime = (time: string, force = false): string => {
   time = time || "23:00";
   let _time: string[] | string = time.split(":");
@@ -38,10 +42,6 @@ export const fixDateTime = (date: Date, time: string): Date => {
 export const randomId = (): string => {
   const rd = (Math.random() + 1).toString(36).substring(7);
   return rd;
-};
-
-export const copyDate = (date: Date | string): Date => {
-  return new Date(date);
 };
 
 export const dayName = (date: Date | string, day: string | number): string => {
@@ -87,13 +87,13 @@ export const minutes = (dat: Date | string): string => {
   return twoDigit(isoStringToDate(dat).getMinutes());
 };
 
-export const hours = (dat: any): string => {
+export const hours = (dat: Date | string): string => {
   return twoDigit(isoStringToDate(dat).getHours());
 };
 
 //----------------------------------------------------------------------------------
 
-// generate previous year all month start and actual year all previous month start to actual month
+// generate previous year' months to actual year' months until actual month
 export const yearMonthGenerator = (
   date?: Date | string
 ): { _prevmonths: Date[]; _nextmonths: Date[] } => {
@@ -149,14 +149,12 @@ export const getWeekInterval = (
 
 // week days'date generation from picked date
 export const weekGenerator = (
-  week: { start: Date; end: Date } | any
+  week: { start: Date; end: Date } | Record<string, Date>
 ): Date[] => {
   const weeks: Date[] = [];
-  const week_start = week.start;
-  const week_end = week.end;
-  const week_day_date = week_start;
+  const week_day_date = copyDate(week.start);
 
-  while (week_day_date <= week_end) {
+  while (week_day_date <= week.end) {
     weeks.push(copyDate(week_day_date));
     week_day_date.setDate(week_day_date.getDate() + 1);
   }

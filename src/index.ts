@@ -35,3 +35,5 @@ const ProCalendar = {
 }
 
 export { ProCalendar };
+export type { Appointment, T_View, T_Action, Configs } from './stores/events';
+export { E_View } from './stores/events';

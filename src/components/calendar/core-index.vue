@@ -22,7 +22,14 @@
       </template>
       <!---->
       <template #sideEvent>
-        <div :key="cky" class="h-50p overflow-y-auto custom-scrll p-1">
+        <div
+          :key="cky"
+          class="side-event-box overflow-y-auto custom-scrll p-1"
+          :class="{
+            'h-50p': !configs?.nativeDatepicker,
+            'below-native-datepicker': configs?.nativeDatepicker,
+          }"
+        >
           <template v-if="slots.sideEvent">
             <component
               :is="slots.sideEvent"
@@ -36,11 +43,6 @@
             <SideEvent :eventDate="nextDate(dateSelected)" />
           </template>
         </div>
-      </template>
-
-      <!-- bind $slots to -->
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
       </template>
     </LeftMenu>
 
@@ -364,5 +366,11 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .calendar-wrapper {
   height: calc(100vh - 66px);
+}
+
+.side-event-box {
+  &.below-native-datepicker {
+    height: calc(100% - 92px);
+  }
 }
 </style>
