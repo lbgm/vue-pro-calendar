@@ -12,10 +12,18 @@
       </template>
       <slot name="loader" />
     </div>
-    <!-- date picker -->
-    <div class="mt-4">
-      <DatePicker
+    <!-- native date picker -->
+    <div v-if="configs?.nativeDatepicker" class="mt-4">
+      <NativeDatePicker
         ref="calendar_date_picker"
+        :value="datepicked"
+        @changed="datepicked = $event"
+      />
+    </div>
+    <!-- date picker -->
+    <div v-else class="mt-4">
+      <DatePicker
+        ref="vcalendar_date_picker"
         title-position="left"
         is-expanded
         :locale="{ id: $i18n.locale, masks: { weekdays: 'WWW' } }"
@@ -71,14 +79,19 @@ export interface Props {
   date?: Date;
 }
 
-import type { Ref } from "vue";
+import { computed, type ComponentPublicInstance, type Ref } from "vue";
+import { useEventsStore, type Configs } from "../../stores/events";
 import { onMounted, ref, watch, useSlots, toRef } from "vue";
 import CloseButton from "./close-button.vue";
 import { DatePicker } from "v-calendar";
+import NativeDatePicker from "./calendar-native-datepicker.vue";
 import ChevronLeft from "./assets/chevron-left.vue";
 import ChevronRight from "./assets/chevron-right.vue";
 
-type T_DatePicker = typeof DatePicker;
+type T_VCDatePicker = typeof DatePicker;
+type T_DatePicker = typeof NativeDatePicker;
+
+const store = useEventsStore();
 
 const props = withDefaults(defineProps<Props>(), {
   date: undefined,
@@ -87,7 +100,11 @@ const props = withDefaults(defineProps<Props>(), {
 const dateRequested: Ref<Date | undefined> = toRef(props, "date");
 const datepicked: Ref<Date> = ref(new Date());
 
-const calendar_date_picker: Ref<T_DatePicker | null> = ref(null);
+const vcalendar_date_picker: Ref<ComponentPublicInstance<T_VCDatePicker> | null> =
+  ref(null);
+
+const calendar_date_picker: Ref<ComponentPublicInstance<T_DatePicker> | null> =
+  ref(null);
 
 const datePickerAttrs = ref([
   {
@@ -97,6 +114,8 @@ const datePickerAttrs = ref([
     },
   },
 ]);
+
+const configs = computed<Configs>(() => store.getConfigs);
 
 const emit = defineEmits(["calendar:datepicker", "calendar:close"]);
 

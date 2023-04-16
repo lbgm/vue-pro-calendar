@@ -13,7 +13,7 @@
           view_type === tab,
         'bg-white': view_type !== tab,
       }"
-      @click.prevent="changeViewType(tab)"
+      @click.stop.prevent="changeViewType(tab as T_View)"
     >
       {{ $t(`calendar.${tab}`) }}
     </a>
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 export interface Props {
-  view?: string;
+  view?: T_View;
 }
 
 import {
@@ -36,21 +36,20 @@ import {
   watch,
 } from "vue";
 import type { Ref } from "vue";
-import { viewSupported } from "./common";
+import { E_View, type T_View } from "@/stores/events";
 
 const props = withDefaults(defineProps<Props>(), {
-  view: "",
+  view: "week",
 });
 
 const emit = defineEmits(["calendar:viewtype"]);
 
-const view_type: Ref<string> = ref("week"); //'week' is default
+const view_type: Ref<T_View> = ref(props.view); //'week' is default
 const tabs: Ref<Record<string, string>> = ref({
-  ...viewSupported,
+  ...Object.fromEntries(Object.entries(E_View)),
 });
 
-const changeViewType = (state: string): void => {
-  if (!state) return void 0;
+const changeViewType = (state: T_View): void => {
   view_type.value = state;
 };
 

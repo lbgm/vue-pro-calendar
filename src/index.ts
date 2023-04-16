@@ -10,10 +10,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // import specific icons
-import { faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib, faCalendar } from '@fortawesome/free-solid-svg-icons'
 
 // add icons to the library
-library.add(faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib)
+library.add(faEye, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass, faPenNib, faCalendar)
 
 const pinia = createPinia();
 
@@ -35,3 +35,5 @@ const ProCalendar = {
 }
 
 export { ProCalendar };
+export type { Appointment, T_View, T_Action, Configs } from './stores/events';
+export { E_View } from './stores/events';

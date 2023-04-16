@@ -38,7 +38,7 @@
           :key="rdvi"
           role="button"
           aria-label="Event"
-          @click="viewEvent(rdv.id)"
+          @click.stop.prevent="viewEvent(rdv.id)"
           data-calendar-side-event
         >
           <span
@@ -51,7 +51,10 @@
                 :title="isoStringToDate(rdv.date).toLocaleString($i18n.locale)"
                 class="calendar--side-event-time"
               >
-                {{ hours(rdv.date) }}:{{ minutes(rdv.date) }}
+                {{
+                  timeFormat(`${hours(rdv.date)}:${minutes(rdv.date)}`, true)
+                }}
+                <!-- {{ hours(rdv.date) }}:{{ minutes(rdv.date) }} -->
               </span>
             </div>
             <div
@@ -92,6 +95,7 @@ import {
   fixDateTime,
   hours,
   minutes,
+  timeFormat,
 } from "./common";
 
 import { useEventsStore } from "../../stores/events";
@@ -142,10 +146,16 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.more-event-body--item:hover {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+.more-event-body--item {
+  &:hover {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    box-shadow: none;
+  }
 }
 
 .more-event-body-item-dot {

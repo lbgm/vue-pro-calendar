@@ -524,6 +524,10 @@ video {
   position: relative;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .bottom-full {
   bottom: 100%;
 }
@@ -538,6 +542,10 @@ video {
 
 .z-one {
   z-index: 1;
+}
+
+.z-two {
+  z-index: 2;
 }
 
 .mx-px {
@@ -860,11 +868,6 @@ video {
 .bg-3B82F6 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-
-.bg-EFF6FF {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 246 255 / var(--tw-bg-opacity));
 }
 
 .bg-F4F4F5 {

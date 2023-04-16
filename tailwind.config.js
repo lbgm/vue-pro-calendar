@@ -31,6 +31,7 @@ module.exports = {
       },
       height: {
         "50p": "50%",
+        "92px": "92px",
       },
       minHeight: {
         "2dt25": "2.25rem",
@@ -50,6 +51,7 @@ module.exports = {
       },
       zIndex: {
         one: 1,
+        two: 2,
       },
       letterSpacing: {
         m0dt02: "-0.02em",

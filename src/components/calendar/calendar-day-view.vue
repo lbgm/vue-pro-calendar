@@ -3,13 +3,13 @@
   <div data-widget-item="calendar-inside">
     <!--calendar--header-->
     <div
-      class="calendar--day-view--header grid grid-cols-3rem-1fr-3rem grid-flow-col w-full"
+      class="calendar--day-view--header grid grid-cols-3rem-1fr-3rem grid-flow-col w-full sticky top-0 z-two"
     >
       <!--time-column-cell-->
       <div class="time-header" />
       <!--day-column-cell-->
       <div
-        class="select-none day-header w-full pt-1 px-2 pb-4 text-left border-b border-E0E0E0"
+        class="select-none day-header w-full pt-1 px-2 pb-4 text-left border-b border-E0E0E0 bg-white"
       >
         <!--dayname-->
         <span
@@ -35,7 +35,7 @@
       <div
         class="time-cell select-none text-left text-71717A font-medium text-xs"
       >
-        {{ time }}
+        {{ timeFormat(time) }}
       </div>
       <!--day-row-cell-->
       <div
@@ -59,7 +59,7 @@
       <div
         class="time-cell select-none text-right text-71717A font-medium text-xs"
       >
-        {{ time }}
+        {{ timeFormat(time) }}
       </div>
     </div>
   </div>
@@ -82,6 +82,7 @@ import {
   randomId,
   dayName,
   copyDate,
+  timeFormat,
 } from "./common";
 import { toRef } from "vue";
 import type { Ref } from "vue";
@@ -93,4 +94,11 @@ const props = withDefaults(defineProps<Props>(), {
 const inDateView: Ref<Date> = toRef(props, "dateSelected") as Ref<Date>;
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.calendar--day-view--row {
+  .time-cell {
+    position: relative;
+    transform: translateY(-0.5rem);
+  }
+}
+</style>

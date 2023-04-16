@@ -3,31 +3,41 @@
   <div data-widget-item="calendar-inside">
     <!--calendar--header-->
     <div
-      class="calendar--week-view--header grid grid-cols-3-repeat-7-minmax-0v1fr-3rem grid-flow-col w-full"
+      class="calendar--week-view--header grid grid-cols-3-repeat-7-minmax-0v1fr-3rem grid-flow-col w-full sticky top-0 z-two"
     >
       <!--time-column-cell-->
       <div class="time-header" />
       <!--day-column-cell-->
       <div
-        class="select-none day-header w-full pt-1 px-2 pb-4 text-left border-b border-E0E0E0"
+        class="select-none day-header w-full pt-1 px-2 pb-4 text-left border-b border-E0E0E0 bg-white"
         v-for="(weekDayDate, weekindex) in weekDays"
         :class="{
           'border-r': weekindex !== weekDays.length - 1,
-          'bg-FAFAFA': weekindex === weekDays.length - 1,
-          'bg-EFF6FF': weekDayDate.getDate() === dateSelected.getDate(),
+          weekindex: weekindex === weekDays.length - 1,
+          selection: weekDayDate.getDate() === dateSelected.getDate(),
         }"
         :key="weekindex"
       >
         <!--dayname-->
         <span
           class="block text-71717A font-bold text-0dt625 leading-3 uppercase"
+          :class="{
+            'calendar--week-view-not-in---week':
+              weekDayDate.getMonth() !== dateSelected.getMonth(),
+          }"
         >
           {{ dayName(weekDayDate, weekDayDate.getDate()).slice(0, -1) }}
         </span>
         <!--daynumber-->
-        <span class="block text-black font-medium text-1dt375 leading-8">{{
-          weekDayDate.getDate()
-        }}</span>
+        <span
+          class="block text-black font-medium text-1dt375 leading-8"
+          :class="{
+            'calendar--week-view-not-in---week':
+              weekDayDate.getMonth() !== dateSelected.getMonth(),
+          }"
+        >
+          {{ weekDayDate.getDate() }}
+        </span>
       </div>
       <!--time-column-cell-->
       <div class="time-header" />
@@ -42,7 +52,7 @@
       <div
         class="select-none time-cell text-left text-71717A font-medium text-xs"
       >
-        {{ time }}
+        {{ timeFormat(time) }}
       </div>
       <!--day-row-cell-->
       <div
@@ -50,8 +60,8 @@
         v-for="(weekDayDate, weekindex) in weekDays"
         :class="{
           'border-r': weekindex !== weekDays.length - 1,
-          'bg-FAFAFA': weekindex === weekDays.length - 1,
-          'bg-EFF6FF': weekDayDate.getDate() === dateSelected.getDate(),
+          weekindex: weekindex === weekDays.length - 1,
+          selection: weekDayDate.getDate() === dateSelected.getDate(),
         }"
         :key="weekindex"
       >
@@ -71,7 +81,7 @@
       <div
         class="time-cell select-none text-right text-71717A font-medium text-xs"
       >
-        {{ time }}
+        {{ timeFormat(time) }}
       </div>
     </div>
   </div>
@@ -95,6 +105,7 @@ import {
   randomId,
   dayName,
   copyDate,
+  timeFormat,
 } from "./common";
 
 const props = withDefaults(defineProps<Props>(), {
@@ -103,4 +114,32 @@ const props = withDefaults(defineProps<Props>(), {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.calendar--week-view-not-in---week {
+  opacity: 0.5;
+}
+.calendar--week-view--header {
+  .day-header {
+    &.weekindex {
+      background-color: #fafafa;
+    }
+    &.selection {
+      background-color: #eff6ff;
+    }
+  }
+}
+.calendar--week-view--row {
+  .time-cell {
+    position: relative;
+    transform: translateY(-0.5rem);
+  }
+  .day-cell {
+    &.weekindex {
+      background-color: #fafafa;
+    }
+    &.selection {
+      background-color: #eff6ff;
+    }
+  }
+}
+</style>

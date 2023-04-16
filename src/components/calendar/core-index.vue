@@ -22,7 +22,14 @@
       </template>
       <!---->
       <template #sideEvent>
-        <div :key="cky" class="h-50p overflow-y-auto custom-scrll p-1">
+        <div
+          :key="cky"
+          class="side-event-box overflow-y-auto custom-scrll p-1"
+          :class="{
+            'h-50p': !configs?.nativeDatepicker,
+            'below-native-datepicker': configs?.nativeDatepicker,
+          }"
+        >
           <template v-if="slots.sideEvent">
             <component
               :is="slots.sideEvent"
@@ -31,18 +38,11 @@
             />
           </template>
           <template v-else>
-            <SideEvent :eventDate="dateSelected || new Date()" />
+            <SideEvent :eventDate="dateSelected" />
             <!--_-->
-            <SideEvent
-              :eventDate="nextDate(dateSelected) || nextDate(new Date())"
-            />
+            <SideEvent :eventDate="nextDate(dateSelected)" />
           </template>
         </div>
-      </template>
-
-      <!-- bind $slots to -->
-      <template v-for="(_, name) in slots" v-slot:[name]="slotData">
-        <slot :name="name" v-bind="slotData" />
       </template>
     </LeftMenu>
 
@@ -67,13 +67,13 @@
         <Toggle
           ref="viewToggle"
           @calendar:viewtype="view_type = $event"
-          :view="externalRequestView"
+          :view="view"
         />
         <!--Search-->
         <Search
           @calendar:search="void 0"
           @typing:finished="runSearch"
-          :placeholder="configs.searchPlaceHolder"
+          :placeholder="configs.searchPlaceholder"
           :slots="slots"
         />
       </HeaderComp>
@@ -119,27 +119,11 @@
 
 <script setup lang="ts">
 export interface Props {
-  date?: string | null;
-  view?: string;
+  date?: string;
+  view?: T_View;
   events?: Appointment[];
   loading?: boolean;
-  config?: {
-    actions?: {
-      view?: {
-        enabled?: boolean;
-        icon?: boolean;
-        text?: string;
-      };
-      report?: {
-        enabled?: boolean;
-        icon?: boolean;
-        text?: string;
-      };
-    };
-    searchPlaceHolder?: string;
-    eventName?: string;
-    closeText?: string;
-  };
+  config?: Configs;
 }
 
 // import v-calendar style
@@ -155,16 +139,17 @@ import {
   watch,
   toRef,
   useSlots,
+  type ComponentPublicInstance,
 } from "vue";
 import type { Ref } from "vue";
 import LeftMenu from "./left-menu.vue";
 import HeaderComp from "./calendar-base-header.vue";
 import Arrows from "./calendar-arrows.vue";
 import Search from "./calendar-search.vue";
-import Toggle from "./day-toggle.vue";
+import Toggle from "./view-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
 import { useEventsStore } from "../../stores/events";
-import type { Appointment, Configs } from "../../stores/events";
+import type { Appointment, Configs, T_View } from "../../stores/events";
 
 import MonthView from "./calendar-month-view.vue";
 import DayView from "./calendar-day-view.vue";
@@ -186,32 +171,29 @@ import {
   monthGenerator,
   prevDate,
   nextDate,
-  viewSupported,
 } from "./common";
 
 type T_Toggle = typeof Toggle;
+type T_LeftMenu = typeof LeftMenu;
 
 const props = withDefaults(defineProps<Props>(), {
-  date: null,
-  view: "",
+  date: undefined,
+  view: "week",
   events: () => [],
   loading: false,
   config: () => ({
-    actions: {
-      view: {
-        enabled: true,
-        icon: true,
-        text: "",
-      },
-      report: {
-        enabled: true,
-        icon: true,
-        text: "",
-      },
+    viewEvent: {
+      icon: true,
+      text: "",
     },
-    searchPlaceHolder: "",
+    reportEvent: {
+      icon: true,
+      text: "",
+    },
+    searchPlaceholder: "",
     eventName: "",
     closeText: "",
+    nativeDatepicker: true,
   }),
 });
 
@@ -220,13 +202,16 @@ const emit = defineEmits(["calendarClosed", "fetchEvents"]);
 const store = useEventsStore();
 
 const propLoading: Ref<boolean> = toRef(props, "loading");
-const leftMenu: Ref<HTMLElement | any> = ref(null);
-const viewToggle: Ref<T_Toggle | null> = ref(null);
-const dateSelected: Ref<Date> = ref(null) as Ref<any>;
+const leftMenu: Ref<ComponentPublicInstance<T_LeftMenu>> = ref<
+  ComponentPublicInstance<T_LeftMenu>
+>() as Ref<ComponentPublicInstance<T_LeftMenu>>;
+const viewToggle: Ref<ComponentPublicInstance<T_Toggle>> = ref<
+  ComponentPublicInstance<T_Toggle>
+>() as Ref<ComponentPublicInstance<T_Toggle>>;
+const dateSelected: Ref<Date> = ref(new Date());
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
-const view_type: Ref<string> = ref("");
-const externalRequestView: Ref<string> = ref("");
+const view_type: Ref<T_View> = ref(props.view);
 const externalRequestDate: Ref<Date | undefined> = ref(undefined);
 const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
@@ -308,10 +293,6 @@ const verifyFirstBind = (): void => {
       externalRequestDate.value = dateSelected.value;
     }
   }
-  // view
-  if (props.view && Object.values(viewSupported).includes(props.view)) {
-    externalRequestView.value = props.view;
-  }
 
   // events
   store.setEvents(props.events);
@@ -320,17 +301,34 @@ const verifyFirstBind = (): void => {
 };
 
 /**
+ * generateDayTimes
+ */
+const generateDayTimes = (): void => {
+  // dayTimes generation from 08h00 to 23h00
+  const _p1 = Array.from(
+    { length: 23 - 8 + 1 },
+    (_, i) => `${twoDigitTime(i + 8)}:${twoDigitTime(0)}`
+  );
+  //dayTimes generation from 07h00 to 23h59
+  const _p2 = Array.from(
+    { length: 7 - 0 + 1 },
+    (_, i) => `${twoDigitTime(i + 0)}:${twoDigitTime(0)}`
+  );
+  dayTimes.value = _p1.concat(_p2);
+};
+
+/**
  * watch dateSelected to change everything
  */
 watch(dateSelected, () => {
   //refresh week days'date
-  weekDays.value = weekGenerator(getWeekInterval(dateSelected.value as Date));
+  weekDays.value = weekGenerator(getWeekInterval(dateSelected.value));
   //refresh month days'date
-  monthDays.value = monthGenerator(dateSelected.value as Date)._days;
+  monthDays.value = monthGenerator(dateSelected.value)._days;
   //month date start & end
   monthDates.value = {
-    start: monthGenerator(dateSelected.value as Date).firstDay,
-    end: monthGenerator(dateSelected.value as Date).lastDay,
+    start: monthGenerator(dateSelected.value).firstDay,
+    end: monthGenerator(dateSelected.value).lastDay,
   };
   // fetch appointments
   fetchAppointments();
@@ -356,17 +354,7 @@ watch(props, () => {
 });
 
 onBeforeMount(async () => {
-  // dayTimes generation from 08h00 to 23h00
-  const _p1 = Array.from(
-    { length: 23 - 8 + 1 },
-    (_, i) => `${twoDigitTime(i + 8)}:${twoDigitTime(0)}`
-  );
-  //dayTimes generation from 07h00 to 23h59
-  const _p2 = Array.from(
-    { length: 7 - 0 + 1 },
-    (_, i) => `${twoDigitTime(i + 0)}:${twoDigitTime(0)}`
-  );
-  dayTimes.value = _p1.concat(_p2);
+  generateDayTimes();
 });
 
 onMounted(async () => {
@@ -378,5 +366,11 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .calendar-wrapper {
   height: calc(100vh - 66px);
+}
+
+.side-event-box {
+  &.below-native-datepicker {
+    height: calc(100% - 92px);
+  }
 }
 </style>

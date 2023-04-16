@@ -1,31 +1,35 @@
 import { defineStore } from "pinia";
 
-export interface Appointment {
-  date: string; //DateIsoString
-  comment?: string;
-  createdAt?: string; //DateIsoString
-  id: string;
-  updatedAt?: string; //DateIsoString
-  keywords: string;
-  name: string;
+export enum E_View {
+  DAY = "day",
+  WEEK = "week",
+  MONTH = "month",
 }
 
-export interface Configs {
-  actions?: {
-    view?: {
-      enabled?: boolean;
-      icon?: boolean;
-      text?: string;
-    };
-    report?: {
-      enabled?: boolean;
-      icon?: boolean;
-      text?: string;
-    };
-  };
-  searchPlaceHolder?: string;
+export type Appointment = {
+  id: string;
+  name: string;
+  date: string; //DateIsoString
+  keywords: string;
+  comment?: string;
+  createdAt?: string; //DateIsoString
+  updatedAt?: string; //DateIsoString
+}
+
+export type T_View = 'day' | 'week' | 'month';
+
+export type T_Action = {
+  icon?: boolean;
+  text?: string;
+}
+
+export type Configs = {
+  viewEvent?: T_Action;
+  reportEvent?: T_Action;
+  searchPlaceholder?: string;
   eventName?: string;
   closeText?: string;
+  nativeDatepicker?: boolean;
 }
 
 interface State {
@@ -39,21 +43,18 @@ export const useEventsStore = defineStore({
   state: (): State => ({
     calendarEvents: [],
     configs: {
-      actions: {
-        view: {
-          enabled: true,
-          icon: true,
-          text: "",
-        },
-        report: {
-          enabled: true,
-          icon: true,
-          text: "",
-        },
+      viewEvent: {
+        icon: true,
+        text: "",
       },
-      searchPlaceHolder: "",
+      reportEvent: {
+        icon: true,
+        text: "",
+      },
+      searchPlaceholder: "",
       eventName: "",
       closeText: "",
+      nativeDatepicker: true,
     }
   }),
 

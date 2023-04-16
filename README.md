@@ -1,18 +1,25 @@
 # Pro Calendar
+
 Another one Best Professional Calendar ever
 
 ## Install
+
 ```sh
 npm i @lbgm/pro-calendar-vue
 ```
 
-## Screenshot
+## Screenshot with Native Datepicker
 
-<img width="1435" alt="image" src="https://user-images.githubusercontent.com/92580505/201934522-0650e870-3dda-40c2-b11d-82a9af822f84.png">
+![Pro-calendar-vue screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232162535-22e42701-6290-4c00-bc4c-73cfb4352055.png)
+
+## Screenshot with VCalendar Datepicker
+
+![Pro-calendar-vue screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232162232-b1df28bc-a995-4628-afa4-7491dfbb9e41.png)
 
 ## Use
 
 `main.ts`
+
 ```js
 import { ProCalendar } from "@lbgm/pro-calendar-vue";
 
@@ -22,9 +29,35 @@ app.use(ProCalendar);
 ```
 
 `App.vue`
+
 ```html
 <script setup lang="ts">
 import "@lbgm/pro-calendar-vue/style";
+import { ref, type Ref } from "vue";
+import type { Configs, Appointment } from "@lbgm/pro-calendar-vue";
+
+const cfg = ref<Configs>({
+  viewEvent: undefined,
+  reportEvent: {
+    icon: true,
+    text: "",
+  },
+  searchPlaceholder: "",
+  eventName: "",
+  closeText: "",
+  nativeDatepicker: true,
+});
+
+const evts: Ref<Appointment[]> = ref([
+  {
+    date: "2022-11-19T14:00:00.000Z",
+    comment: "",
+    id: "cl32rbkjk1700101o53e3e3uhn",
+    keywords: "Projet BAMBA",
+    name: "MONTCHO Kévin",
+  },
+  //...
+]);
 
 </script>
 
@@ -34,96 +67,92 @@ import "@lbgm/pro-calendar-vue/style";
   :events="evts"
   :loading="false"
   :config="cfg"
-  view="week"
-  date="'isoStringDate'"
+  view="month"
+  date="2022-11-10T00:00:00.000Z"
   @calendarClosed="void 0"
   @fetchEvents="void 0"
 />
 </template>
 ```
 
+## Props & Types
 
-## Props
+`nativeDatepicker`:
+> false or undefined : use VCalendar DatePicker instead
+
+`property?: T_Action`:
+> undefined : the action is disabled
+
 ```ts
+export type T_View = 'day' | 'week' | 'month';
+
+export type T_Action = {
+  icon?: boolean;
+  text?: string;
+}
+
+export type Configs = {
+  viewEvent?: T_Action;
+  reportEvent?: T_Action;
+  searchPlaceholder?: string;
+  eventName?: string;
+  closeText?: string;
+  nativeDatepicker?: boolean;
+}
+
+type Appointment = {
+  id: string;
+  name: string;
+  date: string; //DateIsoString
+  keywords: string;
+  comment?: string;
+  createdAt?: string; //DateIsoString
+  updatedAt?: string; //DateIsoString
+}
+
 // interface
 interface Props {
-  date?: string | null;
-  view?: string;
+  date?: string;
+  view?: T_View;
   events?: Appointment[];
   loading?: boolean;
-  config?: {
-    actions?: {
-      view?: {
-        enabled?: boolean;
-        icon?: boolean;
-        text?: string;
-      };
-      report?: {
-        enabled?: boolean;
-        icon?: boolean;
-        text?: string;
-      };
-    };
-    searchPlaceHolder?: string;
-    eventName?: string;
-    closeText?: string;
-  };
+  config?: Configs;
 }
 
 // defaults
 {
-  date: null,
-  view: "",
+  date: undefined,
+  view: "week",
   events: () => [],
   loading: false,
   config: () => ({
-    actions: {
-      view: {
-        enabled: true,
-        icon: true,
-        text: "",
-      },
-      report: {
-        enabled: true,
-        icon: true,
-        text: "",
-      },
+    viewEvent: {
+      icon: true,
+      text: "",
     },
-    searchPlaceHolder: "",
+    reportEvent: {
+      icon: true,
+      text: "",
+    },
+    searchPlaceholder: "",
     eventName: "",
     closeText: "",
+    nativeDatepicker: true,
   }),
 }
 ```
 
-## Prop `events` type
-```ts
-interface Appointment {
-  date: string, //DateIsoString
-  comment?: string,
-  createdAt?: string, //DateIsoString
-  id: string,
-  updatedAt?: string, //DateIsoString
-  keywords: string,
-  name: string,
-}
-
-events: Appointment[];
-```
-
-## Prop `view` type
-```ts
-'day' | 'week' | 'month'
-```
-
 ## Events
-`@calendarClosed`:
-This event is fired when user clicks close button.
 
-`@fetchEvents`: This event is fired when date selected changes. `$event: { start: string; end: string }`. `start` and `end` are iso string date.
+`@calendarClosed`:
+> This event is fired when user clicks close button.
+
+`@fetchEvents`:
+> This event is fired when date selected changes. `$event: { start: string; end: string }`. `start` and `end` are iso string date.
 
 ## Slots
-Draw your own calendars using scoped slots
+
+Draw your own calendar using scoped slots
 
 ```html
 <pro-calendar
@@ -180,12 +209,12 @@ Draw your own calendars using scoped slots
 </pro-calendar>
 ```
 
-## Custom Events fired
+## Custom HTML Events fired
 
 `calendar.request.view` & `calendar.request.report`
 
-When the user clicks on view or report action, an custom html event is fired with the id of event in detail.
-You can listen these events like this:
+> When the user clicks on view or report action, a custom html event is fired with the id of event in detail.
+> You can listen these events like this:
 
 ```html
 <script setup lang="ts">
@@ -202,10 +231,4 @@ onMounted(() => {
 </script>
 ```
 
-
-
-
-
-
-
-
+> On default `#sideEvent template`, when user clicks on event, `calendar.request.view` is fired.
