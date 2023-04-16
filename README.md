@@ -37,6 +37,7 @@ import "@lbgm/pro-calendar-vue/style";
   view="week"
   date="'isoStringDate'"
   @calendarClosed="void 0"
+  @fetchEvents="void 0"
 />
 </template>
 ```
@@ -118,6 +119,8 @@ events: Appointment[];
 ## Events
 `@calendarClosed`:
 This event is fired when user clicks close button.
+
+`@fetchEvents`: This event is fired when date selected changes. `$event: { start: string; end: string }`. `start` and `end` are iso string date.
 
 ## Slots
 Draw your own calendars using scoped slots
