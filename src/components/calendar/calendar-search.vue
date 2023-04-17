@@ -66,9 +66,3 @@ const typingRun = (event: Event): void => {
   emit("typing:running", (event.target as HTMLInputElement).value);
 };
 </script>
-
-<style>
-.text {
-  font-size: 12px;
-}
-</style>
