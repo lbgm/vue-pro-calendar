@@ -5,8 +5,7 @@ import App from "./App.vue";
 import "./assets/index.scss";
 
 // import plugin
-import { ProCalendar } from './index';
-
+import { ProCalendar } from "./index";
 
 const app = createApp(App);
 
