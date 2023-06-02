@@ -1,0 +1,19 @@
+{
+    "today": "Gaur",
+    "tomorrow": "Bihar",
+    "previous_day": "Aurreko eguna",
+    "next_day": "Hurrengo eguna",
+    "view": "Ikusi",
+    "no_events": "Ez dago ekimenik",
+    "close_calendar": "Itxi egutegia",
+    "close": "Itxi",
+    "day": "Eguna",
+    "week": "Astea",
+    "month": "Hilabetea",
+    "previous_month": "Aurreko hilabetea",
+    "next_month": "Hurrengo hilabetea",
+    "search": "Bilatu",
+    "report": "Editatu",
+    "search_tip": "Bilatu ekimenaren izen edo ID bidez",
+    "appointment": "ekimena{gehitu}"
+}
