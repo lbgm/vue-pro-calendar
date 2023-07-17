@@ -105,7 +105,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 100%;
   height: 100%;
   opacity: 0;
-  cursor: pointer;
   box-sizing: border-box;
   cursor: pointer;
 }
