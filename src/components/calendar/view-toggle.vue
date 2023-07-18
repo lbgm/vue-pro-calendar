@@ -10,10 +10,10 @@
       class="text-71717A py-0dt375 px-4 inline-flex font-medium text-sm leading-5 flex-shrink-0 items-center justify-center hover:opacity-80 active:animate-pulse cursor-pointer"
       :class="{
         'rounded-md bg-14-165-233 text-white hover:opacity-90':
-          view_type === tab,
-        'bg-white': view_type !== tab,
+          viewModel === tab,
+        'bg-white': viewModel !== tab,
       }"
-      @click.stop.prevent="changeViewType(tab as T_View)"
+      @click.stop.prevent="changeView(tab as T_View)"
     >
       {{ $t(`calendar.${tab}`) }}
     </a>
@@ -42,28 +42,28 @@ const props = withDefaults(defineProps<Props>(), {
   view: "week",
 });
 
-const emit = defineEmits(["calendar:viewtype"]);
+const emit = defineEmits(["calendar:view-changed"]);
 
-const view_type: Ref<T_View> = ref(props.view); //'week' is default
+const viewModel: Ref<T_View> = ref(props.view); //'week' is default
 const tabs: Ref<Record<string, string>> = ref({
   ...Object.fromEntries(Object.entries(E_View)),
 });
 
-const changeViewType = (state: T_View): void => {
-  view_type.value = state;
+const changeView = (state: T_View): void => {
+  viewModel.value = state;
 };
 
-watch(view_type, () => {
-  emit("calendar:viewtype", view_type.value);
+watch(viewModel, () => {
+  emit("calendar:view-changed", viewModel.value);
 });
 
 watch(props, () => {
   if (props.view) {
-    changeViewType(props.view);
+    changeView(props.view);
   }
 });
 
 onMounted(() => {
-  emit("calendar:viewtype", view_type.value);
+  emit("calendar:view-changed", viewModel.value);
 });
 </script>
