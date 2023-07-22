@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full bg-F4F6F9 max-w-20rm flex-shrink-0 p-4 pb-0">
+  <div class="w-full h-full max-w-20rm flex-shrink-0 p-4 pb-0">
     <!--closer and loader-->
     <div class="flex flex-row flex-wrap items-center justify-between">
       <template v-if="$slots.closeButton">

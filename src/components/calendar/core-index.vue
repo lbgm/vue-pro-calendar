@@ -1,6 +1,6 @@
 <template>
   <div
-    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-F4F6F9 min-h-screen"
+    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-white min-h-screen"
   >
     <!-- left menu-->
     <LeftMenu
@@ -66,7 +66,7 @@
         <!-- DayToggle-->
         <Toggle
           ref="viewToggle"
-          @calendar:viewtype="view_type = $event"
+          @calendar:view-changed="defineView = $event"
           :view="view"
         />
         <!--Search-->
@@ -84,7 +84,7 @@
         :key="cky"
       >
         <!--calendar week-view-->
-        <template v-if="view_type === 'week'">
+        <template v-if="defineView === 'week'">
           <WeekView
             :weekDays="weekDays"
             :dateSelected="dateSelected"
@@ -94,7 +94,7 @@
         </template>
 
         <!--calendar day-view-->
-        <template v-if="view_type === 'day'">
+        <template v-if="defineView === 'day'">
           <DayView
             :dateSelected="dateSelected"
             :dayTimes="dayTimes"
@@ -103,7 +103,7 @@
         </template>
 
         <!--calendar month-view-->
-        <template v-if="view_type === 'month'">
+        <template v-if="defineView === 'month'">
           <MonthView
             :weekDays="weekDays"
             :monthDays="monthDays"
@@ -211,7 +211,7 @@ const viewToggle: Ref<ComponentPublicInstance<T_Toggle>> = ref<
 const dateSelected: Ref<Date> = ref(new Date());
 const weekDays: Ref<Date[]> = ref([]);
 const dayTimes: Ref<string[]> = ref([]);
-const view_type: Ref<T_View> = ref(props.view);
+const defineView: Ref<T_View> = ref(props.view);
 const externalRequestDate: Ref<Date | undefined> = ref(undefined);
 const monthDays: Ref<Date[]> = ref([]);
 const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
