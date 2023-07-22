@@ -1,6 +1,6 @@
 <template>
   <div
-    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-F4F6F9 min-h-screen"
+    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-white min-h-screen"
   >
     <!-- left menu-->
     <LeftMenu
