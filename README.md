@@ -232,3 +232,8 @@ onMounted(() => {
 ```
 
 > On default `#sideEvent template`, when user clicks on event, `calendar.request.view` is fired.
+
+## Support me ?
+
+<p>encourage me to do even more...</p>
+<a href="https://www.buymeacoffee.com/lbgm" title="Buy me a coffee ?" target="_blank" rel="nofollow"><img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="lbgmcoffee" data-canonical-src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"></a><br>

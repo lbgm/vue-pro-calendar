@@ -46,13 +46,12 @@
         <!-- events are here -->
         <span class="block w-full min-h-2dt25 border-b border-F7F7F7" />
         <span class="block w-full min-h-2dt25" />
-        <!-- custom events -->
+        <!-- event component -->
         <Events
           class="absolute top-0"
           :eventDate="inDateView"
           :eventTime="time"
           :slots="slots"
-          @report:event="$emit('report:event', $event)"
         />
       </div>
       <!--time-row-cell-->

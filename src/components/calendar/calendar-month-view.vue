@@ -55,12 +55,11 @@
         >
           {{ monthDayDate.getDate() }}
         </span>
-        <!-- custom events -->
+        <!-- event component -->
         <Events
           class="relative mt-1"
           :eventDate="monthDayDate"
           :slots="slots"
-          @report:event="$emit('report:event', $event)"
         />
       </div>
     </div>
