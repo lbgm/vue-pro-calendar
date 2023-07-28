@@ -6,24 +6,31 @@
     <LeftMenu
       :date="externalRequestDate"
       @calendar:datepicker="dateSelected = $event"
-      @calendar:close="closeCalendar()"
       ref="leftMenu"
     >
+      <template #closeButton>
+        <template v-if="slots.closeButton">
+          <span class="inline-flex">
+            <component
+              :is="slots.closeButton"
+              @click.prevent.stop="closeCalendar()"
+            />
+          </span>
+        </template>
+        <CloseButton v-else @tap="closeCalendar()" />
+      </template>
+      <!-- / -->
       <template #loader>
         <template v-if="slots.loader">
-          <component
-            :is="slots.loader"
-            :calendarGotLoading="calendarGotLoading"
-          />
+          <span class="inline-flex">
+            <component :is="slots.loader" :calendarGotLoading="isLoading" />
+          </span>
         </template>
-        <template v-else>
-          <Loader v-if="calendarGotLoading" />
-        </template>
+        <Loader v-else-if="isLoading" />
       </template>
       <!---->
       <template #sideEvent>
         <div
-          :key="cky"
           class="side-event-box overflow-y-auto custom-scrll p-1"
           :class="{
             'h-50p': !configs?.nativeDatepicker,
@@ -40,7 +47,10 @@
           <template v-else>
             <SideEvent :eventDate="dateSelected" />
             <!--_-->
-            <SideEvent :eventDate="nextDate(dateSelected)" />
+            <SideEvent
+              v-if="nextDate(dateSelected) != dateSelected"
+              :eventDate="nextDate(dateSelected)"
+            />
           </template>
         </div>
       </template>
@@ -81,7 +91,6 @@
       <div
         data-widget-item="widget-calendar-comp"
         class="calendar-wrapper w-full mt-4 overflow-y-auto custom-scrll"
-        :key="cky"
       >
         <!--calendar week-view-->
         <template v-if="defineView === 'week'">
@@ -148,6 +157,7 @@ import Arrows from "./calendar-arrows.vue";
 import Search from "./calendar-search.vue";
 import Toggle from "./view-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
+import CloseButton from "./close-button.vue";
 import { useEventsStore } from "../../stores/events";
 import type { Appointment, Configs, T_View } from "../../stores/events";
 
@@ -201,7 +211,6 @@ const emit = defineEmits(["calendarClosed", "fetchEvents"]);
 
 const store = useEventsStore();
 
-const propLoading: Ref<boolean> = toRef(props, "loading");
 const leftMenu: Ref<ComponentPublicInstance<T_LeftMenu>> = ref<
   ComponentPublicInstance<T_LeftMenu>
 >() as Ref<ComponentPublicInstance<T_LeftMenu>>;
@@ -220,13 +229,8 @@ const monthDates: Ref<{ start: Date | string; end: Date | string }> = ref({
 });
 const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 const configs = computed<Configs>(() => store.getConfigs);
-const isLoading: Ref<boolean> = ref(false);
+const isLoading: Ref<boolean> = ref(props.loading);
 const slots = useSlots();
-
-/**
- * for calendar interface refreshing
- */
-const cky: Ref<string> = ref(randomId());
 
 /**
  * closeCalendar
@@ -234,13 +238,6 @@ const cky: Ref<string> = ref(randomId());
 const closeCalendar = (): void => {
   emit("calendarClosed");
 };
-
-/**
- * Loading State
- */
-const calendarGotLoading = computed<boolean>(() => {
-  return propLoading.value || isLoading.value;
-});
 
 /**
  * runSearch
@@ -332,18 +329,7 @@ watch(dateSelected, () => {
   };
   // fetch appointments
   fetchAppointments();
-  //
-  cky.value = randomId();
-  //
 });
-
-// need to refresh calendar ? cky used
-watch(
-  () => ({ ...calendarEvents.value }),
-  () => {
-    cky.value = randomId();
-  }
-);
 
 /**
  * watch props and set needed in store
@@ -351,6 +337,8 @@ watch(
 watch(props, () => {
   store.setEvents(props.events);
   store.setConfigs(props.config);
+
+  isLoading.value = props.loading;
 });
 
 onBeforeMount(async () => {

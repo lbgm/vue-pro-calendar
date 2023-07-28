@@ -85,8 +85,8 @@ export interface Props {
   eventDate: Date;
 }
 
-import { onMounted, ref, watch, computed, inject, toRef } from "vue";
-import type { Ref } from "vue";
+import { ref, watch, computed, inject } from "vue";
+import type { ComputedRef, Ref } from "vue";
 import {
   dateLabel,
   twoDigit,
@@ -98,7 +98,7 @@ import {
   timeFormat,
 } from "./common";
 
-import { useEventsStore } from "../../stores/events";
+import { E_CustomEvents, useEventsStore } from "../../stores/events";
 import type { Appointment } from "../../stores/events";
 
 const props = withDefaults(defineProps<Props>(), {});
@@ -109,7 +109,15 @@ const datetime_start: Ref<Date | null> = ref(null);
 const datetime_end: Ref<Date | null> = ref(null);
 
 //events containers
-const RdvsPkg: Ref<Appointment[]> = ref([]);
+const RdvsPkg: ComputedRef<Appointment[]> = computed((): Appointment[] => {
+  const start = datetime_start.value as Date;
+  const end = datetime_end.value as Date;
+
+  return calendarEvents.value.filter((rdv: Appointment) => {
+    const d = isoStringToDate(rdv.date);
+    return d >= start && d < end;
+  });
+});
 
 const store = useEventsStore();
 
@@ -118,30 +126,20 @@ const $t: any = inject("$t");
 // computed on store state
 const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 
-//filt and Retrieve <Event /> data
-const eventEvents = (): void => {
-  const start = datetime_start.value as Date;
-  const end = datetime_end.value as Date;
-
-  RdvsPkg.value = calendarEvents.value.filter((rdv: Appointment) => {
-    const d = isoStringToDate(rdv.date);
-    return d >= start && d < end;
-  });
-};
-
 const viewEvent = (id: string | number | unknown): void => {
-  const event = new CustomEvent("calendar.request.view", {
+  const event = new CustomEvent(E_CustomEvents.VIEW, {
     detail: { id },
   });
   document.body.dispatchEvent(event);
 };
 
-onMounted(() => {
+/**
+ * watch eventDate
+ */
+watch(props, () => {
   // transform props binding to datetime
   datetime_start.value = fixDateTime(props.eventDate as Date, "");
   datetime_end.value = fixDateTime(props.eventDate as Date, incrementTime(""));
-  // filt events
-  eventEvents();
 });
 </script>
 
