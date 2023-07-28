@@ -46,9 +46,12 @@
           </template>
           <template v-else>
             <SideEvent :eventDate="dateSelected" />
-            <!--_-->
+            <!-- / -->
             <SideEvent
-              v-if="nextDate(dateSelected) != dateSelected"
+              v-if="
+                nextDate(dateSelected).toLocaleDateString('en-CA') !=
+                dateSelected.toLocaleDateString('en-CA')
+              "
               :eventDate="nextDate(dateSelected)"
             />
           </template>
