@@ -2,14 +2,8 @@
   <div class="w-full h-full max-w-20rm flex-shrink-0 p-4 pb-0">
     <!--closer and loader-->
     <div class="flex flex-row flex-wrap items-center justify-between">
-      <template v-if="$slots.closeButton">
-        <span class="inline-flex" @click.prevent.stop="$emit('calendar:close')">
-          <slot name="closeButton"></slot>
-        </span>
-      </template>
-      <template v-else>
-        <CloseButton @tap="$emit('calendar:close')" />
-      </template>
+      <slot name="closeButton" />
+      <!-- / -->
       <slot name="loader" />
     </div>
     <!-- native date picker -->
@@ -81,8 +75,7 @@ export interface Props {
 
 import { computed, type ComponentPublicInstance, type Ref } from "vue";
 import { useEventsStore, type Configs } from "../../stores/events";
-import { onMounted, ref, watch, useSlots, toRef } from "vue";
-import CloseButton from "./close-button.vue";
+import { onMounted, ref, watch, toRef } from "vue";
 import { DatePicker } from "v-calendar";
 import NativeDatePicker from "./calendar-native-datepicker.vue";
 import ChevronLeft from "./assets/chevron-left.vue";
@@ -117,7 +110,7 @@ const datePickerAttrs = ref([
 
 const configs = computed<Configs>(() => store.getConfigs);
 
-const emit = defineEmits(["calendar:datepicker", "calendar:close"]);
+const emit = defineEmits(["calendar:datepicker"]);
 
 watch(datepicked, () => {
   emit("calendar:datepicker", new Date(datepicked.value));

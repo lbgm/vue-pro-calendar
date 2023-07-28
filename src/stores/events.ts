@@ -6,6 +6,11 @@ export enum E_View {
   MONTH = "month",
 }
 
+export enum E_CustomEvents {
+  VIEW = "calendar.request.view",
+  REPORT = "calendar.request.report",
+}
+
 export type Appointment = {
   id: string;
   name: string;
@@ -14,14 +19,14 @@ export type Appointment = {
   comment?: string;
   createdAt?: string; //DateIsoString
   updatedAt?: string; //DateIsoString
-}
+};
 
-export type T_View = 'day' | 'week' | 'month';
+export type T_View = "day" | "week" | "month";
 
 export type T_Action = {
   icon?: boolean;
   text?: string;
-}
+};
 
 export type Configs = {
   viewEvent?: T_Action;
@@ -30,7 +35,7 @@ export type Configs = {
   eventName?: string;
   closeText?: string;
   nativeDatepicker?: boolean;
-}
+};
 
 interface State {
   calendarEvents: Appointment[];
@@ -55,7 +60,7 @@ export const useEventsStore = defineStore({
       eventName: "",
       closeText: "",
       nativeDatepicker: true,
-    }
+    },
   }),
 
   getters: {

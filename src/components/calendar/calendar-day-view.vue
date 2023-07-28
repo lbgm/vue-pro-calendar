@@ -15,11 +15,11 @@
         <span
           class="block text-71717A font-bold text-0dt625 leading-3 uppercase"
         >
-          {{ dayName(inDateView, inDateView.getDate()).slice(0, -1) }}
+          {{ dayName(dateSelected, dateSelected.getDate()).slice(0, -1) }}
         </span>
         <!--daynumber-->
         <span class="block text-black font-medium text-1dt375 leading-8">{{
-          inDateView.getDate()
+          dateSelected.getDate()
         }}</span>
       </div>
       <!--time-column-cell-->
@@ -40,7 +40,7 @@
       <!--day-row-cell-->
       <div
         class="relative select-none day-cell w-full text-left border-b border-E0E0E0"
-        v-for="(day, dayindex) of [inDateView]"
+        v-for="(day, dayindex) of [dateSelected]"
         :key="dayindex"
       >
         <!-- events are here -->
@@ -49,7 +49,7 @@
         <!-- event component -->
         <Events
           class="absolute top-0"
-          :eventDate="inDateView"
+          :eventDate="day"
           :eventTime="time"
           :slots="slots"
         />
@@ -68,7 +68,7 @@
 import type { Slots } from "vue";
 
 export interface Props {
-  dateSelected: string | Date;
+  dateSelected: Date;
   dayTimes?: string[];
   slots: Slots;
 }
@@ -83,14 +83,10 @@ import {
   copyDate,
   timeFormat,
 } from "./common";
-import { toRef } from "vue";
-import type { Ref } from "vue";
 
 const props = withDefaults(defineProps<Props>(), {
   dayTimes: () => [],
 });
-
-const inDateView: Ref<Date> = toRef(props, "dateSelected") as Ref<Date>;
 </script>
 
 <style lang="scss" scoped>

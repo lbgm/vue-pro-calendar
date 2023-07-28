@@ -201,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Slots } from "vue";
+import type { ComputedRef, Slots } from "vue";
 
 export interface Props {
   eventDate: Date;
@@ -209,7 +209,7 @@ export interface Props {
   slots: Slots;
 }
 
-import { useEventsStore } from "../../stores/events";
+import { E_CustomEvents, useEventsStore } from "../../stores/events";
 import type { Appointment, Configs } from "../../stores/events";
 import LinkAction from "./assets/link-action.vue";
 import BlueEye from "./assets/blue-eye.vue";
@@ -238,6 +238,8 @@ const openEventList: Ref<boolean> = ref(false);
 const openSingleEvent: Ref<boolean> = ref(false);
 
 const configs = computed<Configs>(() => store.getConfigs);
+const calendarEvents = computed<Appointment[]>(() => store.getEvents);
+
 const actionsEnabled = computed<boolean>(() => {
   const actions = ["viewEvent", "reportEvent"];
   return actions.some(
@@ -253,7 +255,15 @@ const popupr: Ref<boolean> = ref(false);
 const popupb: Ref<boolean> = ref(false);
 
 //events containers
-const RdvsPkg: Ref<Appointment[]> = ref([]);
+const RdvsPkg: ComputedRef<Appointment[]> = computed((): Appointment[] => {
+  const start = datetime_start.value as Date;
+  const end = datetime_end.value as Date;
+
+  return calendarEvents.value.filter((rdv: Appointment) => {
+    const d = isoStringToDate(rdv.date);
+    return d >= start && d < end;
+  });
+});
 
 const closeEventList = () => {
   openEventList.value = false;
@@ -275,22 +285,8 @@ const openEvtList = () => {
   popupb.value = _bpos.y > _bpar.height * 0.8;
 };
 
-// computed on store state
-const calendarEvents = computed<Appointment[]>(() => store.getEvents);
-
-//filt and Retrieve <Event /> data
-const eventEvents = (): void => {
-  const _start = datetime_start.value as Date;
-  const _end = datetime_end.value as Date;
-
-  RdvsPkg.value = calendarEvents.value.filter((rdv: Appointment) => {
-    const _d = isoStringToDate(rdv.date);
-    return _d >= _start && _d < _end;
-  });
-};
-
 const viewEvent = (id: string | number | unknown): void => {
-  const event = new CustomEvent("calendar.request.view", {
+  const event = new CustomEvent(E_CustomEvents.VIEW, {
     detail: { id },
   });
   document.body.dispatchEvent(event);
@@ -298,12 +294,28 @@ const viewEvent = (id: string | number | unknown): void => {
 };
 
 const reportEventFor = (id: string | number | unknown): void => {
-  const event = new CustomEvent("calendar.request.report", {
+  const event = new CustomEvent(E_CustomEvents.REPORT, {
     detail: { id },
   });
   document.body.dispatchEvent(event);
   closeEventList();
 };
+
+const setDatetime = (): void => {
+  datetime_start.value = fixDateTime(props.eventDate as Date, props.eventTime);
+  datetime_end.value = fixDateTime(
+    props.eventDate as Date,
+    incrementTime(props.eventTime)
+  );
+};
+
+/**
+ * watch props
+ */
+watch(props, () => {
+  // transform props binding to datetime
+  setDatetime();
+});
 
 onMounted(() => {
   document.addEventListener("click", (event) => {
@@ -316,14 +328,8 @@ onMounted(() => {
       closeEventList();
     }
   });
-  // transform props binding to datetime
-  datetime_start.value = fixDateTime(props.eventDate as Date, props.eventTime);
-  datetime_end.value = fixDateTime(
-    props.eventDate as Date,
-    incrementTime(props.eventTime)
-  );
-  // filt events
-  eventEvents();
+  //
+  setDatetime();
 });
 </script>
 

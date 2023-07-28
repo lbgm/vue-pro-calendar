@@ -162,7 +162,9 @@ export const weekGenerator = (
 };
 
 // month days'date generation from picked date
-export const monthGenerator = (date: Date | string): {firstDay: Date; lastDay: Date; _days: Date[]} => {
+export const monthGenerator = (
+  date: Date | string
+): { firstDay: Date; lastDay: Date; _days: Date[] } => {
   const _days: Date[] = [];
   const _date = copyDate(date);
   const _year = _date.getFullYear();
@@ -217,7 +219,7 @@ export const nextDate = (date: Date | string): Date => {
 
 export const timeToSeconds = (time: string): number => {
   if (!/.{2}:.{2}:.{2}/i.test(time)) {
-    if(!/.{2}:.{2}/i.test(time)) return 0;
+    if (!/.{2}:.{2}/i.test(time)) return 0;
     time = `${time}:00`;
   }
   const a = time.split(":"); // split it at the colons
@@ -231,19 +233,22 @@ export const timeFormat = (time: string, full?: boolean): string => {
   const _nd = fixDateTime(new Date(), time);
   let options = {};
 
-  if(locale.value.indexOf("en") !== -1) {
-    options = full ? {
+  if (locale.value.indexOf("en") !== -1) {
+    options = full
+      ? {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        }
+      : {
+          hour: "numeric",
+          hour12: true,
+        };
+  } else
+    options = {
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
-    } : {
-      hour: "numeric",
-      hour12: true,
-    }
-  } else options = {
-    hour: "numeric",
-    minute: "numeric",
-  }
+    };
 
   return new Intl.DateTimeFormat(locale.value, options).format(_nd);
 };

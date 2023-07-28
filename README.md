@@ -16,6 +16,73 @@ npm i @lbgm/pro-calendar-vue
 
 ![Pro-calendar-vue screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232162232-b1df28bc-a995-4628-afa4-7491dfbb9e41.png)
 
+## Props & Types
+
+```ts
+type T_View = 'day' | 'week' | 'month';
+
+type T_Action = {
+  icon?: boolean;
+  text?: string;
+}
+
+type Configs = {
+  viewEvent?: T_Action;
+  reportEvent?: T_Action;
+  searchPlaceholder?: string;
+  eventName?: string;
+  closeText?: string;
+  nativeDatepicker?: boolean;
+}
+
+type Appointment = {
+  id: string;
+  name: string;
+  date: string; //DateIsoString
+  keywords: string;
+  comment?: string;
+  createdAt?: string; //DateIsoString
+  updatedAt?: string; //DateIsoString
+}
+
+// interface
+interface Props {
+  date?: string;
+  view?: T_View;
+  events?: Appointment[];
+  loading?: boolean;
+  config?: Configs;
+}
+
+// defaults
+{
+  date: undefined,
+  view: "week",
+  events: () => [],
+  loading: false,
+  config: () => ({
+    viewEvent: {
+      icon: true,
+      text: "",
+    },
+    reportEvent: {
+      icon: true,
+      text: "",
+    },
+    searchPlaceholder: "",
+    eventName: "",
+    closeText: "",
+    nativeDatepicker: true,
+  }),
+}
+```
+
+`nativeDatepicker`:
+> false or undefined : use VCalendar DatePicker instead
+
+`property?: T_Action`:
+> undefined : the action is disabled
+
 ## Use
 
 `main.ts`
@@ -75,73 +142,6 @@ const evts: Ref<Appointment[]> = ref([
 </template>
 ```
 
-## Props & Types
-
-`nativeDatepicker`:
-> false or undefined : use VCalendar DatePicker instead
-
-`property?: T_Action`:
-> undefined : the action is disabled
-
-```ts
-export type T_View = 'day' | 'week' | 'month';
-
-export type T_Action = {
-  icon?: boolean;
-  text?: string;
-}
-
-export type Configs = {
-  viewEvent?: T_Action;
-  reportEvent?: T_Action;
-  searchPlaceholder?: string;
-  eventName?: string;
-  closeText?: string;
-  nativeDatepicker?: boolean;
-}
-
-type Appointment = {
-  id: string;
-  name: string;
-  date: string; //DateIsoString
-  keywords: string;
-  comment?: string;
-  createdAt?: string; //DateIsoString
-  updatedAt?: string; //DateIsoString
-}
-
-// interface
-interface Props {
-  date?: string;
-  view?: T_View;
-  events?: Appointment[];
-  loading?: boolean;
-  config?: Configs;
-}
-
-// defaults
-{
-  date: undefined,
-  view: "week",
-  events: () => [],
-  loading: false,
-  config: () => ({
-    viewEvent: {
-      icon: true,
-      text: "",
-    },
-    reportEvent: {
-      icon: true,
-      text: "",
-    },
-    searchPlaceholder: "",
-    eventName: "",
-    closeText: "",
-    nativeDatepicker: true,
-  }),
-}
-```
-
 ## Events
 
 `@calendarClosed`:
@@ -191,7 +191,7 @@ Draw your own calendar using scoped slots
   </template>
 
   <template #sideEvent="{ dateSelected, calendarEvents }">
-    <!-- use this slot to show yourself side events in appearance you want -->
+    <!-- use this slot to show side event in appearance you want -->
     <!--
       dateSelected: Date;
       calendarEvents: Appointment[]; // all events
@@ -199,7 +199,7 @@ Draw your own calendar using scoped slots
   </template>
 
   <template #eventCard="{ date, time, cardEvent }">
-    <!-- use this slot to show yourself calendar event in appearance you want -->
+    <!-- use this slot to show calendar event in appearance you want -->
     <!--
       date: Date;
       time: string;
@@ -219,9 +219,10 @@ Draw your own calendar using scoped slots
 ```html
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { E_CustomEvents } from "@lbgm/pro-calendar-vue"
 
 onMounted(() => {
-  ["calendar.request.view", "calendar.request.report"].forEach((e: string) => {
+  [E_CustomEvents.VIEW, E_CustomEvents.REPORT].forEach((e: string) => {
     document.body.addEventListener(e, (event: Event | CustomEvent) => {
       console.log({ event });
     });

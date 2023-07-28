@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, type Ref } from "vue";
-import type { Configs, Appointment } from "./stores/events";
+import {
+  type Configs,
+  type Appointment,
+  E_CustomEvents,
+} from "./stores/events";
 
 const evts: Ref<Appointment[]> = ref([
   {
@@ -53,7 +57,7 @@ const cfg = ref<Configs>({
 });
 
 onMounted(() => {
-  ["calendar.request.view", "calendar.request.report"].forEach((e: string) => {
+  [E_CustomEvents.VIEW, E_CustomEvents.REPORT].forEach((e: string) => {
     document.body.addEventListener(e, (event: Event | CustomEvent) => {
       console.log({ event });
     });
@@ -68,6 +72,7 @@ onMounted(() => {
     :config="cfg"
     @calendarClosed="void 0"
     @fetchEvents="void 0"
+    :loading="false"
   />
 </template>
 
