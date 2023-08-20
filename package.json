@@ -1,5 +1,5 @@
 {
-  "name": "@lbgm/pro-calendar-vue",
+  "name": "vue-pro-calendar",
   "version": "1.1.6",
   "scripts": {
     "dev": "npm run build-scss && vite",
@@ -19,12 +19,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/pro-calendar-vue.umd.js",
-  "module": "./dist/pro-calendar-vue.es.js",
+  "main": "./dist/vue-pro-calendar.umd.js",
+  "module": "./dist/vue-pro-calendar.es.js",
   "exports": {
     ".": {
-      "import": "./dist/pro-calendar-vue.es.js",
-      "require": "./dist/pro-calendar-vue.umd.js"
+      "import": "./dist/vue-pro-calendar.es.js",
+      "require": "./dist/vue-pro-calendar.umd.js"
     },
     "./style": {
       "import": "./dist/style.css",
@@ -75,12 +75,12 @@
   "description": "Professional Calendar for Vue 3",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lbgm/pro-calendar-vue.git"
+    "url": "git+https://github.com/lbgm/vue-pro-calendar.git"
   },
   "author": "@lbgm",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/lbgm/pro-calendar-vue/issues"
+    "url": "https://github.com/lbgm/vue-pro-calendar/issues"
   },
-  "homepage": "https://github.com/lbgm/pro-calendar-vue#readme"
+  "homepage": "https://github.com/lbgm/vue-pro-calendar#readme"
 }

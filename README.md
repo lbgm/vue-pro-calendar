@@ -17,16 +17,16 @@ Another one Best Professional Calendar ever
 ## Install
 
 ```sh
-npm i @lbgm/pro-calendar-vue
+npm i vue-pro-calendar
 ```
 
 ## Screenshot with Native Datepicker
 
-![Pro-calendar-vue screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232162535-22e42701-6290-4c00-bc4c-73cfb4352055.png)
+![vue-pro-calendar screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232162535-22e42701-6290-4c00-bc4c-73cfb4352055.png)
 
 ## Screenshot with VCalendar Datepicker
 
-![Pro-calendar-vue screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232162232-b1df28bc-a995-4628-afa4-7491dfbb9e41.png)
+![vue-pro-calendar screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232162232-b1df28bc-a995-4628-afa4-7491dfbb9e41.png)
 
 ## Props & Types
 
@@ -100,7 +100,7 @@ interface Props {
 `main.ts`
 
 ```js
-import { ProCalendar } from "@lbgm/pro-calendar-vue";
+import { ProCalendar } from "vue-pro-calendar";
 
 //...
 
@@ -111,9 +111,9 @@ app.use(ProCalendar);
 
 ```html
 <script setup lang="ts">
-import "@lbgm/pro-calendar-vue/style";
+import "vue-pro-calendar/style";
 import { ref, type Ref } from "vue";
-import type { Configs, Appointment } from "@lbgm/pro-calendar-vue";
+import type { Configs, Appointment } from "vue-pro-calendar";
 
 const cfg = ref<Configs>({
   viewEvent: undefined,
@@ -231,7 +231,7 @@ Draw your own calendar using scoped slots
 ```html
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { E_CustomEvents } from "@lbgm/pro-calendar-vue"
+import { E_CustomEvents } from "vue-pro-calendar"
 
 onMounted(() => {
   [E_CustomEvents.VIEW, E_CustomEvents.REPORT].forEach((e: string) => {

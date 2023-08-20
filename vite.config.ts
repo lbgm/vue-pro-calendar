@@ -13,7 +13,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
       name: "ProCalendarVue",
-      fileName: (format) => `pro-calendar-vue.${format}.js`,
+      fileName: (format) => `vue-pro-calendar.${format}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

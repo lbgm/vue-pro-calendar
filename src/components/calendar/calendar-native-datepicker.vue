@@ -16,8 +16,8 @@
     <!---->
     <input
       ref="dateinput"
-      name="pro-calendar-vue-datepicker"
-      id="pro-calendar-vue-datepicker"
+      name="vue-pro-calendar-datepicker"
+      id="vue-pro-calendar-datepicker"
       v-model="selectedDate"
       type="date"
       @change="emitDate"
