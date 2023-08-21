@@ -1,4 +1,4 @@
-import type { App } from "vue";
+import type { App, Plugin } from "vue";
 import { createPinia } from "pinia";
 import { default as widget } from "./components/calendar/core-index.vue";
 import { i18n } from "./assets/i18n";
@@ -33,8 +33,8 @@ library.add(
 
 const pinia = createPinia();
 
-const ProCalendar = {
-  install: (app: App<Element>) => {
+const ProCalendar: Plugin<any[]> = {
+  install: (app: App, options: any[]) => {
     app.use(pinia);
     app.use(i18n);
 
