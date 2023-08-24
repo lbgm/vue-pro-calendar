@@ -1,0 +1,19 @@
+{
+    "today": "How",
+    "tomorrow": "Mañana",
+    "previous_day": "Dia anterior",
+    "next_day": "Dia siguiente",
+    "view": "Ver",
+    "no_events": "No eventos",
+    "close_calendar": "Cerrar calendario",
+    "close": "Cerrar",
+    "day": "Dia",
+    "week": "Semana",
+    "month": "Mes",
+    "previous_month": "Mes anterior",
+    "next_month": "Mes siguiente",
+    "search": "Buscando...",
+    "report": "Informar",
+    "search_tip": "Buscar por nombre o palabra clave de evento",
+    "appointment": "evento{add}"
+}
