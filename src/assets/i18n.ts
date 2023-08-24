@@ -14,6 +14,11 @@ const numberFormats = {
     XOF: { style: "currency", currency: "XOF" },
     number: { style: "decimal" },
   },
+
+  es: {
+    EUR: { style: "currency", currency: "EUR"},
+    number: { style: "decimal" },
+  },
 };
 
 export const i18n = createI18n({
