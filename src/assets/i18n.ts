@@ -11,12 +11,12 @@ const numberFormats = {
   },
 
   en: {
-    XOF: { style: "currency", currency: "XOF" },
+    XOF: { style: "currency", currency: "USD" },
     number: { style: "decimal" },
   },
 
   es: {
-    EUR: { style: "currency", currency: "EUR"},
+    EUR: { style: "currency", currency: "EUR" },
     number: { style: "decimal" },
   },
 };
