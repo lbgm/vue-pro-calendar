@@ -1,6 +1,6 @@
 {
   "name": "vue-pro-calendar",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "scripts": {
     "dev": "npm run build-scss && vite",
     "build": "npm run build-scss && run-p type-check build-only",
