@@ -1,15 +1,15 @@
 {
   "name": "vue-pro-calendar",
-  "version": "1.1.8",
+  "version": "1.1.8-r1",
   "scripts": {
     "dev": "npm run build-scss && vite",
     "build": "npm run build-scss && run-p type-check build-only",
+    "build-scss": "npx tailwindcss -i ./src/assets/index.scss -o ./src/assets/tailwind.scss",
+    "build-lib": "npm run build-scss && vite build && vue-tsc --emitDeclarationOnly --allowJs && mv dist/src dist/types",
     "preview": "npm run build-scss && vite preview",
     "build-only": "npm run build-scss && vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "build-lib": "npm run build-scss && vite build && vue-tsc --emitDeclarationOnly --allowJs && mv dist/src dist/types",
-    "build-scss": "npx tailwindcss -i ./src/assets/index.scss -o ./src/assets/tailwind.scss"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "engines": {
     "node": ">=14.18.3",
