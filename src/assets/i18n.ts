@@ -19,6 +19,11 @@ const numberFormats = {
     EUR: { style: "currency", currency: "EUR" },
     number: { style: "decimal" },
   },
+  
+  uk: {
+    UAH: { style: "currency", currency: "UAH" },
+    number: { style: "decimal" },
+  },
 };
 
 export const i18n = createI18n({
