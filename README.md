@@ -1,6 +1,6 @@
 # Pro Calendar
 
-Another one Best Professional Calendar ever
+Another one Best Professional Calendar ever. looking for [Angular version](https://github.com/lbgm/ng-pro-calendar) ?
 > Based on `vite` for `Vue 3`
 
 - [Pro Calendar](#pro-calendar)
