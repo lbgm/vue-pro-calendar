@@ -35,6 +35,7 @@ export type Configs = {
   eventName?: string;
   closeText?: string;
   nativeDatepicker?: boolean;
+  todayButton?: boolean;
 };
 
 interface State {
@@ -42,24 +43,29 @@ interface State {
   configs: Configs;
 }
 
+export const DEFAULT_CONFIGS: Configs = {
+  viewEvent: {
+    icon: true,
+    text: "",
+  },
+  reportEvent: {
+    icon: true,
+    text: "",
+  },
+  searchPlaceholder: "",
+  eventName: "",
+  closeText: "",
+  nativeDatepicker: true,
+  todayButton: false,
+};
+
 export const useEventsStore = defineStore({
   id: "CalendarEvents",
 
   state: (): State => ({
     calendarEvents: [],
     configs: {
-      viewEvent: {
-        icon: true,
-        text: "",
-      },
-      reportEvent: {
-        icon: true,
-        text: "",
-      },
-      searchPlaceholder: "",
-      eventName: "",
-      closeText: "",
-      nativeDatepicker: true,
+      ...DEFAULT_CONFIGS,
     },
   }),
 

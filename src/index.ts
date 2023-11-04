@@ -51,4 +51,4 @@ const ProCalendar: Plugin<any[]> = {
 
 export { ProCalendar };
 export type { Appointment, T_View, T_Action, Configs } from "./stores/events";
-export { E_View, E_CustomEvents } from "./stores/events";
+export { E_View, E_CustomEvents, DEFAULT_CONFIGS } from "./stores/events";

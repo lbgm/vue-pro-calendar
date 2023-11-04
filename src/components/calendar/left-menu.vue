@@ -114,6 +114,11 @@ const emit = defineEmits(["calendar:datepicker"]);
 
 watch(datepicked, () => {
   emit("calendar:datepicker", new Date(datepicked.value));
+  if (vcalendar_date_picker.value) {
+    (vcalendar_date_picker.value as ComponentPublicInstance<any>).move(
+      datepicked.value
+    );
+  }
 });
 
 watch(props, () => {

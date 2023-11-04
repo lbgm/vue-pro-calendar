@@ -54,6 +54,7 @@ const cfg = ref<Configs>({
   eventName: "",
   closeText: "",
   nativeDatepicker: true,
+  todayButton: true,
 });
 
 onMounted(() => {
