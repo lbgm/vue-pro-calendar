@@ -67,6 +67,7 @@
       <HeaderComp>
         <!--Arrows-->
         <Arrows
+          @calendar-arrow:today="leftMenu.datepicked = new Date()"
           @calendar-arrow:left="leftMenu.datepicked = prevDate(dateSelected)"
           @calendar-arrow:right="leftMenu.datepicked = nextDate(dateSelected)"
           :label="
@@ -161,7 +162,7 @@ import Search from "./calendar-search.vue";
 import Toggle from "./view-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
 import CloseButton from "./close-button.vue";
-import { useEventsStore } from "../../stores/events";
+import { useEventsStore, DEFAULT_CONFIGS } from "../../stores/events";
 import type { Appointment, Configs, T_View } from "../../stores/events";
 
 import MonthView from "./calendar-month-view.vue";
@@ -194,20 +195,7 @@ const props = withDefaults(defineProps<Props>(), {
   view: "week",
   events: () => [],
   loading: false,
-  config: () => ({
-    viewEvent: {
-      icon: true,
-      text: "",
-    },
-    reportEvent: {
-      icon: true,
-      text: "",
-    },
-    searchPlaceholder: "",
-    eventName: "",
-    closeText: "",
-    nativeDatepicker: true,
-  }),
+  config: () => ({ ...DEFAULT_CONFIGS }),
 });
 
 const emit = defineEmits(["calendarClosed", "fetchEvents"]);

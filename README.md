@@ -12,7 +12,6 @@ Another one Best Professional Calendar ever. looking for [Angular version](https
   - [Events](#events)
   - [Slots](#slots)
   - [Custom HTML Events fired](#custom-html-events-fired)
-  - [Support me ?](#support-me-)
 
 ## Install
 
@@ -45,6 +44,7 @@ type Configs = {
   eventName?: string;
   closeText?: string;
   nativeDatepicker?: boolean;
+  todayButton?: boolean;
 }
 
 type Appointment = {
@@ -72,22 +72,10 @@ interface Props {
   view: "week",
   events: () => [],
   loading: false,
-  config: () => ({
-    viewEvent: {
-      icon: true,
-      text: "",
-    },
-    reportEvent: {
-      icon: true,
-      text: "",
-    },
-    searchPlaceholder: "",
-    eventName: "",
-    closeText: "",
-    nativeDatepicker: true,
-  }),
+  config: () => ({ ...DEFAULT_CONFIGS }),
 }
 ```
+> You can import `DEFAULT_CONFIGS` from vue-pro-calendar;
 
 `nativeDatepicker`:
 > false or undefined : use VCalendar DatePicker instead
@@ -125,6 +113,7 @@ const cfg = ref<Configs>({
   eventName: "",
   closeText: "",
   nativeDatepicker: true,
+  todayButton: true
 });
 
 const evts: Ref<Appointment[]> = ref([
@@ -245,8 +234,3 @@ onMounted(() => {
 ```
 
 > On default `#sideEvent template`, when user clicks on event, `calendar.request.view` is fired.
-
-## Support me ?
-
-<p>encourage me to do even more...</p>
-<a href="https://www.buymeacoffee.com/lbgm" title="Buy me a coffee ?" target="_blank" rel="nofollow"><img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="lbgmcoffee" data-canonical-src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"></a><br>
