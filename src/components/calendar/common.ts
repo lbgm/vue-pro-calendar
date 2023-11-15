@@ -3,10 +3,6 @@ import { i18n } from "@/assets/i18n";
 
 const locale = ref(i18n.global.locale);
 
-export const twoDigitTime = (part: string | number): string => {
-  return String("0" + part).slice(-2);
-};
-
 export const twoDigit = (part: string | number): string => {
   return String("0" + part).slice(-2);
 };
@@ -20,8 +16,8 @@ export const incrementTime = (time: string, force = false): string => {
   let _time: string[] | string = time.split(":");
   _time =
     _time[0] === "23" || force
-      ? `${twoDigitTime(_time[0])}:${"59"}`
-      : `${twoDigitTime(String(Number(_time[0]) + 1))}:${_time[1]}`;
+      ? `${twoDigit(_time[0])}:${"59"}`
+      : `${twoDigit(String(Number(_time[0]) + 1))}:${_time[1]}`;
   return _time;
 };
 
@@ -132,10 +128,13 @@ export const yearMonthGenerator = (
 };
 
 export const getWeekInterval = (
-  date: Date | string | number
+  date: Date | string | number,
+  firstDayOfWeek: 0 | 1 = 0
 ): { start: Date; end: Date } => {
   const current_date = new Date(date);
-  const week_start = current_date.getDate() - current_date.getDay(); // Start from Sunday, if want Monday add + 1 but an error should occured
+  // Start from Sunday, if want Monday add + 1
+  const week_start =
+    current_date.getDate() - current_date.getDay() + firstDayOfWeek;
   const week_first_day = new Date(current_date.setDate(week_start));
   const week_end_day = new Date(
     current_date.setDate(week_first_day.getDate() + 6)
@@ -163,7 +162,8 @@ export const weekGenerator = (
 
 // month days'date generation from picked date
 export const monthGenerator = (
-  date: Date | string
+  date: Date | string,
+  firstDayOfWeek: 0 | 1 = 0
 ): { firstDay: Date; lastDay: Date; _days: Date[] } => {
   const _days: Date[] = [];
   const _date = copyDate(date);
@@ -174,7 +174,9 @@ export const monthGenerator = (
   const month_day_date = new Date(firstDay);
 
   // to get previous dates before requested month (in target week)
-  const previousMonthDays = weekGenerator(getWeekInterval(firstDay));
+  const previousMonthDays = weekGenerator(
+    getWeekInterval(firstDay, firstDayOfWeek)
+  );
   for (const _dayDate of previousMonthDays) {
     if (_dayDate < firstDay) _days.push(_dayDate);
   }
@@ -186,7 +188,7 @@ export const monthGenerator = (
   }
 
   // to get next dates after requested month (in target week)
-  const nextMonthDays = weekGenerator(getWeekInterval(lastDay));
+  const nextMonthDays = weekGenerator(getWeekInterval(lastDay, firstDayOfWeek));
   for (const _dayDate of nextMonthDays) {
     if (_dayDate > lastDay) _days.push(_dayDate);
   }

@@ -172,7 +172,7 @@ import SideEvent from "./calendar-side-event.vue";
 
 import {
   dateLabel,
-  twoDigitTime,
+  twoDigit,
   incrementTime,
   fixDateTime,
   randomId,
@@ -295,12 +295,12 @@ const generateDayTimes = (): void => {
   // dayTimes generation from 08h00 to 23h00
   const _p1 = Array.from(
     { length: 23 - 8 + 1 },
-    (_, i) => `${twoDigitTime(i + 8)}:${twoDigitTime(0)}`
+    (_, i) => `${twoDigit(i + 8)}:${twoDigit(0)}`
   );
   //dayTimes generation from 07h00 to 23h59
   const _p2 = Array.from(
     { length: 7 - 0 + 1 },
-    (_, i) => `${twoDigitTime(i + 0)}:${twoDigitTime(0)}`
+    (_, i) => `${twoDigit(i + 0)}:${twoDigit(0)}`
   );
   dayTimes.value = _p1.concat(_p2);
 };
@@ -310,13 +310,16 @@ const generateDayTimes = (): void => {
  */
 watch(dateSelected, () => {
   //refresh week days'date
-  weekDays.value = weekGenerator(getWeekInterval(dateSelected.value));
+  weekDays.value = weekGenerator(
+    getWeekInterval(dateSelected.value, configs.value.firstDayOfWeek)
+  );
   //refresh month days'date
-  monthDays.value = monthGenerator(dateSelected.value)._days;
+  const __m = monthGenerator(dateSelected.value, configs.value.firstDayOfWeek);
+  monthDays.value = __m._days;
   //month date start & end
   monthDates.value = {
-    start: monthGenerator(dateSelected.value).firstDay,
-    end: monthGenerator(dateSelected.value).lastDay,
+    start: __m.firstDay,
+    end: __m.lastDay,
   };
   // fetch appointments
   fetchAppointments();

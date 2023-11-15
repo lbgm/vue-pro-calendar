@@ -36,6 +36,7 @@ export type Configs = {
   closeText?: string;
   nativeDatepicker?: boolean;
   todayButton?: boolean;
+  firstDayOfWeek?: 0 | 1;
 };
 
 interface State {
@@ -57,6 +58,7 @@ export const DEFAULT_CONFIGS: Configs = {
   closeText: "",
   nativeDatepicker: true,
   todayButton: false,
+  firstDayOfWeek: 0,
 };
 
 export const useEventsStore = defineStore({

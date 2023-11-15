@@ -12,7 +12,7 @@ const evts: Ref<Appointment[]> = ref([
     comment: "Faire une livraison à moto de Mont Sinaï à Calavi",
     id: "cl3eddmjz1435801pqwfa5ihd1",
     keywords: "Anniversaire",
-    name: "SAGBO Aimé",
+    name: "Iréné Gandji",
   },
   {
     date: "2022-11-19T14:00:00.000Z",
@@ -55,6 +55,7 @@ const cfg = ref<Configs>({
   closeText: "",
   nativeDatepicker: true,
   todayButton: true,
+  firstDayOfWeek: 1,
 });
 
 onMounted(() => {
