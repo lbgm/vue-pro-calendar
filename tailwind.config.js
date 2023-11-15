@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line no-undef
 module.exports = {
   mode: "jit",
   darkMode: false,
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      mobile: { max: "767px" },
+      large: { min: "768px" },
+    },
     extend: {
       backgroundColor: {
         "14-165-233": "rgb(14, 165, 233)",

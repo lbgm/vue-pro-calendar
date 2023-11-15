@@ -21,11 +21,11 @@ npm i vue-pro-calendar
 
 ## Screenshot with Native Datepicker
 
-![vue-pro-calendar screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/232162535-22e42701-6290-4c00-bc4c-73cfb4352055.png)
+![vue-pro-calendar screenshot with native datepicker](https://user-images.githubusercontent.com/92580505/283180919-d601c5be-1f9d-4df4-a900-79b3efd932e7.png)
 
 ## Screenshot with VCalendar Datepicker
 
-![vue-pro-calendar screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/232162232-b1df28bc-a995-4628-afa4-7491dfbb9e41.png)
+![vue-pro-calendar screenshot with vcalendar datepicker](https://user-images.githubusercontent.com/92580505/283180689-95f7939b-639b-4093-9005-ad1988b332c9.png)
 
 ## Props & Types
 
@@ -45,6 +45,7 @@ type Configs = {
   closeText?: string;
   nativeDatepicker?: boolean;
   todayButton?: boolean;
+  firstDayOfWeek?: 0 | 1;
 }
 
 type Appointment = {
@@ -113,7 +114,8 @@ const cfg = ref<Configs>({
   eventName: "",
   closeText: "",
   nativeDatepicker: true,
-  todayButton: true
+  todayButton: true,
+  firstDayOfWeek: 1,
 });
 
 const evts: Ref<Appointment[]> = ref([

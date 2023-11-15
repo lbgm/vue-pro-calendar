@@ -75,7 +75,7 @@ export interface Props {
 
 import Events from "./calendar-event.vue";
 import {
-  twoDigitTime,
+  twoDigit,
   incrementTime,
   fixDateTime,
   randomId,
