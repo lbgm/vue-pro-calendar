@@ -4,6 +4,7 @@ import {
   type Configs,
   type Appointment,
   E_CustomEvents,
+  type T_LANG,
 } from "./stores/events";
 
 const evts: Ref<Appointment[]> = ref([
@@ -58,7 +59,7 @@ const cfg = ref<Configs>({
   firstDayOfWeek: 1,
 });
 
-const lang: Ref<string | undefined> = ref(undefined);
+const lang: Ref<T_LANG | undefined> = ref(undefined);
 
 onMounted(() => {
   [E_CustomEvents.VIEW, E_CustomEvents.REPORT].forEach((e: string) => {
