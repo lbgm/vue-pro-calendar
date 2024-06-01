@@ -24,6 +24,11 @@ const numberFormats = {
     UAH: { style: "currency", currency: "UAH" },
     number: { style: "decimal" },
   },
+
+  ru: {
+    RU: { style: "currency", currency: "RU" },
+    number: { style: "decimal" },
+  },
 };
 
 export const i18n = createI18n({
