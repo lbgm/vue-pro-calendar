@@ -29,51 +29,25 @@ npm i vue-pro-calendar
 
 ## Props & Types
 
+> Types `T_View`, `Configs`, `Appointment`, `T_LANG` are imported from vue-pro-calendar;
+
 ```ts
-type T_View = 'day' | 'week' | 'month';
-
-type T_Action = {
-  icon?: boolean;
-  text?: string;
-}
-
-type Configs = {
-  viewEvent?: T_Action;
-  reportEvent?: T_Action;
-  searchPlaceholder?: string;
-  eventName?: string;
-  closeText?: string;
-  nativeDatepicker?: boolean;
-  todayButton?: boolean;
-  firstDayOfWeek?: 0 | 1;
-}
-
-type Appointment = {
-  id: string;
-  name: string;
-  date: string; //DateIsoString
-  keywords: string;
-  comment?: string;
-  createdAt?: string; //DateIsoString
-  updatedAt?: string; //DateIsoString
-}
-
-// interface
+// Props
 interface Props {
   date?: string;
-  view?: T_View;
-  events?: Appointment[];
+  view?: T_View; // 'day' | 'week' | 'month'
+  events?: Appointment[]; // inspect type
   loading?: boolean;
-  config?: Configs;
+  config?: Configs; // inspect type
+  lang?: T_LANG; // only supported languages; default: undefined (the calendar will use browser locale).
 }
-
 // defaults
 {
   date: undefined,
   view: "week",
   events: () => [],
   loading: false,
-  config: () => ({ ...DEFAULT_CONFIGS }),
+  config: () => ({ /*...DEFAULT_CONFIGS*/ }),
 }
 ```
 > You can import `DEFAULT_CONFIGS` from vue-pro-calendar;
@@ -102,7 +76,7 @@ app.use(ProCalendar);
 <script setup lang="ts">
 import "vue-pro-calendar/style";
 import { ref, type Ref } from "vue";
-import type { Configs, Appointment } from "vue-pro-calendar";
+import type { Configs, Appointment, T_LANG } from "vue-pro-calendar";
 
 const cfg = ref<Configs>({
   viewEvent: undefined,

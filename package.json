@@ -1,6 +1,6 @@
 {
   "name": "vue-pro-calendar",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "scripts": {
     "dev": "npm run build-scss && vite",
     "build": "npm run build-scss && run-p type-check build-only",
@@ -12,8 +12,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "engines": {
-    "node": ">=14.18.3",
-    "npm": ">=6.14.15"
+    "node": ">=16.20.1",
+    "npm": ">=8.19.4"
   },
   "types": "./dist/types/index.d.ts",
   "files": [

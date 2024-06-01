@@ -58,6 +58,8 @@ const cfg = ref<Configs>({
   firstDayOfWeek: 1,
 });
 
+const lang: Ref<string | undefined> = ref(undefined);
+
 onMounted(() => {
   [E_CustomEvents.VIEW, E_CustomEvents.REPORT].forEach((e: string) => {
     document.body.addEventListener(e, (event: Event | CustomEvent) => {
@@ -68,6 +70,15 @@ onMounted(() => {
 </script>
 
 <template>
+  <!-- <select v-model="lang">
+    <option value="en">en</option>
+    <option value="es">es</option>
+    <option value="pt">pt</option>
+    <option value="fr">fr</option>
+    <option value="uk">uk</option>
+    <option value="ru">ru</option>
+  </select> -->
+
   <pro-calendar
     date="2022-11-10T00:00:00.000Z"
     :events="evts"
@@ -75,6 +86,7 @@ onMounted(() => {
     @calendarClosed="void 0"
     @fetchEvents="void 0"
     :loading="false"
+    :lang="lang"
   />
 </template>
 

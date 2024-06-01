@@ -137,6 +137,7 @@ export interface Props {
   events?: Appointment[];
   loading?: boolean;
   config?: Configs;
+  lang?: T_LANG;
 }
 
 // import v-calendar style
@@ -154,6 +155,7 @@ import {
   useSlots,
   type ComponentPublicInstance,
 } from "vue";
+import { useI18n } from "vue-i18n";
 import type { Ref } from "vue";
 import LeftMenu from "./left-menu.vue";
 import HeaderComp from "./calendar-base-header.vue";
@@ -163,7 +165,7 @@ import Toggle from "./view-toggle.vue";
 import Loader from "./assets/loader-widget.vue";
 import CloseButton from "./close-button.vue";
 import { useEventsStore, DEFAULT_CONFIGS } from "../../stores/events";
-import type { Appointment, Configs, T_View } from "../../stores/events";
+import type { Appointment, Configs, T_LANG, T_View } from "../../stores/events";
 
 import MonthView from "./calendar-month-view.vue";
 import DayView from "./calendar-day-view.vue";
@@ -195,7 +197,15 @@ const props = withDefaults(defineProps<Props>(), {
   view: "week",
   events: () => [],
   loading: false,
-  config: () => ({ ...DEFAULT_CONFIGS }),
+  config: () => ({
+    ...DEFAULT_CONFIGS,
+    viewEvent: {
+      ...DEFAULT_CONFIGS.viewEvent,
+    },
+    reportEvent: {
+      ...DEFAULT_CONFIGS.reportEvent,
+    },
+  }),
 });
 
 const emit = defineEmits(["calendarClosed", "fetchEvents"]);
@@ -222,6 +232,8 @@ const calendarEvents = computed<Appointment[]>(() => store.getEvents);
 const configs = computed<Configs>(() => store.getConfigs);
 const isLoading: Ref<boolean> = ref(props.loading);
 const slots = useSlots();
+
+const { locale } = useI18n();
 
 /**
  * closeCalendar
@@ -286,6 +298,9 @@ const verifyFirstBind = (): void => {
   store.setEvents(props.events);
   // config
   store.setConfigs(props.config);
+
+  // lang
+  if (props.lang) locale.value = props.lang;
 };
 
 /**
@@ -333,6 +348,11 @@ watch(props, () => {
   store.setConfigs(props.config);
 
   isLoading.value = props.loading;
+
+  // lang
+  if (props.lang && locale.value !== props.lang) {
+    locale.value = props.lang;
+  }
 });
 
 onBeforeMount(async () => {

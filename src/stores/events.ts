@@ -23,6 +23,8 @@ export type Appointment = {
 
 export type T_View = "day" | "week" | "month";
 
+export type T_LANG = "fr" | "en" | "es" | "pt" | "ru" | "uk";
+
 export type T_Action = {
   icon?: boolean;
   text?: string;
@@ -68,6 +70,12 @@ export const useEventsStore = defineStore({
     calendarEvents: [],
     configs: {
       ...DEFAULT_CONFIGS,
+      viewEvent: {
+        ...DEFAULT_CONFIGS.viewEvent,
+      },
+      reportEvent: {
+        ...DEFAULT_CONFIGS.reportEvent,
+      },
     },
   }),
 
