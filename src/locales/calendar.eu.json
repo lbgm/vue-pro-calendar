@@ -15,5 +15,6 @@
     "search": "Bilatu",
     "report": "Editatu",
     "search_tip": "Bilatu ekimenaren izen edo ID bidez",
-    "appointment": "ekimena{gehitu}"
+    "appointment": "ekimena",
+    "appointments": "ekimenak"
 }

@@ -74,7 +74,7 @@
             class="font-semibold text-0EA5E9 text-sm leading-4 block truncate text-left calendar--events-count"
           >
             {{ RdvsPkg.length }}&nbsp;{{
-              configs?.eventName || $t("calendar.appointment", { add: "s" })
+              configs?.eventName || $t("calendar.appointments")
             }}
           </span>
         </div>

@@ -15,5 +15,6 @@
     "search": "Шукаю...",
     "report": "Звіт",
     "search_tip": "Пошук за назвою події або ключовим словом події",
-    "appointment": "подія{add}"
+    "appointment": "подія",
+    "appointments": "події"
 }
