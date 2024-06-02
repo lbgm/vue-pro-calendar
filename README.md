@@ -8,6 +8,7 @@ Another one Best Professional Calendar ever. looking for [Angular version](https
   - [Screenshot with Native Datepicker](#screenshot-with-native-datepicker)
   - [Screenshot with VCalendar Datepicker](#screenshot-with-vcalendar-datepicker)
   - [Props \& Types](#props--types)
+    - [Type `Configs`](#type-configs)
   - [Use](#use)
   - [Events](#events)
   - [Slots](#slots)
@@ -29,34 +30,24 @@ npm i vue-pro-calendar
 
 ## Props & Types
 
-> Types `T_View`, `Configs`, `Appointment`, `T_LANG` are imported from vue-pro-calendar;
+> Import and inspect types `T_View`, `Configs`, `Appointment`, `T_LANG` from vue-pro-calendar
 
-```ts
-// Props
-interface Props {
-  date?: string;
-  view?: T_View; // 'day' | 'week' | 'month'
-  events?: Appointment[]; // inspect type
-  loading?: boolean;
-  config?: Configs; // inspect type
-  lang?: T_LANG; // only supported languages; default: undefined (the calendar will use browser locale).
-}
-// defaults
-{
-  date: undefined,
-  view: "week",
-  events: () => [],
-  loading: false,
-  config: () => ({ /*...DEFAULT_CONFIGS*/ }),
-}
-```
-> You can import `DEFAULT_CONFIGS` from vue-pro-calendar;
+| Prop | Type | Required | Default |
+| :---     | :---     | :---         | :---        |
+| `date`   | `string`<br>`// iso string` | No           | `undefined` |
+| `view`   | `T_View` | No           | `"week"`    |
+| `events` | `Appointment[]` | No    | `[]`        |
+| `loading`| `boolean` | No          | `false`     |
+| `config` | `Configs` | No          | `DEFAULT_CONFIGS` |
+| `lang`   | `T_LANG`  | No          | only supported languages; default: `undefined` (the calendar will use browser locale). |
 
-`nativeDatepicker`:
-> false or undefined : use VCalendar DatePicker instead
+> You can import `DEFAULT_CONFIGS` from vue-pro-calendar
 
-`property?: T_Action`:
-> undefined : the action is disabled
+### Type `Configs`
+
+> When you set `nativeDatepicker` to `false` or `undefined`, VCalendar DatePicker will be used.
+
+> When you set a property with type `T_Action` to `undefined`, the action is disabled.
 
 ## Use
 
@@ -106,16 +97,16 @@ const evts: Ref<Appointment[]> = ref([
 </script>
 
 <template>
-<!-- all props are optional -->
-<pro-calendar
-  :events="evts"
-  :loading="false"
-  :config="cfg"
-  view="month"
-  date="2022-11-10T00:00:00.000Z"
-  @calendarClosed="void 0"
-  @fetchEvents="void 0"
-/>
+  <!-- all props are optional -->
+  <pro-calendar
+    :events="evts"
+    :loading="false"
+    :config="cfg"
+    view="month"
+    date="2022-11-10T00:00:00.000Z"
+    @calendarClosed="void 0"
+    @fetchEvents="void 0"
+  />
 </template>
 ```
 
