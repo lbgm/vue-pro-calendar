@@ -30,7 +30,7 @@ npm i vue-pro-calendar
 
 ## Props & Types
 
-> Import and inspect types `T_View`, `Configs`, `Appointment`, `T_LANG` from vue-pro-calendar;
+> Import and inspect types `T_View`, `Configs`, `Appointment`, `T_LANG` from vue-pro-calendar
 
 | Prop | Type | Required | Default |
 | :---     | :---     | :---         | :---        |
@@ -41,7 +41,7 @@ npm i vue-pro-calendar
 | `config` | `Configs` | No          | `DEFAULT_CONFIGS` |
 | `lang`   | `T_LANG`  | No          | only supported languages; default: `undefined` (the calendar will use browser locale). |
 
-> You can import `DEFAULT_CONFIGS` from vue-pro-calendar;
+> You can import `DEFAULT_CONFIGS` from vue-pro-calendar
 
 ### Type `Configs`
 
