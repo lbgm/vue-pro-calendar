@@ -34,7 +34,7 @@ npm i vue-pro-calendar
 
 | Prop | Type | Required | Default |
 | :---     | :---     | :---         | :---        |
-| `date`   | `string` `// iso string` | No           | `undefined` |
+| `date`   | `string`<br>`// iso string` | No           | `undefined` |
 | `view`   | `T_View` | No           | `"week"`    |
 | `events` | `Appointment[]` | No    | `[]`        |
 | `loading`| `boolean` | No          | `false`     |
