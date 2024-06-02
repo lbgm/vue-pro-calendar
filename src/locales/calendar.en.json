@@ -15,5 +15,6 @@
     "search": "Looking for...",
     "report": "Report",
     "search_tip": "Search by event name or event keyword",
-    "appointment": "event{add}"
+    "appointment": "event",
+    "appointments": "events"
 }
