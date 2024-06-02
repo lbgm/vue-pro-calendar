@@ -23,7 +23,7 @@ export type Appointment = {
 
 export type T_View = "day" | "week" | "month";
 
-export type T_LANG = "fr" | "en" | "es" | "pt" | "ru" | "uk";
+export type T_LANG = "fr" | "en" | "es" | "eu" | "pt" | "ru" | "uk";
 
 export type T_Action = {
   icon?: boolean;

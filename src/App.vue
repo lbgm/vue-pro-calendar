@@ -71,14 +71,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- <select v-model="lang">
+  <select v-model="lang">
     <option value="en">en</option>
     <option value="es">es</option>
     <option value="pt">pt</option>
     <option value="fr">fr</option>
     <option value="uk">uk</option>
     <option value="ru">ru</option>
-  </select> -->
+  </select>
 
   <pro-calendar
     date="2022-11-10T00:00:00.000Z"
