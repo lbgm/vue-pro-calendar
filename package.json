@@ -1,6 +1,6 @@
 {
   "name": "vue-pro-calendar",
-  "version": "1.1.11-r3",
+  "version": "1.1.11-r5",
   "scripts": {
     "dev": "npm run build-scss && vite",
     "build": "npm run build-scss && run-p type-check build-only",
@@ -29,6 +29,9 @@
     "./style": {
       "import": "./dist/style.css",
       "require": "./dist/style.css"
+    },
+    "./types": {
+      "import": "./dist/types/index.d.ts"
     }
   },
   "dependencies": {

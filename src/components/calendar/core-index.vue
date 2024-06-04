@@ -366,13 +366,62 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-.calendar-wrapper {
-  height: calc(100vh - 66px);
-}
+.widget-calendar-wrapper {
+  * {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+  }
 
-.side-event-box {
-  &.below-native-datepicker {
-    height: calc(100% - 92px);
+  .calendar-wrapper {
+    height: calc(100vh - 66px);
+  }
+
+  .side-event-box {
+    &.below-native-datepicker {
+      height: calc(100% - 92px);
+    }
+  }
+
+  /*chrome*/
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .custom-scrll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .custom-scrll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .custom-scrll::-webkit-scrollbar-thumb {
+      border-radius: 6px;
+      background: rgba(14, 165, 233, 0.8);
+      border: 0;
+      display: none;
+    }
+
+    .custom-scrll:hover {
+      &.custom-scrll::-webkit-scrollbar-thumb {
+        display: initial;
+      }
+    }
+
+    .custom-scrll::-webkit-scrollbar-corner {
+      display: none;
+    }
+  }
+
+  /*firefox*/
+  @-moz-document url-prefix() {
+    .custom-scrll {
+      scrollbar-color: rgba(14, 165, 233, 0.8) transparent;
+      scrollbar-width: none;
+
+      &:hover {
+        scrollbar-width: thin;
+      }
+    }
   }
 }
 </style>
