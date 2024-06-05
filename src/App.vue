@@ -54,7 +54,7 @@ const cfg = ref<Configs>({
   searchPlaceholder: "",
   eventName: "",
   closeText: "",
-  nativeDatepicker: true,
+  nativeDatepicker: false,
   todayButton: true,
   firstDayOfWeek: 1,
 });
