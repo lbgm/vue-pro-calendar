@@ -142,6 +142,9 @@ defineExpose({
   border: 0;
   border-color: transparent;
   box-shadow: none;
+  * {
+    @apply font-vpc;
+  }
 }
 
 :deep(.vc-nav-popover-container) {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-white min-h-screen"
+    class="widget-calendar-wrapper relative w-full h-screen flex flex-row flex-nowrap bg-white min-h-screen font-vpc"
   >
     <!-- left menu-->
     <LeftMenu
@@ -367,12 +367,6 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .widget-calendar-wrapper {
-  * {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-  }
-
   .calendar-wrapper {
     height: calc(100vh - 66px);
   }

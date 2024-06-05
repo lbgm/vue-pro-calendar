@@ -27,6 +27,20 @@ module.exports = {
         "repeat-7-minmax-0v1fr": "repeat(7,minmax(0,1fr))",
         "3-repeat-7-minmax-0v1fr-3rem": "3rem,repeat(7,minmax(0,1fr)),3rem",
       },
+      fontFamily: {
+        vpc: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+        ],
+      },
       fontSize: {
         "0dt625": "0.625rem",
         "1dt375": "1.375rem",
