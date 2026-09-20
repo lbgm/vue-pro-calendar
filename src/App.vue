@@ -26,8 +26,8 @@ const evts: Ref<Appointment[]> = ref([
     date: "2022-11-17T13:00:36.284Z",
     comment: "",
     id: "cl34856g01439801piot8vp3jr",
-    keywords: "Rencontre",
-    name: "Cornelia ADADJO",
+    keywords: "Projet Senou",
+    name: "Igor DOSSOU",
   },
   {
     date: "2022-11-10T07:00:00.000Z",
@@ -54,7 +54,7 @@ const cfg = ref<Configs>({
   searchPlaceholder: "",
   eventName: "",
   closeText: "",
-  nativeDatepicker: false,
+  nativeDatepicker: true,
   todayButton: true,
   firstDayOfWeek: 1,
 });
