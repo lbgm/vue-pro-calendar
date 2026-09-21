@@ -22,11 +22,11 @@ npm i vue-pro-calendar
 
 ## Screenshot with Native Datepicker
 
-<img width="1413" height="610" alt="vue-pro-calendar screenshot with native datepicker" src="https://github.com/user-attachments/assets/8e6a272e-883c-4639-ba06-55ccc81259a9" />
+<img width="1413" height="610" alt="vue-pro-calendar screenshot with native datepicker" src="https://github.com/lbgm/vue-pro-calendar/blob/main/public/assets/20260921182621.png" />
 
 ## Screenshot with VCalendar Datepicker
 
-<img width="1410" height="629" alt="vue-pro-calendar screenshot with vcalendar datepicker" src="https://github.com/user-attachments/assets/b4b4610c-e386-4720-b2b1-8dcf7684122a" />
+<img width="1410" height="629" alt="vue-pro-calendar screenshot with vcalendar datepicker" src="https://github.com/lbgm/vue-pro-calendar/blob/main/public/assets/20260921182715.png" />
 
 ## Props & Types
 
